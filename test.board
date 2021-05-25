@@ -1,0 +1,75 @@
+{
+    "devices": [
+        {
+            "type": "memory",
+            "name": "Memory",
+            "memory_type": "RAM",
+            "size": "0x8000",
+            "address": "0x0000"
+        },
+        {
+            "type": "memory",
+            "name": "EEPROM",
+            "memory_type": "ROM",
+            "size": "0x2000",
+            "address": "0xE000"
+        },
+        {
+            "type": "via",
+            "name": "VIA 1",
+            "address": "0xD000",
+            "connections": [
+                {
+                    "port": "PA",
+                    "port_mask": "0xFF",
+                    "bus": "lcd_bus",
+                    "bus_mask": "0xFF"
+                },
+                {
+                    "port": "PB",
+                    "port_mask": "0x07",
+                    "bus": "lcd_bus",
+                    "bus_mask": "0x0700"
+                }
+            ]
+        },
+        {
+            "type": "lcd",
+            "name": "LCD",
+            "address": -1,
+            "connections": [
+                {
+                    "port": "DATA",
+                    "port_mask": "0xFF",
+                    "bus": "lcd_bus",
+                    "bus_mask": "0x00FF"
+                },
+                {
+                    "port": "RS",
+                    "port_mask": "0x01",
+                    "bus": "lcd_bus",
+                    "bus_mask": "0x0100"
+                },
+                {
+                    "port": "RW",
+                    "port_mask": "0x01",
+                    "bus": "lcd_bus",
+                    "bus_mask": "0x0200"
+                },
+                {
+                    "port": "EN",
+                    "port_mask": "0x01",
+                    "bus": "lcd_bus",
+                    "bus_mask": "0x0400"
+                }
+            ]
+        }
+    ],
+
+    "busses": [
+        {
+            "name": "lcd_bus",
+            "width": 16
+        }
+    ]
+}
