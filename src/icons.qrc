@@ -6,5 +6,8 @@
         <file>icons/step-instruction.png</file>
         <file>icons/step.png</file>
         <file>icons/stop.png</file>
+        <file>icons/code.png</file>
+        <file>icons/open.png</file>
+        <file>icons/follow.png</file>
     </qresource>
 </RCC>
