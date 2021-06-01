@@ -118,7 +118,7 @@ bool createBus(Board* board, const QJsonObject& busDef)
 
 bool createBusses(Board* board, const QJsonObject& doc)
 {
-    auto busListIt = doc.find("busses");
+    auto busListIt = doc.find(QLatin1String("busses"));
     if (busListIt == doc.end())
         return true; // its ok, the computer has still a cpu
 
@@ -273,7 +273,7 @@ bool createDevice(Board* board, const QJsonObject& deviceDef)
 
 bool createDevices(Board* board, const QJsonObject& doc)
 {
-    auto devListIt = doc.find("devices");
+    auto devListIt = doc.find(QLatin1String("devices"));
     if (devListIt == doc.end())
         return true; // its ok, the computer has still a cpu
 

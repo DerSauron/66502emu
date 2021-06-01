@@ -44,7 +44,7 @@ void CPUView::setup()
     ui->registerS->setName(QStringLiteral("S"));
     ui->registerS->setBitCount(8);
 
-    ui->flags->setName("Flags");
+    ui->flags->setName(QStringLiteral("Flags"));
     ui->flags->setBitCount(8);
     ui->flags->setBitNames({QStringLiteral("C"), QStringLiteral("Z"), QStringLiteral("I"), QStringLiteral("D"),
                            QStringLiteral("B"), QStringLiteral("-"), QStringLiteral("V"), QStringLiteral("N")});

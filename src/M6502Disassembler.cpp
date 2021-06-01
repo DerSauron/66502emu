@@ -338,7 +338,7 @@ inline InstructionBuilder instruction(uint16_t& pc, const Opcode* opcode)
     builder.instruction.position = pc++;
     if (opcode)
     {
-        builder.instruction.instruction = opcode->mnemonic;
+        builder.instruction.instruction = QString::fromUtf8(opcode->mnemonic);
         builder.instruction.bytes[0] = opcode->number;
         builder.instruction.length++;
     }

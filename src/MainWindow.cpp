@@ -171,7 +171,7 @@ void MainWindow::createBoardMenu()
 
 QAction* MainWindow::createDeviceViewAction(int index, Device* device, const ViewFactoryPointer& factory)
 {
-    const auto viewClassName = device->metaObject()->className();
+    const auto viewClassName = QString::fromUtf8(device->metaObject()->className());
 
     auto action = new QAction(ui->menuBoard);
     action->setCheckable(true);

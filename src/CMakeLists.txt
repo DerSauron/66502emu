@@ -92,6 +92,11 @@ add_library(6502emu STATIC
     ${TS_FILES}
 )
 
+target_compile_definitions(6502emu PRIVATE
+    QT_NO_CAST_FROM_ASCII
+    QT_NO_CAST_TO_ASCII
+)
+
 target_link_libraries(6502emu PUBLIC
     Qt5::Widgets
 )
