@@ -22,10 +22,10 @@ class View : public QDialog
     Q_OBJECT
 
 public:
-    View(const QString& name, MainWindow* parent);
+    View(const QString& name, MainWindow* mainWindow);
     ~View() override;
 
-    MainWindow* mainWindow() const;
+    MainWindow* mainWindow() const { return mainWindow_; }
     const QString& name() const { return name_; }
 
 protected:
@@ -37,5 +37,6 @@ private:
     void saveWindowState();
 
 private:
+    MainWindow* mainWindow_;
     QString name_;
 };

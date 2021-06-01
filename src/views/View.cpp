@@ -18,8 +18,9 @@
 #include "board/Board.h"
 #include <QCloseEvent>
 
-View::View(const QString& name, MainWindow* parent) :
-    QDialog(parent),
+View::View(const QString& name, MainWindow* mainWindow) :
+    QDialog(mainWindow),
+    mainWindow_(mainWindow),
     name_(name)
 {
     setup();
@@ -28,13 +29,6 @@ View::View(const QString& name, MainWindow* parent) :
 View::~View()
 {
     saveWindowState();
-}
-
-MainWindow* View::mainWindow() const
-{
-    auto mw = dynamic_cast<MainWindow*>(parent());
-    Q_ASSERT(mw);
-    return mw;
 }
 
 void View::closeEvent(QCloseEvent* event)

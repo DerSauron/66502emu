@@ -31,7 +31,7 @@ public:
     virtual ~Device();
 
     QString name() const { return objectName(); }
-    Board* board() const;
+    Board* board() const { return board_; }
 
     void setMapAddressStart(uint16_t address) { mapAddressStart_ = address; }
     uint16_t mapAddressStart() const { return mapAddressStart_; }
@@ -53,6 +53,7 @@ protected:
     virtual void deviceClockEdge(StateEdge edge) {}
 
 protected:
+    Board* board_;
     uint16_t mapAddressStart_;
     bool chipWasSelected_;
     bool chipSelected_;

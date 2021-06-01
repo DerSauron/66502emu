@@ -20,6 +20,7 @@
 
 Device::Device(const QString& name, Board* board) :
     QObject{board},
+    board_(board),
     mapAddressStart_{std::numeric_limits<uint16_t>::max()},
     chipWasSelected_{},
     chipSelected_{}
@@ -29,13 +30,6 @@ Device::Device(const QString& name, Board* board) :
 
 Device::~Device()
 {
-}
-
-Board* Device::board() const
-{
-    auto b = dynamic_cast<Board*>(parent());
-    Q_ASSERT(b);
-    return b;
 }
 
 void Device::addBusConnection(const QString& portTagName, uint64_t portMask, Bus* bus, uint64_t busMask)
