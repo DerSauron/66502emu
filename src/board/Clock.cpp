@@ -35,7 +35,7 @@ int Clock::period() const
 
 void Clock::setPeriod(int period)
 {
-    timer_->setInterval(period / 2);
+    timer_->setInterval(period / 2 + period % 2);
 }
 
 bool Clock::isRunning() const
