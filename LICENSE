@@ -8,11 +8,6 @@ it under the terms of the GNU General Public License version 3 as
 published by the Free Software Foundation.
 See GNU GENERAL PUBLIC LICENSE below.
 
-##  Component 'Code editor'
-
-Copyright (C) 2016 The Qt Company Ltd.
-Contact: https://www.qt.io/licensing/
-
 ##  Component 'Chip implementation m6502 and m6522'
 
 Copyright (c) 2018 Andre Weissflog
@@ -23,6 +18,11 @@ https://github.com/floooh/chips/
 Orignal code: dcc6502 - Disassembler and Cycle Counter for the 6502 microprocessor
 Copyright (c) 1998-2014 Tennessee Carmel-Veilleux <veilleux@tentech.ca>
 https://github.com/tcarmelveilleux/dcc6502
+
+##  Component 'Code editor'
+
+Copyright (C) 2016 The Qt Company Ltd.
+Contact: https://www.qt.io/licensing/
 
 
 ### GNU GENERAL PUBLIC LICENSE
