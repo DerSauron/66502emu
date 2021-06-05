@@ -19,7 +19,12 @@
 #include <QCloseEvent>
 
 View::View(const QString& name, MainWindow* mainWindow) :
-    QDialog(mainWindow),
+    View(name, mainWindow, mainWindow)
+{
+}
+
+View::View(const QString& name, MainWindow* mainWindow, QWidget* parent) :
+    QDialog(parent),
     mainWindow_(mainWindow),
     name_(name)
 {
@@ -33,11 +38,8 @@ View::~View()
 
 void View::closeEvent(QCloseEvent* event)
 {
-    // forward close event to main window
     event->ignore();
-    auto mainWindow = qobject_cast<MainWindow*>(parent());
-    Q_ASSERT(mainWindow);
-    mainWindow->closeView(this);
+    emit closingEvent();
 }
 
 void View::setup()

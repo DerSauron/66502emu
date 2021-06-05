@@ -246,6 +246,7 @@ void MainWindow::showView(const ViewFactoryPointer& factory)
         return;
     auto view = factory->createView(this);
     Q_ASSERT(view);
+    connect(view, &View::closingEvent, [this, view] () { closeView(view); });
     view->show();
     activateWindow();
 }

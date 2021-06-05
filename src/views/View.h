@@ -23,10 +23,14 @@ class View : public QDialog
 
 public:
     View(const QString& name, MainWindow* mainWindow);
+    View(const QString& name, MainWindow* mainWindow, QWidget* parent);
     ~View() override;
 
     MainWindow* mainWindow() const { return mainWindow_; }
     const QString& name() const { return name_; }
+
+signals:
+    void closingEvent();
 
 protected:
     void closeEvent(QCloseEvent* event) override;
