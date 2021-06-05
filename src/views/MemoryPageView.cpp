@@ -78,6 +78,7 @@ void MemoryPageView::setPage(uint8_t page)
     if (page == page_)
         return;
 
+    Q_ASSERT(page < memory_->size() / 256);
     page_ = page;
     resetHighlight();
 
@@ -119,8 +120,8 @@ void MemoryPageView::paintEvent(QPaintEvent* event)
     if (!memory_)
         return;
 
-    int posBarPos = (page_ * 0x100) * (clientSize.width() - 5) / memory_->size();
-    int posBarWidth = qMin(5, 0x100 * (clientSize.width() - 5) / memory_->size());
+    int posBarWidth = qMax(5, clientSize.width() / (memory_->size() / 256));
+    int posBarPos = posBarWidth * page_;
 
     p.fillRect(posBarPos, 0, posBarWidth, charHeight_, posBarBrush);
 
