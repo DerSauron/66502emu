@@ -48,7 +48,6 @@ private:
     View* createViewImpl(MainWindow* mainWindow) override
     {
         auto* view = new DisassemblerView(viewName_, mainWindow);
-        view->connectBoard(mainWindow->board());
         return view;
     }
 };
