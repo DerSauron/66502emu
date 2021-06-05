@@ -14,6 +14,7 @@
 #include "DisassemblerView.h"
 #include "ui_DisassemblerView.h"
 
+#include "MainWindow.h"
 #include "M6502Disassembler.h"
 #include "board/Board.h"
 #include "board/Bus.h"
@@ -42,9 +43,9 @@ QString toString(uint16_t baseAddress, const M6502::Instruction& instruction)
 
 const QFont DisassemblerView::normalFont(QLatin1String("Monospace"), 11);
 const QFont DisassemblerView::boldFont(QLatin1String("Monospace"), 11, QFont::ExtraBold);
-const QBrush DisassemblerView::normalColor(QColor(240, 240, 240));
+const QBrush DisassemblerView::normalColor(QColor(128, 128, 128));
 const QBrush DisassemblerView::highlightColor(QColor(128, 128, 255));
-const QBrush DisassemblerView::dimmColor(QColor(128, 128, 128));
+const QBrush DisassemblerView::dimmColor(QColor(200, 200, 200));
 
 DisassemblerView::DisassemblerView(const QString& name, MainWindow* mainWindow) :
     GenericView(name, mainWindow),
@@ -53,6 +54,7 @@ DisassemblerView::DisassemblerView(const QString& name, MainWindow* mainWindow) 
     currentIndex_{0}
 {
     ui->setupUi(this);
+    setup();
 }
 
 DisassemblerView::~DisassemblerView()
@@ -60,9 +62,28 @@ DisassemblerView::~DisassemblerView()
     delete ui;
 }
 
-void DisassemblerView::connectBoard(Board* board)
+void DisassemblerView::setup()
 {
-    connect(board, &Board::clockEdge, this, &DisassemblerView::onClockEdge);
+    connect(mainWindow()->board(), &Board::newInstructionStart, this, &DisassemblerView::onNewInstructionStart);
+}
+
+void DisassemblerView::onNewInstructionStart()
+{
+    auto board = mainWindow()->board();
+
+    uint16_t address = board->addressBus()->typedData<uint16_t>();
+
+    auto mem = board->findDevice<Memory>(address);
+    if (!mem)
+        return;
+
+    showAddress(mem, address);
+}
+
+void DisassemblerView::on_toolButton_triggered(QAction* action)
+{
+    ui->disassembly->clear();
+    currentIndex_ = 0;
 }
 
 void DisassemblerView::showAddress(Memory* memory, uint16_t address)
@@ -81,32 +102,6 @@ void DisassemblerView::showAddress(Memory* memory, uint16_t address)
         doScrollEnd();
 }
 
-void DisassemblerView::on_toolButton_triggered(QAction* action)
-{
-    ui->disassembly->clear();
-    currentIndex_ = 0;
-}
-
-void DisassemblerView::onClockEdge(StateEdge edge)
-{
-    if (edge != StateEdge::Falling)
-        return;
-
-    auto board = qobject_cast<Board*>(sender());
-    Q_ASSERT(board);
-
-    if (board->syncLine() == WireState::High)
-    {
-        uint16_t address = board->addressBus()->typedData<uint16_t>();
-
-        auto mem = board->findDevice<Memory>(address);
-        if (!mem)
-            return;
-
-        showAddress(mem, address);
-    }
-}
-
 void DisassemblerView::showCurrent(uint16_t baseAddress, const M6502::Instruction& instruction)
 {
     if (currentIndex_ < ui->disassembly->count())
@@ -114,6 +109,7 @@ void DisassemblerView::showCurrent(uint16_t baseAddress, const M6502::Instructio
         auto currentItem = ui->disassembly->item(currentIndex_);
         currentItem->setFont(normalFont);
         currentItem->setForeground(normalColor);
+        currentIndex_++;
     }
 
     auto item = new QListWidgetItem(toString(baseAddress, instruction));
@@ -121,13 +117,11 @@ void DisassemblerView::showCurrent(uint16_t baseAddress, const M6502::Instructio
     item->setForeground(highlightColor);
     item->setSelected(true);
     ui->disassembly->insertItem(currentIndex_, item);
-
-    currentIndex_++;
 }
 
 void DisassemblerView::showLookAheads(uint16_t baseAddress, const QList<M6502::Instruction>& instructions)
 {
-    int row = currentIndex_;
+    int row = currentIndex_ + 1;
     for (int i = 1; i < instructions.length(); i++, row++)
     {
         QListWidgetItem* item;

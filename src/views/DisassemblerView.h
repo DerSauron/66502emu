@@ -35,18 +35,17 @@ public:
     DisassemblerView(const QString& name, MainWindow* mainWindow);
     ~DisassemblerView() override;
 
-    void connectBoard(Board* board);
     void setLookAhead(int instructions) { instructionsLookAhead_ = instructions; }
-
-    void showAddress(Memory* memory, uint16_t address);
 
 signals:
 
 private slots:
+    void onNewInstructionStart();
     void on_toolButton_triggered(QAction* action);
-    void onClockEdge(StateEdge edge);
 
 private:
+    void setup();
+    void showAddress(Memory* memory, uint16_t address);
     void showCurrent(uint16_t baseAddress, const M6502::Instruction& instruction);
     void showLookAheads(uint16_t baseAddress, const QList<M6502::Instruction>& instructions);
     bool isScrollEnd() const;
