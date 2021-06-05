@@ -20,6 +20,12 @@ add_library(6502emu STATIC
     board/VIA.cpp
     board/VIA.h
     board/WireState.h
+    codeeditor/CodeEditor.cpp
+    codeeditor/CodeEditor.h
+    codeeditor/Highlighter.cpp
+    codeeditor/Highlighter.h
+    codeeditor/LineNumberArea.cpp
+    codeeditor/LineNumberArea.h
     impl/hd44780u.cpp
     impl/hd44780u.h
     impl/hd44780u_data.cpp
@@ -68,6 +74,9 @@ add_library(6502emu STATIC
     views/SignalsView.cpp
     views/SignalsView.h
     views/SignalsView.ui
+    views/SourcesView.cpp
+    views/SourcesView.h
+    views/SourcesView.ui
     views/VIAView.cpp
     views/VIAView.h
     views/VIAView.ui
@@ -86,6 +95,10 @@ add_library(6502emu STATIC
     MainWindow.cpp
     MainWindow.h
     MainWindow.ui
+    Program.cpp
+    Program.h
+    ProgramLoader.cpp
+    ProgramLoader.h
     UserState.cpp
     UserState.h
     icons.qrc

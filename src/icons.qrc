@@ -9,5 +9,7 @@
         <file>icons/code.png</file>
         <file>icons/open.png</file>
         <file>icons/follow.png</file>
+        <file>icons/line-marker.png</file>
+        <file>icons/breakpoint.png</file>
     </qresource>
 </RCC>

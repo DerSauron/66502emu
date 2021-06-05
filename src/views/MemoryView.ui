@@ -2,151 +2,138 @@
 <ui version="4.0">
  <class>MemoryView</class>
  <widget class="QDialog" name="MemoryView">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>400</width>
-    <height>300</height>
-   </rect>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QWidget" name="widget_2" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="loadButton">
-        <property name="text">
-         <string>Load</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="font">
-         <font>
-          <family>Monospace</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>CS</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="BitsView" name="chipSelected" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>22</width>
-          <height>22</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="loadButton">
+       <property name="text">
+        <string>Load</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="showSourcesButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Show source</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/code.png</normaloff>:/icons/code.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>CS</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="BitsView" name="chipSelected" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="QWidget" name="widget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Page</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="page">
-        <property name="minimumSize">
-         <size>
-          <width>80</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximum">
-         <number>512</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="followButton">
-        <property name="text">
-         <string>Follow</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Page</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="page">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <number>512</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="followButton">
+       <property name="text">
+        <string>Follow</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/follow.png</normaloff>:/icons/follow.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="MemoryPageView" name="memoryPage" native="true"/>
+    <widget class="MemoryPageView" name="memoryPage" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -164,6 +151,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

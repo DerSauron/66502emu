@@ -53,10 +53,6 @@ protected:
     void deviceClockEdge(StateEdge edge) override;
 
 private:
-    void loadContent();
-    void saveContent();
-
-private:
     Type type_;
     uint32_t size_;
     QVector<uint8_t> data_;

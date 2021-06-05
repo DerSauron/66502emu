@@ -20,8 +20,6 @@
 
 namespace {
 
-const QString kStateContent = QStringLiteral("content");
-
 } // namespace
 
 Memory::Memory(Type type, uint32_t size, const QString& name, Board* board) :
@@ -35,14 +33,10 @@ Memory::Memory(Type type, uint32_t size, const QString& name, Board* board) :
 
 Memory::~Memory()
 {
-    if (isPersistant())
-        saveContent();
 }
 
 void Memory::setup()
 {
-    if (isPersistant())
-        loadContent();
 }
 
 void Memory::setData(uint32_t index, const ArrayView& data)
@@ -84,21 +78,4 @@ void Memory::deviceClockEdge(StateEdge edge)
         if (accessed)
             emit byteAccessed(addr, isLow(brd->rwLine()));
     }
-}
-
-void Memory::loadContent()
-{
-    QString dataString = board()->userState()->viewValue(name(), kStateContent).toString();
-    QByteArray data = QByteArray::fromBase64(dataString.toUtf8());
-    for (uint32_t i = 0; i < qMin(static_cast<uint32_t>(data.size()), size_); i++)
-    {
-        data_[i] = static_cast<uint8_t>(data[i]);
-    }
-}
-
-void Memory::saveContent()
-{
-    QByteArray data(reinterpret_cast<char*>(data_.data()), size_);
-    QString dataString = QString::fromUtf8(data.toBase64());
-    board()->userState()->setViewValue(name(), kStateContent, dataString);
 }

@@ -15,10 +15,13 @@
 
 #include "board/Memory.h"
 #include "DeviceView.h"
+#include "Program.h"
 
 namespace Ui {
 class MemoryView;
 }
+
+class SourcesView;
 
 class MemoryView : public DeviceView
 {
@@ -33,15 +36,26 @@ public:
 private slots:
     void onMemoryAccessed(uint16_t address, bool write);
     void onMemorySelectedChanged();
+    void onSourcesViewClosingEvent();
     void on_loadButton_clicked();
     void on_followButton_toggled(bool checked);
     void on_page_valueChanged(int value);
+    void on_showSourcesButton_clicked();
 
 private:
     void setup();
-    void loadFileToMemory(const QString& fileName);
+    void maybeLoadProgram();
+    void maybeShowSources();
+    void loadProgram(const QString& fileName);
+    void rememberProgram();
+    void rememberShowSources();
+    void showSources();
+    void hideSources();
 
 private:
     Ui::MemoryView* ui;
     bool pageAutomaticallyChanged_;
+    QString programFileName_;
+    Program program_;
+    SourcesView* sourcesView_;
 };
