@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>VIAView</class>
  <widget class="QDialog" name="VIAView">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>452</width>
-    <height>383</height>
-   </rect>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
