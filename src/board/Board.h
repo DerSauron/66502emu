@@ -73,18 +73,19 @@ public:
 
 public slots:
     void startSingleInstructionStep();
-    void stopSingleInstructionStep();
 
 signals:
     void signalChanged();
     void clockEdge(StateEdge edge);
     void deviceListChanged();
+    void newInstructionStart();
 
 protected:
     void childEvent(QChildEvent* event) override;
 
 private slots:
     void recreateDeviceList();
+    void checkNewInstructionStart(StateEdge edge);
     void onClockEdge(StateEdge edge);
 
 private:
@@ -103,5 +104,5 @@ private:
     QList<Device*> devices_;
     bool deviceListReloadTriggered_;
 
-    bool dbgSingleInstructionMode_;
+    bool dbgSingleInstructionRun_;
 };

@@ -40,7 +40,7 @@ Board::Board(QObject* parent) :
     cpu_{new CPU{this}},
     clock_{new Clock{this}},
     deviceListReloadTriggered_{false},
-    dbgSingleInstructionMode_{false}
+    dbgSingleInstructionRun_{false}
 {
     connect(clock_, &Clock::clockEdge, this, &Board::onClockEdge);
 
@@ -142,14 +142,8 @@ void Board::clearDevices()
 
 void Board::startSingleInstructionStep()
 {
-    dbgSingleInstructionMode_ = true;
+    dbgSingleInstructionRun_ = true;
     clock_->start();
-}
-
-void Board::stopSingleInstructionStep()
-{
-    clock_->stop();
-    dbgSingleInstructionMode_ = false;
 }
 
 void Board::childEvent(QChildEvent* event)
@@ -170,12 +164,26 @@ void Board::recreateDeviceList()
     deviceListReloadTriggered_ = false;
 }
 
+void Board::checkNewInstructionStart(StateEdge edge)
+{
+    if (edge == StateEdge::Raising && syncLine_ == WireState::High)
+    {
+        // new instruction start - stop single instruction run
+        if (dbgSingleInstructionRun_)
+        {
+            clock_->stop();
+            dbgSingleInstructionRun_ = false;
+        }
+
+        emit newInstructionStart();
+    }
+}
+
 void Board::onClockEdge(StateEdge edge)
 {
     cpu_->clockEdge(edge);
 
-    if (edge == StateEdge::Raising && syncLine_ == WireState::High && dbgSingleInstructionMode_)
-        stopSingleInstructionStep();
+    checkNewInstructionStart(edge);
 
     setIrqLine(WireState::High);
     setNmiLine(WireState::High);
