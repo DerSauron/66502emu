@@ -103,8 +103,6 @@ void MainWindow::setup()
     createBoardMenu();
     loadWindowState();
     maybeLoadBoard();
-
-    adjustSize();
 }
 
 void MainWindow::maybeLoadBoard()
