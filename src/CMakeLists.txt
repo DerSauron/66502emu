@@ -104,19 +104,7 @@ target_link_libraries(6502emu PUBLIC
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 add_executable(6502emu_app
-    ${CMAKE_CURRENT_BINARY_DIR}/test_program.h
-    test_program.asm
     main.cpp
-)
-
-add_custom_command(
-    COMMAND vasm6502_oldstyle -dotdir -wdc02 -Fbin -quiet -o test_program.bin ${CMAKE_CURRENT_SOURCE_DIR}/test_program.asm
-    COMMAND xxd -i test_program.bin test_program.h
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/test_program.asm
-    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/test_program.bin
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/test_program.h
-    COMMENT "Assemble test program."
 )
 
 target_link_libraries(6502emu_app PRIVATE
