@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include "GenericView.h"
+#include "View.h"
 #include "board/WireState.h"
 
 class Board;
@@ -27,7 +27,7 @@ namespace Ui {
 class DisassemblerView;
 }
 
-class DisassemblerView : public GenericView
+class DisassemblerView : public View
 {
     Q_OBJECT
 

@@ -56,8 +56,6 @@ add_library(6502emu STATIC
     views/DisassemblerView.cpp
     views/DisassemblerView.h
     views/DisassemblerView.ui
-    views/GenericView.cpp
-    views/GenericView.h
     views/LCDCharPanel.cpp
     views/LCDCharPanel.h
     views/LCDView.cpp
