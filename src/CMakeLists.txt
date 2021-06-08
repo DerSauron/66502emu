@@ -75,6 +75,8 @@ add_library(6502emu STATIC
     views/SourcesView.cpp
     views/SourcesView.h
     views/SourcesView.ui
+    views/StartStopButton.cpp
+    views/StartStopButton.h
     views/VIAView.cpp
     views/VIAView.h
     views/VIAView.ui

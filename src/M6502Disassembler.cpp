@@ -18,6 +18,7 @@
 #include "M6502Disassembler.h"
 
 #include "board/Memory.h"
+#include <QSet>
 
 namespace M6502 {
 
@@ -64,11 +65,10 @@ public:
     const Opcode* get(int index);
 
 private:
-    static const QVector<Opcode> _rawList;
     QVector<const Opcode*> map;
 };
 
-const QVector<Opcode> OpCodes::_rawList{
+const QVector<Opcode> rawOpCodeList{
     {0x69, "ADC", AM::IMMED, 2, 0}, // ADC
     {0x65, "ADC", AM::ZEROP, 3, 0},
     {0x75, "ADC", AM::ZEPIX, 4, 0},
@@ -281,7 +281,7 @@ const QVector<Opcode> OpCodes::_rawList{
 OpCodes::OpCodes() :
     map(256)
 {
-    for (const auto& def : _rawList)
+    for (const auto& def : rawOpCodeList)
     {
         map[def.number] = &def;
     }
@@ -450,6 +450,16 @@ QList<Instruction> disassembleCount(Memory* memory, uint16_t count, uint16_t sta
         instructions << decodeInstruction(memory, pc);
     }
     return instructions;
+}
+
+QList<QString> mnemonicList()
+{
+    QSet<QString> unique;
+    for (const auto& opcode : rawOpCodeList)
+    {
+        unique.insert(QLatin1String(opcode.mnemonic));
+    }
+    return unique.values();
 }
 
 } // namespace M6502

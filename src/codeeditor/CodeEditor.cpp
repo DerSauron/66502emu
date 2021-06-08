@@ -70,7 +70,7 @@ void CodeEditor::lineNumberAreaWheelEvent(QWheelEvent* event)
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 {
     QPainter painter(lineNumberArea_);
-    painter.fillRect(event->rect(), QColor(Qt::lightGray).lighter(100));
+    painter.fillRect(event->rect(), QColor(Qt::lightGray).lighter(120));
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
@@ -124,7 +124,7 @@ int CodeEditor::lineNumberAreaWidth()
 void CodeEditor::setDocument(QTextDocument* document)
 {
     QPlainTextEdit::setDocument(document);
-    highlighter_ = new Highlighter(document);
+    highlighter_->setDocument(document);
 }
 
 void CodeEditor::addBreakpoint(int line)

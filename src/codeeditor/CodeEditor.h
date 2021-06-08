@@ -23,6 +23,8 @@ public:
     CodeEditor(QWidget* parent = nullptr);
     ~CodeEditor() override;
 
+    Highlighter* highlighter() const { return highlighter_; }
+
     void lineNumberAreaDoubleClickEvent(QMouseEvent* event);
     void lineNumberAreaWheelEvent(QWheelEvent* event);
     void lineNumberAreaPaintEvent(QPaintEvent *event);

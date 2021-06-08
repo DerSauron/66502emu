@@ -8,6 +8,7 @@
 #pragma once
 
 #include <QSyntaxHighlighter>
+#include <QRegularExpression>
 
 namespace ce {
 
@@ -19,9 +20,31 @@ public:
     Highlighter(QTextDocument* parent = nullptr);
     virtual ~Highlighter() override;
 
+    void setRules(const QList<QString>& keywords, const QList<QString>& spechialWords1,
+                  const QList<QString>& spechialWords2, const QList<QString>& numberModifiers,
+                  const QList<QString>& lineCommentStarts);
+
 protected:
     void highlightBlock(const QString& text) override;
 
+private:
+    struct Rule
+    {
+        QRegularExpression pattern;
+        QTextCharFormat format;
+    };
+
+private:
+    void rebuildRules();
+    static QString alternation(const QList<QString>& list);
+
+private:
+    QList<QString> keywords_;
+    QList<QString> specialWords1_;
+    QList<QString> specialWords2_;
+    QList<Rule> rules_;
+    QList<QString> numberModifiers_;
+    QList<QString> lineCommentStarts_;
 };
 
 } // namespace ce

@@ -31,5 +31,6 @@ struct Instruction
 
 QList<Instruction> disassemble(Memory* memory, uint16_t start = 0, uint16_t end = std::numeric_limits<uint16_t>::max());
 QList<Instruction> disassembleCount(Memory* memory, uint16_t count, uint16_t start = 0);
+QList<QString> mnemonicList();
 
 } // namespace M6502
