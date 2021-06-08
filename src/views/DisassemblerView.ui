@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>DisassemblerView</class>
  <widget class="QWidget" name="DisassemblerView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>331</width>
+    <height>204</height>
+   </rect>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QListWidget" name="disassembly"/>

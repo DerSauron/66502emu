@@ -43,7 +43,7 @@
      id="namedview7"
      showgrid="true"
      inkscape:zoom="32.5"
-     inkscape:cx="-1.3662668"
+     inkscape:cx="8.5121478"
      inkscape:cy="11"
      inkscape:window-x="0"
      inkscape:window-y="0"
@@ -63,7 +63,7 @@
     </style>
   <path
      style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 18.98064,17 h -9 L 10,7 H 3 V 5 h 9 l -0.01936,10 h 7 v 2 0"
+     d="M 16,17 H 14 6 L 6.01936,7 H 3 V 5 H 8.01936 L 8,15 h 6 V 5 h 5 v 2 h -3"
      id="path17"
-     sodipodi:nodetypes="cccccccccc" />
+     sodipodi:nodetypes="ccccccccccccc" />
 </svg>

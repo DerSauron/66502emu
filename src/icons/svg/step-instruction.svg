@@ -40,14 +40,19 @@
      inkscape:window-width="2048"
      inkscape:window-height="1063"
      id="namedview1480"
-     showgrid="false"
+     showgrid="true"
      inkscape:zoom="32.5"
      inkscape:cx="11"
      inkscape:cy="11"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg6" />
+     inkscape:current-layer="svg6"
+     inkscape:document-rotation="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1399" />
+  </sodipodi:namedview>
   <style
      type="text/css"
      id="current-color-scheme">
@@ -56,9 +61,10 @@
         }
     </style>
   <path
-     d="m0 3v16l10-8zm10 8v8l10-8-10-8zm10 0v8h2v-16h-2z"
+     d="m 3,3 v 16 l 7.272728,-8 z m 7,8 v 8 L 17.545454,11 10,3 Z m 7,0 v 8 h 2 V 3 h -2 z"
      class="ColorScheme-Text"
      fill="currentColor"
      id="path1477"
-     style="fill:#000000" />
+     style="fill:#000000;stroke-width:0.852803"
+     sodipodi:nodetypes="ccccccccccccccc" />
 </svg>
