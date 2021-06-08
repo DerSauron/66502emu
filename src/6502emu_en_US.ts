@@ -4,7 +4,7 @@
 <context>
     <name>BusView</name>
     <message>
-        <location filename="views/BusView.ui" line="26"/>
+        <location filename="views/BusView.ui" line="18"/>
         <source>0x00</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12,12 +12,12 @@
 <context>
     <name>CPUView</name>
     <message>
-        <location filename="views/CPUView.ui" line="136"/>
+        <location filename="views/CPUView.ui" line="128"/>
         <source>PC: 0000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/CPUView.ui" line="149"/>
+        <location filename="views/CPUView.ui" line="141"/>
         <source>IR: 0000</source>
         <translation type="unfinished"></translation>
     </message>
@@ -25,23 +25,23 @@
 <context>
     <name>ClockView</name>
     <message>
-        <location filename="views/ClockView.ui" line="17"/>
+        <location filename="views/ClockView.ui" line="9"/>
         <location filename="views/ClockView.cpp" line="77"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ClockView.ui" line="24"/>
+        <location filename="views/ClockView.ui" line="16"/>
         <source>Alt+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ClockView.ui" line="47"/>
+        <location filename="views/ClockView.ui" line="39"/>
         <source>Single Step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ClockView.ui" line="54"/>
+        <location filename="views/ClockView.ui" line="46"/>
         <source>Alt+S</source>
         <translation type="unfinished"></translation>
     </message>
@@ -106,7 +106,7 @@
 <context>
     <name>DisassemblerView</name>
     <message>
-        <location filename="views/DisassemblerView.ui" line="22"/>
+        <location filename="views/DisassemblerView.ui" line="14"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -114,7 +114,7 @@
 <context>
     <name>LCDView</name>
     <message>
-        <location filename="views/LCDView.ui" line="38"/>
+        <location filename="views/LCDView.ui" line="30"/>
         <source>Busy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -252,68 +252,68 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="168"/>
+        <location filename="MainWindow.cpp" line="165"/>
         <source>Disassembly log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="178"/>
+        <location filename="MainWindow.cpp" line="175"/>
         <source>&amp;%1 %2 (%3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="179"/>
+        <location filename="MainWindow.cpp" line="176"/>
         <source>Alt+%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="257"/>
+        <location filename="MainWindow.cpp" line="255"/>
         <source>Could not load file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="257"/>
+        <location filename="MainWindow.cpp" line="255"/>
         <source>Board file could not be loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="299"/>
+        <location filename="MainWindow.cpp" line="297"/>
         <source>6502 emulator - %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="320"/>
+        <location filename="MainWindow.cpp" line="318"/>
         <source>Select file for new board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="321"/>
-        <location filename="MainWindow.cpp" line="360"/>
+        <location filename="MainWindow.cpp" line="319"/>
+        <location filename="MainWindow.cpp" line="358"/>
         <source>Board files (*.board)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="331"/>
+        <location filename="MainWindow.cpp" line="329"/>
         <source>File exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="332"/>
+        <location filename="MainWindow.cpp" line="330"/>
         <source>Do you want to override the existing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="342"/>
+        <location filename="MainWindow.cpp" line="340"/>
         <source>Could not open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="343"/>
+        <location filename="MainWindow.cpp" line="341"/>
         <source>The selected file coult no be open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="359"/>
+        <location filename="MainWindow.cpp" line="357"/>
         <source>Select board file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -321,38 +321,38 @@
 <context>
     <name>MemoryView</name>
     <message>
-        <location filename="views/MemoryView.ui" line="19"/>
+        <location filename="views/MemoryView.ui" line="11"/>
         <source>Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.ui" line="33"/>
+        <location filename="views/MemoryView.ui" line="25"/>
         <source>Show source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.ui" line="66"/>
+        <location filename="views/MemoryView.ui" line="58"/>
         <source>CS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.ui" line="87"/>
+        <location filename="views/MemoryView.ui" line="79"/>
         <source>Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.ui" line="107"/>
+        <location filename="views/MemoryView.ui" line="99"/>
         <source>Follow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.cpp" line="99"/>
+        <location filename="views/MemoryView.cpp" line="144"/>
         <source>Open Binary Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.cpp" line="101"/>
-        <source>Binary Image Files (*.img *.bin)</source>
+        <location filename="views/MemoryView.cpp" line="146"/>
+        <source>Listing files (*.lst);;Binary Image Files (*.img *.bin)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -405,17 +405,12 @@
 <context>
     <name>SourcesView</name>
     <message>
-        <location filename="views/SourcesView.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/SourcesView.ui" line="22"/>
+        <location filename="views/SourcesView.ui" line="11"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/SourcesView.ui" line="33"/>
+        <location filename="views/SourcesView.ui" line="22"/>
         <source>Step</source>
         <translation type="unfinished"></translation>
     </message>
@@ -423,47 +418,47 @@
 <context>
     <name>VIAView</name>
     <message>
-        <location filename="views/VIAView.ui" line="38"/>
+        <location filename="views/VIAView.ui" line="30"/>
         <source>CS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="59"/>
+        <location filename="views/VIAView.ui" line="51"/>
         <source>PA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="78"/>
+        <location filename="views/VIAView.ui" line="70"/>
         <source>PB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="101"/>
+        <location filename="views/VIAView.ui" line="93"/>
         <source>Counters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="115"/>
+        <location filename="views/VIAView.ui" line="107"/>
         <source>T1: 0000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="127"/>
+        <location filename="views/VIAView.ui" line="119"/>
         <source>L: 0000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="144"/>
+        <location filename="views/VIAView.ui" line="136"/>
         <source>T2: 0000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="156"/>
+        <location filename="views/VIAView.ui" line="148"/>
         <source>L:   00</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="168"/>
+        <location filename="views/VIAView.ui" line="160"/>
         <source>IRQ State</source>
         <translation type="unfinished"></translation>
     </message>

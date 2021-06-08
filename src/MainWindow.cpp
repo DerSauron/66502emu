@@ -20,6 +20,7 @@
 #include "board/Device.h"
 #include "views/DeviceView.h"
 #include "views/DisassemblerView.h"
+#include <QCloseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QSettings>
@@ -30,27 +31,6 @@ const QString kSettingsLastAccesesdFilePath = QStringLiteral("LastAccesesdFilePa
 const QString kSettingsLastLoadedBoardFileName = QStringLiteral("LastLoadedBoardFileName");
 const QString kSettingsGeometry = QStringLiteral("MainWindow/Geometry");
 const QString kSesstionsState = QStringLiteral("MainWindow/State");
-
-class DisassemblerViewFactory : public ViewFactory
-{
-public:
-    static ViewFactoryPointer create(const QString& name)
-    {
-        return ViewFactoryPointer{new DisassemblerViewFactory(name)};
-    }
-
-private:
-    DisassemblerViewFactory(const QString& name) :
-        ViewFactory(name)
-    {
-    }
-
-    View* createViewImpl(MainWindow* mainWindow) override
-    {
-        auto* view = new DisassemblerView(viewName_, mainWindow);
-        return view;
-    }
-};
 
 } // namespace
 
@@ -73,6 +53,7 @@ DeviceViewFactoryPointer extractDeviceViewFactory(QAction* action)
 MainWindow::MainWindow(Board* board, QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    userState_(new UserState()),
     board_{board}
 {
     ui->setupUi(this);
@@ -81,14 +62,11 @@ MainWindow::MainWindow(Board* board, QWidget* parent) :
 
 MainWindow::~MainWindow()
 {
-    closeAllViews(); // delete views when mainframe is still valid
-    saveWindowState();
     delete ui;
 }
 
 void MainWindow::setup()
 {
-    connect(board_, &Board::deviceListChanged, this, &MainWindow::onBoardDevicesChanged);
     ui->addressBusView->setBus(board_->addressBus());
     ui->dataBusView->setBus(board_->dataBus());
     ui->clockView->setClock(board_->clock());
@@ -131,31 +109,44 @@ void MainWindow::saveWindowState()
     s.setValue(kSesstionsState, saveState());
 }
 
-void MainWindow::closeView(View* view)
+void MainWindow::saveViewsVisibleState()
 {
-    auto actions = ui->menuBoard->actions();
-
-    for (auto* a : actions)
+    foreachView([this](QAction* action, ViewFactory* factory)
     {
-        auto factory = extractViewFactory(a);
-        if (!factory)
-            continue;
-
-        if (factory->view() == view)
-        {
-            factory->destroyView(this);
-            a->setChecked(false);
-        }
-    }
+        userState_->setViewVisible(factory->viewName(), action->isChecked());
+    });
 }
 
-void MainWindow::closeAllViews()
+void MainWindow::onCloseView()
 {
-    auto views = findChildren<View*>();
-    for (const auto view : views)
+    auto* view = qobject_cast<View*>(sender());
+    foreachView([this, view](QAction* action, ViewFactory* factory)
     {
-        closeView(view);
-    }
+        if (factory->view() != view)
+            return;
+        factory->destroyView(this);
+        action->setChecked(false);
+    });
+}
+
+void MainWindow::destroyAllViews()
+{
+    foreachView([this](QAction* action, ViewFactory* factory)
+    {
+        if (!factory->view())
+            return;
+        factory->destroyView(this);
+        action->setChecked(false);
+    });
+}
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    saveViewsVisibleState();
+    destroyAllViews();
+    saveWindowState();
+
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::createBoardMenu()
@@ -180,12 +171,13 @@ QAction* MainWindow::createDeviceViewAction(int index, Device* device, const Vie
     return action;
 }
 
-void MainWindow::rebuildBoardMenuDevices()
+void MainWindow::rebuildBoardMenuActions()
 {
     const QList<Device*> devices{board_->devices()};
+    const QList<QAction*> actions = ui->menuBoard->actions();
 
     QHash<Device*, ViewFactoryPointer> factoryMap;
-    for (auto action : ui->menuBoard->actions())
+    for (auto action : actions)
     {
         auto factory = extractDeviceViewFactory(action);
         if (!factory)
@@ -209,7 +201,7 @@ void MainWindow::rebuildBoardMenuDevices()
         }
 
         auto action = createDeviceViewAction(i, device, viewFactory);
-        auto show = conditionallyShowView(viewFactory, true);
+        auto show = userState_->viewVisible(viewFactory->viewName(), true);
         action->setChecked(show);
         i++;
     }
@@ -220,41 +212,56 @@ void MainWindow::rebuildBoardMenuDevices()
             factory->destroyView(this);
     }
 
-    if (auto viewFactory = extractViewFactory(ui->actionDisassemblyLog))
     {
-        bool show = conditionallyShowView(viewFactory, false);
+        auto viewFactory = extractViewFactory(ui->actionDisassemblyLog);
+        Q_ASSERT(viewFactory);
+        auto show = userState_->viewVisible(viewFactory->viewName(), false);
         ui->actionDisassemblyLog->setChecked(show);
     }
 
     ui->actionNoDevices->setVisible(devices.isEmpty());
 }
 
-bool MainWindow::conditionallyShowView(const ViewFactoryPointer& factory, bool defaultShow)
+void MainWindow::showEnabledViews()
 {
-    if (!board_->userState()->viewVisible(factory->viewName(), defaultShow))
-        return false;
-    showView(factory);
-    return true;
+    foreachView([this](QAction* action, ViewFactory* factory)
+    {
+        if (action->isChecked() && !factory->view())
+            showView(factory);
+    });
 }
 
-void MainWindow::showView(const ViewFactoryPointer& factory)
+void MainWindow::showView(ViewFactory* factory)
 {
     if (factory->view())
         return;
     auto view = factory->createView(this);
     Q_ASSERT(view);
-    connect(view, &View::closingEvent, [this, view] () { closeView(view); });
+    connect(view, &View::closingEvent, this, &MainWindow::onCloseView);
     view->show();
     activateWindow();
 }
 
+void MainWindow::hideView(ViewFactory* factory)
+{
+    if (!factory->view())
+        return;
+    factory->destroyView(this);
+}
+
 void MainWindow::loadBoard(const QString& fileName)
 {
+    saveViewsVisibleState();
+    destroyAllViews();
+
     if (!board_->load(fileName))
     {
         QMessageBox::warning(this, tr("Could not load file"), tr("Board file could not be loaded"));
         return;
     }
+
+    QString stateFileName = fileName + QLatin1String(".state");
+    userState_->setFileName(stateFileName);
 
     QSettings s;
     s.setValue(kSettingsLastLoadedBoardFileName, fileName);
@@ -269,11 +276,6 @@ void MainWindow::onClockRunningChanged()
     ui->singleInstructionButton->setEnabled(!board_->clock()->isRunning());
 }
 
-void MainWindow::onBoardDevicesChanged()
-{
-    rebuildBoardMenuDevices();
-}
-
 void MainWindow::onBoardViewAction()
 {
     auto action = qobject_cast<QAction*>(sender());
@@ -282,22 +284,33 @@ void MainWindow::onBoardViewAction()
     Q_ASSERT(viewFactory);
 
     if (action->isChecked())
-        showView(viewFactory);
+        showView(viewFactory.get());
     else
-        viewFactory->destroyView(this);
-    board_->userState()->setViewVisible(viewFactory->viewName(), action->isChecked());
+        hideView(viewFactory.get());
 }
 
 void MainWindow::handleBoardLoaded()
 {
-    closeAllViews();
-    rebuildBoardMenuDevices();
+    rebuildBoardMenuActions();
+    showEnabledViews();
 
     QFileInfo fi(loadedFile_);
     setWindowTitle(tr("6502 emulator - %1").arg(fi.completeBaseName()));
 
     ui->actionDisassemblyLog->setEnabled(true);
     ui->centralwidget->setEnabled(true);
+}
+
+void MainWindow::foreachView(std::function<void(QAction*, ViewFactory*)> callback)
+{
+    auto actions = ui->menuBoard->actions();
+    for (auto* action : actions)
+    {
+        auto factory = extractViewFactory(action);
+        if (!factory)
+            continue;
+        callback(action, factory.get());
+    }
 }
 
 void MainWindow::on_actionManageDevices_triggered()

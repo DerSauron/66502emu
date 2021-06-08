@@ -15,7 +15,6 @@
 
 #include "MainWindow.h"
 #include "UserState.h"
-#include "board/Board.h"
 #include <QCloseEvent>
 
 View::View(const QString& name, MainWindow* mainWindow) :
@@ -28,7 +27,6 @@ View::View(const QString& name, MainWindow* mainWindow, QWidget* parent) :
     mainWindow_(mainWindow),
     name_(name)
 {
-    setup();
 }
 
 View::~View()
@@ -42,7 +40,7 @@ void View::closeEvent(QCloseEvent* event)
     emit closingEvent();
 }
 
-void View::setup()
+void View::initialize()
 {
     setWindowTitle(name_);
     loadWindowState();
@@ -50,10 +48,10 @@ void View::setup()
 
 void View::loadWindowState()
 {
-    mainWindow()->board()->userState()->loadViewState(this);
+    mainWindow()->userState()->loadViewState(this);
 }
 
 void View::saveWindowState()
 {
-    mainWindow()->board()->userState()->saveViewState(this);
+    mainWindow()->userState()->saveViewState(this);
 }

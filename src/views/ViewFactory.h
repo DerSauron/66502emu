@@ -16,6 +16,7 @@
 #include "DeviceViewCreator.h"
 #include "board/Device.h"
 #include "views/DeviceView.h"
+#include "views/DisassemblerView.h"
 
 class MainWindow;
 
@@ -47,7 +48,6 @@ protected:
     QString viewName_;
     View* view_{};
 };
-
 using ViewFactoryPointer = QSharedPointer<ViewFactory>;
 Q_DECLARE_METATYPE(ViewFactoryPointer)
 
@@ -70,37 +70,36 @@ protected:
 
     View* createViewImpl(MainWindow* mainWindow) override
     {
-        return DeviceViewCreator::createViewForDevice(device_, mainWindow);
+        auto* view = DeviceViewCreator::createViewForDevice(device_, mainWindow);
+        view->initialize();
+        return view;
     }
 
     Device* device_{};
 };
-
 using DeviceViewFactoryPointer = QSharedPointer<DeviceViewFactory>;
 Q_DECLARE_METATYPE(DeviceViewFactoryPointer)
 
-#if 0
-template<typename ViewT>
-class GenericViewFactory : public ViewFactory
+class DisassemblerViewFactory : public ViewFactory
 {
-public:
-    using ViewType = ViewT;
-
 public:
     static ViewFactoryPointer create(const QString& name)
     {
-        return ViewFactoryPointer{new GenericViewFactory(name)};
+        return ViewFactoryPointer{new DisassemblerViewFactory(name)};
     }
 
-protected:
-    GenericViewFactory(const QString& name) :
+private:
+    DisassemblerViewFactory(const QString& name) :
         ViewFactory(name)
     {
     }
 
     View* createViewImpl(MainWindow* mainWindow) override
     {
-        return new ViewT(viewName_, mainWindow);
+        auto* view = new DisassemblerView(viewName_, mainWindow);
+        view->initialize();
+        return view;
     }
 };
-#endif
+using DisassemblerViewFactoryPointer = QSharedPointer<DisassemblerViewFactory>;
+Q_DECLARE_METATYPE(DisassemblerViewFactoryPointer)

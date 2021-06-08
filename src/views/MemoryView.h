@@ -33,6 +33,8 @@ public:
 
     Memory* memory() const { return static_cast<Memory*>(device()); }
 
+    void initialize() override;
+
 private slots:
     void onMemoryAccessed(uint16_t address, bool write);
     void onMemorySelectedChanged();
@@ -51,6 +53,7 @@ private:
     void rememberShowSources();
     void showSources();
     void hideSources();
+    QString sourcesName();
 
 private:
     Ui::MemoryView* ui;

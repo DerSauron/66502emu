@@ -25,6 +25,7 @@ public:
     View(const QString& name, MainWindow* mainWindow);
     View(const QString& name, MainWindow* mainWindow, QWidget* parent);
     ~View() override;
+    virtual void initialize();
 
     MainWindow* mainWindow() const { return mainWindow_; }
     const QString& name() const { return name_; }
@@ -36,7 +37,6 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private:
-    void setup();
     void loadWindowState();
     void saveWindowState();
 

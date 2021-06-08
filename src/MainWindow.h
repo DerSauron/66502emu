@@ -33,14 +33,17 @@ public:
     MainWindow(Board* board, QWidget* parent = nullptr);
     ~MainWindow() override;
 
+    UserState* userState() const { return userState_.get(); }
     Board* board() const { return board_; }
 
-    void closeView(View* view);
-    void closeAllViews();
+    void destroyAllViews();
+
+protected:
+    void closeEvent(QCloseEvent* event) override;
 
 private slots:
+    void onCloseView();
     void onClockRunningChanged();
-    void onBoardDevicesChanged();
     void onBoardViewAction();
     void on_actionManageDevices_triggered();
     void on_actionQuit_triggered();
@@ -52,17 +55,21 @@ private:
     void maybeLoadBoard();
     void loadWindowState();
     void saveWindowState();
+    void saveViewsVisibleState();
     void createBoardMenu();
     QAction* createDeviceViewAction(int index, Device* device, const ViewFactoryPointer& factory);
-    void rebuildBoardMenuDevices();
-    bool conditionallyShowView(const ViewFactoryPointer& factory, bool defaultShow);
-    void showView(const ViewFactoryPointer& factory);
+    void rebuildBoardMenuActions();
+    void showEnabledViews();
+    void showView(ViewFactory* factory);
+    void hideView(ViewFactory* factory);
     void loadBoard(const QString& fileName);
     void saveBoard(const QString& fileName);
     void handleBoardLoaded();
+    void foreachView(std::function<void(QAction*, ViewFactory*)> callback);
 
 private:
     Ui::MainWindow* ui;
+    QScopedPointer<UserState> userState_;
     Board* board_;
     QString loadedFile_;
 };

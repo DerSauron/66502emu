@@ -29,7 +29,6 @@ namespace {
 
 Board::Board(QObject* parent) :
     QObject{parent},
-    userState_(new UserState()),
     addressBus_{new Bus{QStringLiteral("ADDRESS"), CPU::ADDRESS_BUS_WIDTH, this}},
     dataBus_{new Bus{QStringLiteral("DATA"), CPU::DATA_BUS_WIDTH, this}},
     resetLine_{WireState::High},
@@ -39,7 +38,6 @@ Board::Board(QObject* parent) :
     syncLine_{WireState::Low},
     cpu_{new CPU{this}},
     clock_{new Clock{this}},
-    deviceListReloadTriggered_{false},
     dbgSingleInstructionRun_{false}
 {
     connect(clock_, &Clock::clockEdge, this, &Board::onClockEdge);
@@ -49,8 +47,6 @@ Board::Board(QObject* parent) :
 
 Board::~Board()
 {
-    // delete devices prior to qt's children deletion function to keep a valid board state during device destruction
-    clearDevices();
 }
 
 bool Board::load(const QString& fileName)
@@ -61,11 +57,10 @@ bool Board::load(const QString& fileName)
 
     clearDevices();
 
-    QString stateFileName = fileName + QLatin1String(".state");
-    userState_->setFileName(stateFileName);
-
     if (!BoardLoader::load(&file, this))
         return false;
+
+    BoardLoader::validate(this);
 
     return true;
 }
@@ -110,33 +105,38 @@ void Board::setSyncLine(WireState syncLine)
     emit signalChanged();
 }
 
+QList<Device*> Board::devices() const
+{
+    return findChildren<Device*>(QString(), Qt::FindDirectChildrenOnly);
+}
+
 Device* Board::device(const QString& name)
 {
-    return findChild<Device*>(name);
+    return findChild<Device*>(name, Qt::FindDirectChildrenOnly);
 }
 
 Bus* Board::bus(const QString& name)
 {
-    return findChild<Bus*>(name);
+    return findChild<Bus*>(name, Qt::FindDirectChildrenOnly);
 }
 
 Device* Board::findDevice(uint16_t address)
 {
-    for (auto& device : devices_)
+    const QList<Device*> _devices = devices();
+    for (auto& device : _devices)
     {
         if (address >= device->mapAddressStart() && address <= device->mapAddressEnd())
             return device;
     }
-
     return nullptr;
 }
 
 void Board::clearDevices()
 {
-    const auto children = findChildren<Device*>(QString(), Qt::FindDirectChildrenOnly);
-    for (auto& child : children)
+    const QList<Device*> _devices = devices();
+    for (auto device : _devices)
     {
-        delete child;
+        delete device;
     }
 }
 
@@ -144,24 +144,6 @@ void Board::startSingleInstructionStep()
 {
     dbgSingleInstructionRun_ = true;
     clock_->start();
-}
-
-void Board::childEvent(QChildEvent* event)
-{
-    if (!deviceListReloadTriggered_ && (event->added() || event->removed()))
-    {
-        // defer device list update to ensure fully created devices
-        deviceListReloadTriggered_ = true;
-        QTimer::singleShot(0, this, &Board::recreateDeviceList);
-    }
-}
-
-void Board::recreateDeviceList()
-{
-    devices_ = findChildren<Device*>(QString(), Qt::FindDirectChildrenOnly);
-    BoardLoader::validate(this);
-    emit deviceListChanged();
-    deviceListReloadTriggered_ = false;
 }
 
 void Board::checkNewInstructionStart(StateEdge edge)
@@ -188,7 +170,8 @@ void Board::onClockEdge(StateEdge edge)
     setIrqLine(WireState::High);
     setNmiLine(WireState::High);
 
-    for (auto& device : devices_)
+    const QList<Device*> _devices = devices();
+    for (auto device : _devices)
     {
         device->clockEdge(edge);
     }

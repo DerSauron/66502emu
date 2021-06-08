@@ -28,7 +28,6 @@ namespace {
 
 const QString kSettingsLastAccesesdFilePath = QStringLiteral("LastAccesesdFilePath");
 const QString kLoadedProgram = QStringLiteral("loaded_programm");
-const QString kShowSources = QStringLiteral("show_sources");
 
 } // namespace
 
@@ -50,7 +49,21 @@ MemoryView::~MemoryView()
         rememberShowSources();
     }
 
+    if (sourcesView_)
+        hideSources();
+
     delete ui;
+}
+
+void MemoryView::initialize()
+{
+    DeviceView::initialize();
+
+    if (memory()->isPersistant())
+    {
+        maybeLoadProgram();
+        maybeShowSources();
+    }
 }
 
 void MemoryView::setup()
@@ -65,17 +78,11 @@ void MemoryView::setup()
 
     connect(memory(), &Memory::byteAccessed, this, &MemoryView::onMemoryAccessed);
     connect(memory(), &Memory::selectedChanged, this, &MemoryView::onMemorySelectedChanged);
-
-    if (memory()->isPersistant())
-    {
-        maybeLoadProgram();
-        maybeShowSources();
-    }
 }
 
 void MemoryView::maybeLoadProgram()
 {
-    auto userState = mainWindow()->board()->userState();
+    auto userState = mainWindow()->userState();
     QString fileName = userState->viewValue(name(), kLoadedProgram).toString();
     if (fileName.isEmpty())
         return;
@@ -85,8 +92,8 @@ void MemoryView::maybeLoadProgram()
 
 void MemoryView::maybeShowSources()
 {
-    auto userState = mainWindow()->board()->userState();
-    bool show = userState->viewValue(name(), kShowSources).toBool() && program_.hasSources();
+    auto userState = mainWindow()->userState();
+    bool show = userState->viewVisible(sourcesName(), true) && program_.hasSources();
     ui->showSourcesButton->setEnabled(program_.hasSources());
     ui->showSourcesButton->setChecked(show);
     if (show)
@@ -193,21 +200,22 @@ void MemoryView::loadProgram(const QString& fileName)
 
 void MemoryView::rememberProgram()
 {
-    auto userState = mainWindow()->board()->userState();
+    auto userState = mainWindow()->userState();
     userState->setViewValue(name(), kLoadedProgram, programFileName_);
 }
 
 void MemoryView::rememberShowSources()
 {
-    auto userState = mainWindow()->board()->userState();
-    userState->setViewValue(name(), kShowSources, !!sourcesView_);
+    auto userState = mainWindow()->userState();
+    userState->setViewVisible(sourcesName(), !!sourcesView_);
 }
 
 void MemoryView::showSources()
 {
     Q_ASSERT(!sourcesView_);
     Q_ASSERT(program_.hasSources());
-    sourcesView_ = new SourcesView(name(), &    program_, mainWindow());
+    sourcesView_ = new SourcesView(sourcesName(), &program_, mainWindow(), this);
+    sourcesView_->initialize();
     connect(sourcesView_, &SourcesView::closingEvent, this, &MemoryView::onSourcesViewClosingEvent);
     sourcesView_->show();
 }
@@ -217,4 +225,9 @@ void MemoryView::hideSources()
     Q_ASSERT(sourcesView_);
     delete sourcesView_;
     sourcesView_ = nullptr;
+}
+
+QString MemoryView::sourcesName()
+{
+    return name() + QLatin1String(" - Source");
 }

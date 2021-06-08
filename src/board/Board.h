@@ -15,7 +15,6 @@
 
 #include "WireState.h"
 #include <QObject>
-#include <QScopedPointer>
 
 class Bus;
 class Clock;
@@ -33,8 +32,6 @@ public:
     ~Board() override;
 
     bool load(const QString& fileName);
-
-    UserState* userState() const { return userState_.get(); }
 
     Bus* addressBus() const { return addressBus_; }
     Bus* dataBus() const { return dataBus_; }
@@ -56,7 +53,7 @@ public:
     WireState syncLine() const { return syncLine_; }
     void setSyncLine(WireState syncLine);
 
-    const QList<Device*>& devices() const { return devices_; }
+    QList<Device*> devices() const;
     Device* device(const QString& name);
     Bus* bus(const QString& name);
 
@@ -77,19 +74,13 @@ public slots:
 signals:
     void signalChanged();
     void clockEdge(StateEdge edge);
-    void deviceListChanged();
     void newInstructionStart();
 
-protected:
-    void childEvent(QChildEvent* event) override;
-
 private slots:
-    void recreateDeviceList();
     void checkNewInstructionStart(StateEdge edge);
     void onClockEdge(StateEdge edge);
 
 private:
-    QScopedPointer<UserState> userState_;
     Bus* addressBus_;
     Bus* dataBus_;
     WireState resetLine_;
@@ -100,9 +91,6 @@ private:
 
     CPU* cpu_;
     Clock* clock_;
-
-    QList<Device*> devices_;
-    bool deviceListReloadTriggered_;
 
     bool dbgSingleInstructionRun_;
 };
