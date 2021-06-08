@@ -2,14 +2,22 @@
 <ui version="4.0">
  <class>ClockView</class>
  <widget class="QWidget" name="ClockView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>46</height>
+   </rect>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QPushButton" name="startStopButton">
+    <widget class="StartStopButton" name="startStopButton">
      <property name="text">
       <string>Start</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="../icons.qrc">
        <normaloff>:/icons/start.png</normaloff>:/icons/start.png</iconset>
      </property>
      <property name="shortcut">
@@ -39,7 +47,7 @@
       <string>Single Step</string>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="../icons.qrc">
        <normaloff>:/icons/step.png</normaloff>:/icons/step.png</iconset>
      </property>
      <property name="shortcut">
@@ -66,7 +74,15 @@
    <header>views/BitsView.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>StartStopButton</class>
+   <extends>QPushButton</extends>
+   <header>views/StartStopButton.h</header>
+  </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -66,20 +66,9 @@ void ClockView::onClockRunningChanged()
 {
     const bool running = clock_->isRunning();
     if (running)
-    {
-        ui->startStopButton->setText(tr("Stop"));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/icons/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
-        ui->startStopButton->setIcon(icon);
-    }
+        ui->startStopButton->showStopMode();
     else
-    {
-        ui->startStopButton->setText(tr("Start"));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/icons/start.png"), QSize(), QIcon::Normal, QIcon::Off);
-        ui->startStopButton->setIcon(icon);
-
-    }
+        ui->startStopButton->showStartMode();
     ui->period->setEnabled(!running);
     ui->singleStepButton->setEnabled(!running);
 }
