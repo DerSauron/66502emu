@@ -14,6 +14,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "AboutDialog.h"
 #include "UserState.h"
 #include "board/Board.h"
 #include "board/Clock.h"
@@ -385,4 +386,10 @@ void MainWindow::on_actionOpenBoard_triggered()
     s.setValue(kSettingsLastAccesesdFilePath, fi.absolutePath());
 
     loadBoard(fileName);
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    AboutDialog* dialog = new AboutDialog(this);
+    dialog->show();
 }

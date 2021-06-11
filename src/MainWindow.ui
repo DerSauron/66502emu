@@ -14,7 +14,7 @@
    <string>6502 emulator</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="icons.qrc">
+   <iconset>
     <normaloff>:/icons/icon.png</normaloff>:/icons/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -58,7 +58,7 @@
             <string>Step Instruction</string>
            </property>
            <property name="icon">
-            <iconset resource="icons.qrc">
+            <iconset>
              <normaloff>:/icons/step-instruction.png</normaloff>:/icons/step-instruction.png</iconset>
            </property>
            <property name="shortcut">
@@ -282,8 +282,15 @@
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menu_About">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuBoard"/>
+   <addaction name="menu_About"/>
   </widget>
   <action name="actionManageDevices">
    <property name="enabled">
@@ -354,6 +361,11 @@
     <string>Alt+-</string>
    </property>
   </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -381,9 +393,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="icons.qrc"/>
-  <include location="icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

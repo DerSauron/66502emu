@@ -82,6 +82,9 @@ add_library(6502emu STATIC
     views/View.h
     views/ViewFactory.cpp
     views/ViewFactory.h
+    AboutDialog.cpp
+    AboutDialog.h
+    AboutDialog.ui
     BoardLoader.cpp
     BoardLoader.h
     DeviceConfigModel.cpp

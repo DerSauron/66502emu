@@ -49,6 +49,7 @@ private slots:
     void on_actionQuit_triggered();
     void on_actionNewBoard_triggered();
     void on_actionOpenBoard_triggered();
+    void on_actionAbout_triggered();
 
 private:
     void setup();
