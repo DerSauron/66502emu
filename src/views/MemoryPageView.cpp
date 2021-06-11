@@ -62,7 +62,7 @@ void MemoryPageView::setMemory(Memory* memory)
     update();
 }
 
-void MemoryPageView::setAddressOffset(u_int16_t addressOffset)
+void MemoryPageView::setAddressOffset(uint16_t addressOffset)
 {
     if (addressOffset == addressOffset_)
         return;

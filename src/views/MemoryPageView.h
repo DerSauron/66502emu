@@ -31,7 +31,7 @@ public:
     void setMemory(Memory* memory);
 
     uint16_t addressOffset() const { return addressOffset_; }
-    void setAddressOffset(u_int16_t addressOffset);
+    void setAddressOffset(uint16_t addressOffset);
 
     uint8_t page() const { return page_; }
     void setPage(uint8_t page);
