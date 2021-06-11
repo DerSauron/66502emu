@@ -19,9 +19,12 @@
 #include "Program.h"
 #include "ProgramLoader.h"
 #include "board/Board.h"
+#include "board/Clock.h"
 #include "views/SourcesView.h"
 #include <QIntValidator>
 #include <QFileDialog>
+#include <QFileSystemWatcher>
+#include <QMessageBox>
 #include <QSettings>
 
 namespace {
@@ -35,7 +38,9 @@ MemoryView::MemoryView(Memory* memory, MainWindow* parent) :
     DeviceView{memory, parent},
     ui(new Ui::MemoryView),
     pageAutomaticallyChanged_{},
-    sourcesView_{nullptr}
+    sourcesView_{nullptr},
+    fileSystemWatcher_(new QFileSystemWatcher(this)),
+    reloadInProgress_{false}
 {
     ui->setupUi(this);
     setup();
@@ -78,6 +83,8 @@ void MemoryView::setup()
 
     connect(memory(), &Memory::byteAccessed, this, &MemoryView::onMemoryAccessed);
     connect(memory(), &Memory::selectedChanged, this, &MemoryView::onMemorySelectedChanged);
+
+    connect(fileSystemWatcher_, &QFileSystemWatcher::fileChanged, this, &MemoryView::onProgramFileChanged);
 }
 
 void MemoryView::maybeLoadProgram()
@@ -137,6 +144,44 @@ void MemoryView::onSourcesViewClosingEvent()
     hideSources();
 }
 
+void MemoryView::onProgramFileChanged(const QString& path)
+{
+    if (reloadInProgress_)
+        return;
+
+    reloadInProgress_ = true;
+
+    QFileInfo info(programFileName_);
+    if (!info.exists())
+        return;
+
+    QMessageBox dialog;
+    dialog.setWindowTitle(tr("File changed"));
+    dialog.setIcon(QMessageBox::Question);
+    dialog.setText(tr("The program file was changed outside the emulator"));
+    dialog.setInformativeText(tr("Would yuour like to reload the program into memory?"));
+    QPushButton* reloadBtn = dialog.addButton(tr("Reload"), QMessageBox::ActionRole);
+    QPushButton* reloadAndResetBtn = dialog.addButton(tr("Reload and Reset CPU"), QMessageBox::ActionRole);
+    dialog.addButton(tr("Abort"), QMessageBox::RejectRole);
+    dialog.setDefaultButton(reloadAndResetBtn);
+
+    dialog.exec();
+
+    if (dialog.clickedButton() == reloadBtn || dialog.clickedButton() == reloadAndResetBtn)
+    {
+        mainWindow()->board()->clock()->stop();
+
+        loadProgram(programFileName_);
+
+        if (dialog.clickedButton() == reloadAndResetBtn)
+        {
+            mainWindow()->board()->setResetLine(WireState::Low);
+        }
+    }
+
+    reloadInProgress_ = false;
+}
+
 void MemoryView::on_followButton_toggled(bool checked)
 {
     // nothing to do
@@ -178,17 +223,19 @@ void MemoryView::on_showSourcesButton_clicked()
 
 void MemoryView::loadProgram(const QString& fileName)
 {
+    disableFileWatcher();
+
     programFileName_ = fileName;
 
     ProgramLoader loader;
     program_ = loader.loadProgram(programFileName_);
 
-    if (!program_.isNull())
+    if (program_.isNull())
+        return;
+
+    for (int i = 0; i < qMin(program_.binaryData().size(), static_cast<int>(memory()->size())); ++i)
     {
-        for (int i = 0; i < qMin(program_.binaryData().size(), static_cast<int>(memory()->size())); ++i)
-        {
-            memory()->data()[i] = program_.binaryData()[i];
-        }
+        memory()->data()[i] = program_.binaryData()[i];
     }
 
     ui->showSourcesButton->setEnabled(program_.hasSources());
@@ -196,6 +243,8 @@ void MemoryView::loadProgram(const QString& fileName)
     {
         sourcesView_->setProgram(&program_);
     }
+
+    enableFileWatcher();
 }
 
 void MemoryView::rememberProgram()
@@ -225,6 +274,19 @@ void MemoryView::hideSources()
     Q_ASSERT(sourcesView_);
     delete sourcesView_;
     sourcesView_ = nullptr;
+}
+
+void MemoryView::enableFileWatcher()
+{
+    QFileInfo info(programFileName_);
+    fileSystemWatcher_->addPath(info.absoluteFilePath());
+}
+
+void MemoryView::disableFileWatcher()
+{
+    const auto list = fileSystemWatcher_->files();
+    if (!list.isEmpty())
+        fileSystemWatcher_->removePaths(list);
 }
 
 QString MemoryView::sourcesName()

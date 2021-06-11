@@ -22,6 +22,7 @@ class MemoryView;
 }
 
 class SourcesView;
+class QFileSystemWatcher;
 
 class MemoryView : public DeviceView
 {
@@ -39,6 +40,7 @@ private slots:
     void onMemoryAccessed(uint16_t address, bool write);
     void onMemorySelectedChanged();
     void onSourcesViewClosingEvent();
+    void onProgramFileChanged(const QString& path);
     void on_loadButton_clicked();
     void on_followButton_toggled(bool checked);
     void on_page_valueChanged(int value);
@@ -53,6 +55,8 @@ private:
     void rememberShowSources();
     void showSources();
     void hideSources();
+    void enableFileWatcher();
+    void disableFileWatcher();
     QString sourcesName();
 
 private:
@@ -61,4 +65,6 @@ private:
     QString programFileName_;
     Program program_;
     SourcesView* sourcesView_;
+    QFileSystemWatcher* fileSystemWatcher_;
+    bool reloadInProgress_;
 };
