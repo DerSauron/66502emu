@@ -116,7 +116,9 @@ target_link_libraries(6502emu PUBLIC
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
-add_executable(6502emu_app
+add_executable(6502emu_app "")
+
+target_sources(6502emu_app PRIVATE
     main.cpp
 )
 
@@ -124,5 +126,16 @@ target_link_libraries(6502emu_app PRIVATE
     6502emu
 )
 
-get_target_property(6502emu_app_src 6502emu_app SOURCES)
-source_group("" FILES ${6502emu_app_src})
+set_target_properties(6502emu_app PROPERTIES
+    OUTPUT_NAME "6502emu"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist"
+)
+
+set_target_properties(6502emu_app PROPERTIES
+    WIN32_EXECUTABLE true
+)
+
+target_sources(6502emu_app PRIVATE
+    6502emu.rc
+)
