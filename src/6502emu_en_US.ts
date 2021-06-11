@@ -25,29 +25,23 @@
 <context>
     <name>ClockView</name>
     <message>
-        <location filename="views/ClockView.ui" line="9"/>
-        <location filename="views/ClockView.cpp" line="77"/>
+        <location filename="views/ClockView.ui" line="17"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ClockView.ui" line="16"/>
+        <location filename="views/ClockView.ui" line="24"/>
         <source>Alt+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ClockView.ui" line="39"/>
+        <location filename="views/ClockView.ui" line="47"/>
         <source>Single Step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ClockView.ui" line="46"/>
+        <location filename="views/ClockView.ui" line="54"/>
         <source>Alt+S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/ClockView.cpp" line="70"/>
-        <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -106,7 +100,7 @@
 <context>
     <name>DisassemblerView</name>
     <message>
-        <location filename="views/DisassemblerView.ui" line="14"/>
+        <location filename="views/DisassemblerView.ui" line="22"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -114,7 +108,7 @@
 <context>
     <name>LCDView</name>
     <message>
-        <location filename="views/LCDView.ui" line="30"/>
+        <location filename="views/LCDView.ui" line="38"/>
         <source>Busy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -252,68 +246,68 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="165"/>
+        <location filename="MainWindow.cpp" line="156"/>
         <source>Disassembly log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="175"/>
+        <location filename="MainWindow.cpp" line="166"/>
         <source>&amp;%1 %2 (%3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="176"/>
+        <location filename="MainWindow.cpp" line="167"/>
         <source>Alt+%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="255"/>
+        <location filename="MainWindow.cpp" line="259"/>
         <source>Could not load file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="255"/>
+        <location filename="MainWindow.cpp" line="259"/>
         <source>Board file could not be loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="297"/>
+        <location filename="MainWindow.cpp" line="298"/>
         <source>6502 emulator - %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="318"/>
+        <location filename="MainWindow.cpp" line="331"/>
         <source>Select file for new board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="319"/>
-        <location filename="MainWindow.cpp" line="358"/>
+        <location filename="MainWindow.cpp" line="332"/>
+        <location filename="MainWindow.cpp" line="371"/>
         <source>Board files (*.board)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="329"/>
+        <location filename="MainWindow.cpp" line="342"/>
         <source>File exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="330"/>
+        <location filename="MainWindow.cpp" line="343"/>
         <source>Do you want to override the existing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="340"/>
+        <location filename="MainWindow.cpp" line="353"/>
         <source>Could not open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="341"/>
+        <location filename="MainWindow.cpp" line="354"/>
         <source>The selected file coult no be open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="357"/>
+        <location filename="MainWindow.cpp" line="370"/>
         <source>Select board file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -346,12 +340,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.cpp" line="144"/>
+        <location filename="views/MemoryView.cpp" line="151"/>
         <source>Open Binary Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.cpp" line="146"/>
+        <location filename="views/MemoryView.cpp" line="153"/>
         <source>Listing files (*.lst);;Binary Image Files (*.img *.bin)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -412,6 +406,19 @@
     <message>
         <location filename="views/SourcesView.ui" line="22"/>
         <source>Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StartStopButton</name>
+    <message>
+        <location filename="views/StartStopButton.cpp" line="14"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/StartStopButton.cpp" line="22"/>
+        <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
