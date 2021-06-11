@@ -1,5 +1,3 @@
-set(TS_FILES 6502emu_en_US.ts)
-
 add_library(6502emu STATIC
     board/Board.cpp
     board/Board.h
@@ -102,7 +100,6 @@ add_library(6502emu STATIC
     UserState.cpp
     UserState.h
     icons.qrc
-    ${TS_FILES}
 )
 
 target_compile_definitions(6502emu PRIVATE
@@ -114,6 +111,11 @@ target_link_libraries(6502emu PUBLIC
     Qt5::Widgets
 )
 
+set(TS_FILES
+    6502emu_en.ts
+    6502emu_de.ts
+)
+target_sources(6502emu PRIVATE ${TS_FILES})
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 add_executable(6502emu_app "")
