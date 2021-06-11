@@ -11,5 +11,7 @@
         <file>icons/follow.png</file>
         <file>icons/line-marker.png</file>
         <file>icons/breakpoint.png</file>
+        <file>icons/icon-16.png</file>
+        <file>icons/icon-32.png</file>
     </qresource>
 </RCC>

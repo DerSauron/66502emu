@@ -67,6 +67,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::setup()
 {
+    QIcon programIcon;
+    programIcon.addFile(QStringLiteral(":/icons/icon-16.png"));
+    programIcon.addFile(QStringLiteral(":/icons/icon-32.png"));
+    programIcon.addFile(QStringLiteral(":/icons/icon.png"));
+    setWindowIcon(programIcon);
+
     ui->addressBusView->setBus(board_->addressBus());
     ui->dataBusView->setBus(board_->dataBus());
     ui->clockView->setClock(board_->clock());
