@@ -25,7 +25,7 @@ class LCD : public Device, public hd44780u::listener
     Q_OBJECT
 
 public:
-    explicit LCD(const QString& name, Board* board);
+    LCD(const QString& name, Board* board);
     ~LCD() override;
 
     ArrayView charMatrix(uint8_t address) const;

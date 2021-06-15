@@ -56,8 +56,6 @@ public:
         return injectBits(pins, static_cast<uint16_t>(mask), data);
     }
 
-    static constexpr uint16_t InvalidRAMPosition = std::numeric_limits<uint16_t>::max();
-
 public:
     hd44780u();
 
@@ -95,11 +93,14 @@ private:
     void displayControlInstruction(uint8_t cmd);
     void cursorInstruction(uint8_t cmd);
     void funtionSetInstruction(uint8_t cmd);
-    void setDDRAMAddrInstruction(uint8_t cmd);
     void setCGRAMAddrInstruction(uint8_t cmd);
+    void setDDRAMAddrInstruction(uint8_t cmd);
 
+    void updateCursorPos();
     void moveDisplay(bool increment);
     void moveCursor(bool increment);
+
+    void notifyChangedCharacters(uint8_t cgRamAddr);
 
 private:
     listener* listener_;
@@ -110,6 +111,7 @@ private:
     std::array<uint8_t, 80> ddram_{};
     std::array<uint8_t, 64> cgram_{};
     uint16_t ramAddr_{0};
+    uint16_t cursorPos_{0};
     uint8_t shift_{0};
     uint8_t ramSelector_{0};
     bool increment_{true};

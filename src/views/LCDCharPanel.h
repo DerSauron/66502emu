@@ -53,4 +53,5 @@ private:
 private:
     QVector<uint8_t> data_;
     QPoint cursorPos_;
+    bool displayOn_;
 };

@@ -35,9 +35,9 @@ constexpr int ClientDisplayHeight = DisplayHeight * ClientCharHeight + (DisplayH
 constexpr int ClientHCharDistance = ClientCharWidth + CharGap;
 constexpr int ClientVCharDistance = ClientCharHeight + CharGap;
 
-const QBrush LidDotBrush{QColor{224, 239, 255}};
-const QBrush DimDotBrush{QColor{73, 139, 215}};
-const QBrush BackgroundBrush{QColor{93, 159, 235}};
+const QBrush LidDotBrush{QColor{224, 239, 255}}; // clazy:exclude=non-pod-global-static
+const QBrush DimDotBrush{QColor{73, 139, 215}}; // clazy:exclude=non-pod-global-static
+const QBrush BackgroundBrush{QColor{93, 159, 235}}; // clazy:exclude=non-pod-global-static
 
 
 QRect charRect(const QPoint& pos)
@@ -66,7 +66,8 @@ bool LCDCharPanel::outOfView(const QPoint& panelPos)
 
 LCDCharPanel::LCDCharPanel(QWidget *parent) :
     QWidget(parent),
-    data_(DisplayWidth * DisplayHeight * CharHeight)
+    data_(DisplayWidth * DisplayHeight * CharHeight),
+    displayOn_{true}
 {
 }
 
@@ -110,13 +111,16 @@ void LCDCharPanel::setCursorOn(bool cursorOn)
     if (cursorOn && pos.x() < 0)
         pos.setX(pos.x() + 1000);
     else if (pos.x() >= 0)
-            pos.setX(pos.x() - 1000);
+        pos.setX(pos.x() - 1000);
     setCursorPos(pos);
 }
 
 void LCDCharPanel::setDisplayOn(bool displayOn)
 {
-
+    if (displayOn == displayOn_)
+        return;
+    displayOn_ = displayOn;
+    repaint();
 }
 
 const QBrush& LCDCharPanel::backgroundBrush() const
@@ -175,7 +179,9 @@ void LCDCharPanel::renderCharMatrix(QPainter& p, int charX, int charY)
     {
         uint8_t rowValue;
 
-        if (y == (CharHeight - 1) && charX == cursorPos_.x() && charY == cursorPos_.y())
+        if (!displayOn_)
+            rowValue = 0x00;
+        else if (y == (CharHeight - 1) && charX == cursorPos_.x() && charY == cursorPos_.y())
             rowValue = 0xFF;
         else
             rowValue = data_[(charY * DisplayWidth + charX) * CharHeight + y];

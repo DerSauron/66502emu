@@ -19,7 +19,7 @@
 
 namespace {
 
-hd44780u::listener DummyListener;
+hd44780u::listener DummyListener; // clazy:exclude=non-pod-global-static
 
 bool enUp(uint16_t oldPins, uint16_t newPins)
 {
@@ -58,7 +58,7 @@ void hd44780u::setListener(listener* listener)
 
 uint16_t hd44780u::cursorPos() const
 {
-    return ramSelector_ == 0 ? ramAddr_ : InvalidRAMPosition;
+    return cursorPos_;
 }
 
 uint8_t hd44780u::charAt(uint8_t address) const
@@ -196,12 +196,12 @@ void hd44780u::handleInstruction(uint8_t cmd)
     }
     else if ((cmd & 0b11000000) == 0b01000000)
     {
-        setDDRAMAddrInstruction(cmd);
+        setCGRAMAddrInstruction(cmd);
         readDataValid_ = true;
     }
     else if ((cmd & 0b10000000) == 0b10000000)
     {
-        setCGRAMAddrInstruction(cmd);
+        setDDRAMAddrInstruction(cmd);
         readDataValid_ = true;
     }
 }
@@ -221,12 +221,12 @@ void hd44780u::setData(uint8_t data)
     else // (ramSelector_ == 1) cgram
     {
         cgram_[ramAddr_] = data;
-        //TODO notifyChangedCharacters();
+        notifyChangedCharacters(ramAddr_);
     }
 
     readDataValid_ = false;
 
-    if (shiftEnabled_)
+    if (ramSelector_ == 0 && shiftEnabled_)
         moveDisplay(increment_);
     moveCursor(increment_);
 }
@@ -287,7 +287,9 @@ void hd44780u::displayControlInstruction(uint8_t cmd)
 
 void hd44780u::cursorInstruction(uint8_t cmd)
 {
-    const bool inc = extractBits(cmd, uint8_t{0b100}) == 1;
+    const bool inc = extractBits(cmd, uint8_t{0b0100}) == 1;
+
+    ramSelector_ = 0;
 
     if (extractBits(cmd, uint8_t{0b1000}) == 0) // move cursor
     {
@@ -304,17 +306,23 @@ void hd44780u::funtionSetInstruction(uint8_t cmd)
     // TODO implement funtionSetInstruction()
 }
 
-void hd44780u::setDDRAMAddrInstruction(uint8_t cmd)
-{
-    ramSelector_ = 0;
-    ramAddr_ = cmd & 0b00111111;
-    listener_->onCursorPosChanged();
-}
-
 void hd44780u::setCGRAMAddrInstruction(uint8_t cmd)
 {
     ramSelector_ = 1;
+    ramAddr_ = cmd & 0b00111111;
+}
+
+void hd44780u::setDDRAMAddrInstruction(uint8_t cmd)
+{
+    ramSelector_ = 0;
     ramAddr_ = cmd & 0b01111111;
+    updateCursorPos();
+    listener_->onCursorPosChanged();
+}
+
+void hd44780u::updateCursorPos()
+{
+    cursorPos_ = ramAddr_;
 }
 
 void hd44780u::moveDisplay(bool increment)
@@ -338,7 +346,6 @@ void hd44780u::moveDisplay(bool increment)
 
 void hd44780u::moveCursor(bool increment)
 {
-    ramSelector_ = 0;
     if (increment) // right
     {
         if (ramAddr_ == 79)
@@ -353,5 +360,17 @@ void hd44780u::moveCursor(bool increment)
         else
             ramAddr_--;
     }
+    if (ramSelector_ == 0)
+        updateCursorPos();
     listener_->onCursorPosChanged();
+}
+
+void hd44780u::notifyChangedCharacters(uint8_t cgRamAddr)
+{
+    uint8_t cgRamChar = cgRamAddr >> 3u;
+    for (uint8_t i = 0; i < ddram_.size(); i++)
+    {
+        if (ddram_[i] == cgRamChar)
+            listener_->onCharacterChanged(i);
+    }
 }
