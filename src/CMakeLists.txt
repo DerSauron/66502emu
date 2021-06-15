@@ -1,4 +1,6 @@
 add_library(6502emu STATIC
+    board/ACIA.cpp
+    board/ACIA.h
     board/Board.cpp
     board/Board.h
     board/Bus.cpp
@@ -38,6 +40,9 @@ add_library(6502emu STATIC
     utils/BitManipulations.h
     utils/Strings.cpp
     utils/Strings.h
+    views/ACIAView.cpp
+    views/ACIAView.h
+    views/ACIAView.ui
     views/BitsView.cpp
     views/BitsView.h
     views/BusView.cpp
@@ -46,6 +51,8 @@ add_library(6502emu STATIC
     views/ClockView.cpp
     views/ClockView.h
     views/ClockView.ui
+    views/Console.cpp
+    views/Console.h
     views/CPUView.cpp
     views/CPUView.h
     views/CPUView.ui

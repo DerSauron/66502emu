@@ -14,9 +14,11 @@
 #include "DeviceViewCreator.h"
 
 #include "MainWindow.h"
+#include "board/ACIA.h"
 #include "board/LCD.h"
 #include "board/Memory.h"
 #include "board/VIA.h"
+#include "views/ACIAView.h"
 #include "views/LCDView.h"
 #include "views/MemoryView.h"
 #include "views/VIAView.h"
@@ -35,6 +37,10 @@ DeviceView* DeviceViewCreator::createViewForDevice(Device* device, MainWindow* m
     else if (VIA* via = qobject_cast<VIA*>(device))
     {
         return new VIAView(via, mainWindow);
+    }
+    else if (ACIA* acia = qobject_cast<ACIA*>(device))
+    {
+        return new ACIAView(acia, mainWindow);
     }
 
     qWarning() << "Cannot create view for device" << device->name();

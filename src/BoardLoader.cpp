@@ -13,6 +13,7 @@
 
 #include "BoardLoader.h"
 
+#include "board/ACIA.h"
 #include "board/Board.h"
 #include "board/Bus.h"
 #include "board/LCD.h"
@@ -222,6 +223,11 @@ VIA* newVIA(const QString& name, Board* board, const QJsonObject& deviceDef)
     return new VIA(name, board);
 }
 
+ACIA* newACIA(const QString& name, Board* board, const QJsonObject& deviceDef)
+{
+    return new ACIA(name, board);
+}
+
 bool createDevice(Board* board, const QJsonObject& deviceDef)
 {
     static int deviceAutoNameIndex{0};
@@ -258,6 +264,10 @@ bool createDevice(Board* board, const QJsonObject& deviceDef)
     else if (deviceType == QLatin1String("via"))
     {
         device = newVIA(deviceName, board, deviceDef);
+    }
+    else if (deviceType == QLatin1String("acia"))
+    {
+        device = newACIA(deviceName, board, deviceDef);
     }
 
     if (!device)

@@ -63,6 +63,11 @@
                     "bus_mask": "0x0400"
                 }
             ]
+        },
+        {
+            "type": "acia",
+            "name": "ACIA",
+            "address": "0xD100"
         }
     ],
 
