@@ -14,6 +14,7 @@
 #include "board/Board.h"
 #include "board/Bus.h"
 #include "board/Clock.h"
+#include "board/Debugger.h"
 #include "codeeditor/Highlighter.h"
 #include <QTextBlock>
 #include <QTextCursor>
@@ -65,14 +66,6 @@ void SourcesView::highlightCurrentLine(uint16_t address)
 {
     auto line = findLineForAddress(address);
     ui->codeView->highlightCurrentAddressLine(line);
-}
-
-void SourcesView::stopAtBreakpoint(uint16_t address)
-{
-    if (program_->breakpointMatches(address))
-    {
-        mainWindow()->board()->clock()->stop();
-    }
 }
 
 void SourcesView::setProgramText()
@@ -142,7 +135,6 @@ void SourcesView::onNewInstructionStart()
 {
     uint16_t address = mainWindow()->board()->addressBus()->typedData<uint16_t>();
     highlightCurrentLine(address);
-    stopAtBreakpoint(address);
 }
 
 void SourcesView::onLineNumberDoubleClicked(int line)
@@ -158,10 +150,16 @@ void SourcesView::onLineNumberDoubleClicked(int line)
         line++;
     }
 
-    if (program_->toggleBreakpoint(address))
+    if (!ui->codeView->hasBreakpoint(line))
+    {
         ui->codeView->addBreakpoint(line);
+        emit addBreakpoint(address);
+    }
     else
+    {
         ui->codeView->removeBreakpoint(line);
+        emit removeBreakpoint(address);
+    }
 }
 
 void SourcesView::on_startStopButton_clicked()

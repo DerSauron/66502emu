@@ -38,11 +38,6 @@ public:
     const QList<SourceLine>& sourceLines() const;
     void setSourceLines(const QList<SourceLine>& sourceLines);
 
-    bool breakpointMatches(int address) const;
-    void addBreakpoint(int address);
-    void removeBreakpoint(int address);
-    bool toggleBreakpoint(int address);
-
 private:
     class Data : public QSharedData
     {
@@ -53,7 +48,6 @@ private:
 
         QByteArray binrayData;
         QList<SourceLine> sourceLines;
-        QSet<int> breakpoints;
     };
     QSharedDataPointer<Data> d;
 };

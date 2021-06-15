@@ -32,6 +32,7 @@ public:
 
     void setDocument(QTextDocument* document);
 
+    bool hasBreakpoint(int line);
     void addBreakpoint(int line);
     void removeBreakpoint(int line);
 

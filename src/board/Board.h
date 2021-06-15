@@ -19,6 +19,7 @@
 class Bus;
 class Clock;
 class CPU;
+class Debugger;
 class Device;
 class UserState;
 class QIODevice;
@@ -37,6 +38,7 @@ public:
     Bus* dataBus() const { return dataBus_; }
     CPU* cpu() const { return cpu_; }
     Clock* clock() const { return clock_; }
+    Debugger* debugger() const { return debugger_; }
 
     WireState rwLine() const { return rwLine_; }
     void setRwLine(WireState rwLine);
@@ -91,6 +93,8 @@ private:
 
     CPU* cpu_;
     Clock* clock_;
+
+    Debugger* debugger_;
 
     bool dbgSingleInstructionRun_;
 };

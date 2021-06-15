@@ -11,6 +11,8 @@ add_library(6502emu STATIC
     board/Clock.h
     board/CPU.cpp
     board/CPU.h
+    board/Debugger.cpp
+    board/Debugger.h
     board/Device.cpp
     board/Device.h
     board/LCD.cpp

@@ -127,6 +127,11 @@ void CodeEditor::setDocument(QTextDocument* document)
     highlighter_->setDocument(document);
 }
 
+bool CodeEditor::hasBreakpoint(int line)
+{
+    return breakpoints_.contains(line);
+}
+
 void CodeEditor::addBreakpoint(int line)
 {
     breakpoints_.insert(line);

@@ -17,6 +17,7 @@
 #include "Bus.h"
 #include "Clock.h"
 #include "CPU.h"
+#include "Debugger.h"
 #include "Device.h"
 #include "UserState.h"
 #include <QChildEvent>
@@ -38,6 +39,7 @@ Board::Board(QObject* parent) :
     syncLine_{WireState::Low},
     cpu_{new CPU{this}},
     clock_{new Clock{this}},
+    debugger_{new Debugger(this)},
     dbgSingleInstructionRun_{false}
 {
     connect(clock_, &Clock::clockEdge, this, &Board::onClockEdge);

@@ -27,6 +27,8 @@ public:
     void setProgram(Program* program);
 
 signals:
+    void addBreakpoint(uint16_t address);
+    void removeBreakpoint(uint16_t address);
     void breakpointChanged(int line);
 
 private slots:
@@ -47,7 +49,6 @@ private:
     void handleProgramChange();
     int findLineForAddress(uint16_t address);
     void highlightCurrentLine(uint16_t address);
-    void stopAtBreakpoint(uint16_t address);
     void setProgramText();
     void buildAddressIndex();
     Labels scanLabels();
