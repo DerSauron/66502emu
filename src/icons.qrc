@@ -13,5 +13,7 @@
         <file>icons/breakpoint.png</file>
         <file>icons/icon-16.png</file>
         <file>icons/icon-32.png</file>
+        <file>icons/step-out.png</file>
+        <file>icons/step-subroutine.png</file>
     </qresource>
 </RCC>

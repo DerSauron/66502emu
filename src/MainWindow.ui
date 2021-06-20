@@ -14,7 +14,7 @@
    <string>6502 emulator</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="icons.qrc">
     <normaloff>:/icons/icon.png</normaloff>:/icons/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -53,16 +53,27 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QPushButton" name="singleInstructionButton">
+          <widget class="QPushButton" name="stepInstructionButton">
            <property name="text">
             <string>Step Instruction</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="icons.qrc">
              <normaloff>:/icons/step-instruction.png</normaloff>:/icons/step-instruction.png</iconset>
            </property>
            <property name="shortcut">
             <string>Alt+I</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="stepSubroutineButton">
+           <property name="text">
+            <string>Step subroutine</string>
+           </property>
+           <property name="icon">
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/step-subroutine.png</normaloff>:/icons/step-subroutine.png</iconset>
            </property>
           </widget>
          </item>
@@ -393,6 +404,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
