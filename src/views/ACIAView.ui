@@ -57,11 +57,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="configInfo">
-       <property name="text">
-        <string>Serial config: </string>
-       </property>
-      </widget>
+      <widget class="RegisterView" name="statusRegister" native="true"/>
      </item>
      <item>
       <spacer name="horizontalSpacer_2">
@@ -77,7 +73,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="label_4">
        <property name="font">
         <font>
          <family>Monospace</family>
@@ -85,7 +81,20 @@
         </font>
        </property>
        <property name="text">
-        <string>TX</string>
+        <string>TX:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="txData">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>00</string>
        </property>
       </widget>
      </item>
@@ -100,7 +109,23 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
        <property name="font">
         <font>
          <family>Monospace</family>
@@ -108,7 +133,20 @@
         </font>
        </property>
        <property name="text">
-        <string>RX</string>
+        <string>RX:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="rxData">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>00</string>
        </property>
       </widget>
      </item>
@@ -125,11 +163,41 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="RegisterView" name="controlRegister" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>10</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="RegisterView" name="commandRegister" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>10</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="Console" name="console"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>RegisterView</class>
+   <extends>QWidget</extends>
+   <header>views/RegisterView.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>BitsView</class>
    <extends>QWidget</extends>

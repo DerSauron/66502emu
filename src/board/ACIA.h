@@ -25,15 +25,20 @@ public:
     ACIA(const QString& name, Board* board);
     ~ACIA() override;
 
-    uint8_t status() const;
+    uint8_t statusRegister() const { return statusRegister_; }
     uint8_t baudRate() const;
+    uint8_t commandRegister() const { return commandRegister_; }
+    uint8_t controlRegister() const { return controlRegister_; }
     bool isTransmitting() const;
     bool isReceiving() const;
+    uint8_t transmitterBuffer() const { return transmitData_; }
+    uint8_t receiverBuffer() const { return receiveData_; }
 
     void setBaudDelayFactor(int factor);
 
 signals:
     void sendByte(uint8_t byte);
+    void registerChanged();
     void transmittingChanged();
     void receivingChanged();
 
@@ -65,5 +70,5 @@ private:
     uint8_t commandRegister_{};
     uint8_t transmitData_{};
     uint8_t receiveData_{};
-    uint8_t status_{TransmitterEmpty};
+    uint8_t statusRegister_{TransmitterEmpty};
 };

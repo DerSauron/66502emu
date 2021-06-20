@@ -22,12 +22,35 @@ void ACIAView::setup()
     ui->rxFlag->setBitCount(1);
     ui->rxFlag->setEnableColor(BitsView::EnabledColor::Red);
 
+
+    ui->statusRegister->setName(tr("STAT"));
+    ui->statusRegister->setBitCount(8);
+    ui->statusRegister->setBitNames({QStringLiteral("PE"), QStringLiteral("FE"), QStringLiteral("OVR"),
+                                     QStringLiteral("RDF"), QStringLiteral("TRE"), QStringLiteral("DCD"),
+                                     QStringLiteral("DSR"), QStringLiteral("IRQ")});
+
+    ui->commandRegister->setName(tr("CMD"));
+    ui->commandRegister->setBitCount(8);
+    ui->commandRegister->setBitNames({QStringLiteral("DTR"), QStringLiteral("IRD"), QStringLiteral("TI0"),
+                                      QStringLiteral("TI1"), QStringLiteral("REM"), QStringLiteral("PME"),
+                                      QStringLiteral("PM0"), QStringLiteral("PM1")});
+
+    ui->controlRegister->setName(tr("CTRL"));
+    ui->controlRegister->setBitCount(8);
+    ui->controlRegister->setBitNames({QStringLiteral("BD0"), QStringLiteral("BD1"), QStringLiteral("BD2"),
+                                      QStringLiteral("BD3"), QStringLiteral("RCS"), QStringLiteral("WL0"),
+                                      QStringLiteral("WL1"), QStringLiteral("SBN")});
+
+
     connect(acia(), &ACIA::selectedChanged, this, &ACIAView::onChipSelectedChanged);
     connect(acia(), &ACIA::sendByte, this, &ACIAView::onSendByte);
     connect(acia(), &ACIA::transmittingChanged, this, &ACIAView::onTransmittingChanged);
     connect(acia(), &ACIA::receivingChanged, this, &ACIAView::onReceivingChanged);
+    connect(acia(), &ACIA::registerChanged, this, &ACIAView::onRegisterChanged);
 
     connect(ui->console, &Console::inputData, this, &ACIAView::onDataEntered);
+
+    onRegisterChanged();
 }
 
 void ACIAView::onChipSelectedChanged()
@@ -50,10 +73,25 @@ void ACIAView::onSendByte(uint8_t byte)
 
 void ACIAView::onTransmittingChanged()
 {
-    ui->txFlag->setValue(acia()->isTransmitting() ? 1 : 0);
+    auto a = acia();
+
+    ui->txFlag->setValue(a->isTransmitting() ? 1 : 0);
+    ui->txData->setText(QStringLiteral("%1").arg(a->transmitterBuffer(), 2, 16, QLatin1Char('0')));
 }
 
 void ACIAView::onReceivingChanged()
 {
-    ui->rxFlag->setValue(acia()->isReceiving() ? 1 : 0);
+    auto a = acia();
+
+    ui->rxFlag->setValue(a->isReceiving() ? 1 : 0);
+    ui->rxData->setText(QStringLiteral("%1").arg(a->receiverBuffer(), 2, 16, QLatin1Char('0')));
+}
+
+void ACIAView::onRegisterChanged()
+{
+    auto a = acia();
+
+    ui->statusRegister->setValue(a->statusRegister());
+    ui->commandRegister->setValue(a->commandRegister());
+    ui->controlRegister->setValue(a->controlRegister());
 }

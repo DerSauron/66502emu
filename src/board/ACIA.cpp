@@ -82,11 +82,6 @@ ACIA::~ACIA()
 {
 }
 
-uint8_t ACIA::status() const
-{
-    return status_;
-}
-
 uint8_t ACIA::baudRate() const
 {
     return baudRateConfig(controlRegister_);
@@ -112,6 +107,7 @@ void ACIA::receiveByte(uint8_t byte)
     receiveBuffer_.append(byte);
     if (!isReceiving())
         startReceive();
+    emit receivingChanged();
 }
 
 uint16_t ACIA::calcMapAddressEnd() const
@@ -140,14 +136,18 @@ void ACIA::resetChip(bool hard)
 {
     if (hard)
     {
+        statusRegister_ = TransmitterEmpty;
         controlRegister_ = 0;
         commandRegister_ = 0;
     }
     else
     {
+        statusRegister_ &= 0b11111011;
+        controlRegister_ &= 0b11111111;
         commandRegister_ &= 0b11100000;
     }
 
+    emit registerChanged();
 }
 
 void ACIA::injectState()
@@ -159,18 +159,22 @@ void ACIA::injectState()
     {
         case Register::Data:
             transmitData_ = data;
-            status_ |= TransmitterEmpty; // WDC BUG
+            statusRegister_ |= TransmitterEmpty; // WDC BUG
+            emit registerChanged();
             if (!isTransmitting())
                 startTransmit();
+            emit transmittingChanged();
             break;
         case Register::Status:
             resetChip(false);
             break;
         case Register::Command:
             commandRegister_ = data;
+            emit registerChanged();
             break;
         case Register::Control:
             controlRegister_ = data;
+            emit registerChanged();
             break;
     }
 }
@@ -184,11 +188,13 @@ void ACIA::populateState()
     {
         case Register::Data:
             data = receiveData_;
-            status_ &= ~(ParityError | FramingError | OverrunError | ReceiverFull);
+            statusRegister_ &= ~(ParityError | FramingError | OverrunError | ReceiverFull);
+            emit registerChanged();
             break;
         case Register::Status:
-            data = status_;
-            status_ &= ~(IRQ);
+            data = statusRegister_;
+            statusRegister_ &= ~(IRQ);
+            emit registerChanged();
             break;
         case Register::Command:
             data = commandRegister_;
@@ -200,20 +206,18 @@ void ACIA::populateState()
 
     board()->dataBus()->setData(data);
 
-    if (status_ & IRQ)
+    if (statusRegister_ & IRQ)
         board()->setIrqLine(WireState::Low);
 }
 
 void ACIA::startTransmit()
 {
     transmitDelay_->start(baudDelay());
-    emit transmittingChanged();
 }
 
 void ACIA::startReceive()
 {
     receiveDelay_->start(baudDelay());
-    emit receivingChanged();
 }
 
 int ACIA::baudDelay()
@@ -233,25 +237,25 @@ void ACIA::transmitDelayTimeout()
 
 void ACIA::receiveDelayTimeout()
 {
-    emit receivingChanged();
-
     uint8_t byte = receiveBuffer_.takeFirst();
 
-    if (status_ & ReceiverFull)
+    if (statusRegister_ & ReceiverFull)
     {
-        status_ |= OverrunError;
+        statusRegister_ |= OverrunError;
     }
     else
     {
         receiveData_ = byte;
-        status_ |= ReceiverFull;
+        statusRegister_ |= ReceiverFull;
 
         if ((commandRegister_ & ReceiverIRQDisabled) == 0)
         {
-            status_ |= IRQ;
+            statusRegister_ |= IRQ;
         }
     }
 
+    emit registerChanged();
     if (!receiveBuffer_.isEmpty())
         startReceive();
+    emit receivingChanged();
 }

@@ -26,6 +26,7 @@ private slots:
     void onSendByte(uint8_t byte);
     void onTransmittingChanged();
     void onReceivingChanged();
+    void onRegisterChanged();
 
 private:
     Ui::ACIAView* ui;
