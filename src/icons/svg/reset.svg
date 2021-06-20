@@ -11,7 +11,7 @@
    version="1.1"
    id="svg1459"
    sodipodi:docname="reset.svg"
-   inkscape:export-filename="/home/ron/development/6502/6502emu/src/icons/reset.png"
+   inkscape:export-filename="/home/KKS/volk/development/local/6502/6502emu/src/icons/reset.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
@@ -35,19 +35,68 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2048"
-     inkscape:window-height="1063"
+     inkscape:window-width="2560"
+     inkscape:window-height="1351"
      id="namedview1461"
      showgrid="false"
-     inkscape:zoom="32.5"
-     inkscape:cx="11"
-     inkscape:cy="11"
+     inkscape:zoom="31.803735"
+     inkscape:cx="10.43972"
+     inkscape:cy="15.322627"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1459" />
+     inkscape:current-layer="svg1459"
+     inkscape:document-rotation="0"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       position="0.27692308,19"
+       orientation="0,1"
+       id="guide831"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="0.15664335,3"
+       orientation="0,1"
+       id="guide833"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="3,1.1608392"
+       orientation="-1,0"
+       id="guide835"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="19,1.0741259"
+       orientation="-1,0"
+       id="guide837"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid839" />
+  </sodipodi:namedview>
   <defs
      id="defs3051">
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path852" />
+    </marker>
     <style
        type="text/css"
        id="current-color-scheme">
@@ -57,8 +106,12 @@
       </style>
   </defs>
   <path
-     style="fill:#000000;fill-opacity:1;stroke:none"
-     d="m8.300781 3l-3.292969 3.292969-.207031.207031.207031.207031 3.292969 3.292969.707031-.707031-2.292969-2.292969h2.285156 1.00781.492188c3.047 0 5.5 2.453 5.5 5.5 0 3.047-2.453 5.5-5.5 5.5h-1.5v1h1.5c3.601 0 6.5-2.899 6.5-6.5 0-3.601-2.899-6.5-6.5-6.5h-.492188-1.00781-2.285156l2.292969-2.292969-.707031-.707031"
-     class="ColorScheme-Text"
-     id="path1457" />
+     id="path859"
+     style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 11.230854,18.000001 c 3.865992,0 6.999999,-3.134007 6.999999,-7 0,-3.8659947 -3.134007,-7.0000015 -6.999999,-7.0000015 -2.3525297,0 -4.4340077,1.1605075 -5.7031847,2.9402716"
+     sodipodi:nodetypes="cssc" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 4.4549003,2.3544468 4.5642521,7.8451131 10.05492,7.7357623"
+     id="path1122" />
 </svg>
