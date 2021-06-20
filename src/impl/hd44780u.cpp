@@ -56,7 +56,7 @@ void hd44780u::setListener(listener* listener)
     listener_ = listener;
 }
 
-uint16_t hd44780u::cursorPos() const
+uint8_t hd44780u::cursorPos() const
 {
     return cursorPos_;
 }
@@ -216,7 +216,7 @@ void hd44780u::setData(uint8_t data)
     if (ramSelector_ == 0) // ddram
     {
         ddram_[ramAddr_] = data;
-        listener_->onCharacterChanged(static_cast<uint8_t>(ramAddr_));
+        listener_->onCharacterChanged(ramAddr_);
     }
     else // (ramSelector_ == 1) cgram
     {
@@ -368,9 +368,9 @@ void hd44780u::moveCursor(bool increment)
 void hd44780u::notifyChangedCharacters(uint8_t cgRamAddr)
 {
     uint8_t cgRamChar = cgRamAddr >> 3u;
-    for (uint8_t i = 0; i < ddram_.size(); i++)
+    for (size_t i = 0; i < ddram_.size(); i++)
     {
         if (ddram_[i] == cgRamChar)
-            listener_->onCharacterChanged(i);
+            listener_->onCharacterChanged(static_cast<uint8_t>(i));
     }
 }

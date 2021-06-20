@@ -91,7 +91,9 @@ void DisassemblerView::showAddress(Memory* memory, uint16_t address)
     bool wasScrollEnd = isScrollEnd();
 
     const uint16_t baseAddress = memory->mapAddressStart();
-    const auto instructions = M6502::disassembleCount(memory, instructionsLookAhead_ + 1, address - baseAddress);
+    const auto instructions = M6502::disassembleCount(memory,
+                                                      static_cast<uint16_t>(instructionsLookAhead_ + 1),
+                                                      address - baseAddress);
 
     if (!instructions.isEmpty())
         showCurrent(baseAddress, instructions[0]);

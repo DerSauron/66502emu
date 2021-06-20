@@ -39,13 +39,13 @@ void ACIAView::onDataEntered(const QByteArray& data)
 {
     for (auto byte : data)
     {
-        acia()->receiveByte(byte);
+        acia()->receiveByte(static_cast<uint8_t>(byte));
     }
 }
 
 void ACIAView::onSendByte(uint8_t byte)
 {
-    ui->console->outputData(QByteArray(1, byte));
+    ui->console->outputData(QByteArray(1, static_cast<char>(byte)));
 }
 
 void ACIAView::onTransmittingChanged()

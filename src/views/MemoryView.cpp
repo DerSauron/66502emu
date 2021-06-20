@@ -76,7 +76,7 @@ void MemoryView::setup()
     ui->chipSelected->setBitCount(1);
 
     ui->page->setValue(0);
-    ui->page->setMaximum(memory()->size() / 256 - 1);
+    ui->page->setMaximum(static_cast<int>(memory()->size() / 256 - 1));
     ui->memoryPage->setMemory(memory());
     ui->memoryPage->setAddressOffset(memory()->mapAddressStart());
     ui->memoryPage->setPage(0);
@@ -208,7 +208,7 @@ void MemoryView::on_loadButton_clicked()
 
 void MemoryView::on_page_valueChanged(int value)
 {
-    ui->memoryPage->setPage(value);
+    ui->memoryPage->setPage(static_cast<uint8_t>(value));
     if (!pageAutomaticallyChanged_)
         ui->followButton->setChecked(false);
 }
@@ -235,7 +235,7 @@ void MemoryView::loadProgram(const QString& fileName)
 
     for (int i = 0; i < qMin(program_.binaryData().size(), static_cast<int>(memory()->size())); ++i)
     {
-        memory()->data()[i] = program_.binaryData()[i];
+        memory()->data()[i] = static_cast<uint8_t>(program_.binaryData()[i]);
     }
 
     ui->showSourcesButton->setEnabled(program_.hasSources());

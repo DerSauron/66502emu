@@ -168,10 +168,10 @@ void VIAView::onRegisterChanged(uint8_t reg)
 
 void VIAView::onSetPa()
 {
-    via()->setPa(ui->paView->value());
+    via()->setPa(static_cast<uint8_t>(ui->paView->value()));
 }
 
 void VIAView::onSetPb()
 {
-    via()->setPb(ui->pbView->value());
+    via()->setPb(static_cast<uint8_t>(ui->pbView->value()));
 }

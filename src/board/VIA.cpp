@@ -135,7 +135,7 @@ uint16_t VIA::t2() const
 
 uint8_t VIA::t2l() const
 {
-    return chip_->t2.latch;
+    return static_cast<uint8_t>(chip_->t2.latch);
 }
 
 uint8_t VIA::ifr() const
@@ -163,9 +163,9 @@ void VIA::setPin(uint64_t pin, WireState state)
 
 uint8_t VIA::registerAddress()
 {
-    uint16_t addr = board()->addressBus()->data();
+    uint16_t addr = board()->addressBus()->typedData<uint16_t>();
     addr >>= rsPinOffset_;
-    return addr;
+    return static_cast<uint8_t>(addr);
 }
 
 void VIA::injectState()
@@ -187,7 +187,7 @@ void VIA::injectState()
     setPin(M6522_RS2, toState(regAddr & 0x4));
     setPin(M6522_RS3, toState(regAddr & 0x8));
 
-    M6522_SET_DATA(pinState_, board()->dataBus()->data());
+    M6522_SET_DATA(pinState_, board()->dataBus()->typedData<uint8_t>());
 }
 
 void VIA::populateState()
