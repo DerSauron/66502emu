@@ -25,8 +25,7 @@ namespace {
 Memory::Memory(Type type, uint32_t size, const QString& name, Board* board) :
     Device{name, board},
     type_{type},
-    size_{size},
-    data_(size)
+    data_(static_cast<int>(size))
 {
     setup();
 }
@@ -49,7 +48,7 @@ void Memory::setData(uint32_t index, const ArrayView& data)
 
 uint16_t Memory::calcMapAddressEnd() const
 {
-    return (mapAddressStart() - 1) + size_;
+    return static_cast<uint16_t>((mapAddressStart() - 1) + data_.size());
 }
 
 void Memory::deviceClockEdge(StateEdge edge)

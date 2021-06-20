@@ -38,7 +38,7 @@ public:
     bool isPersistant() const { return type_ == Type::ROM || type_ == Type::FLASH; }
 
     Type type() const { return type_; }
-    uint16_t size() const { return size_; }
+    uint32_t size() const { return static_cast<uint32_t>(data_.size()); }
     QVector<uint8_t>& data() { return data_; };
     void setData(uint32_t index, const ArrayView& data);
 
@@ -54,6 +54,5 @@ protected:
 
 private:
     Type type_;
-    uint32_t size_;
     QVector<uint8_t> data_;
 };
