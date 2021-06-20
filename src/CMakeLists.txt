@@ -112,6 +112,8 @@ add_library(6502emu STATIC
     MainWindow.ui
     Program.cpp
     Program.h
+    ProgramFileWatcher.cpp
+    ProgramFileWatcher.h
     ProgramLoader.cpp
     ProgramLoader.h
     UserState.cpp
