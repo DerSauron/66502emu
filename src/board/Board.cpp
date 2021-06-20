@@ -39,8 +39,7 @@ Board::Board(QObject* parent) :
     syncLine_{WireState::Low},
     cpu_{new CPU{this}},
     clock_{new Clock{this}},
-    debugger_{new Debugger(this)},
-    dbgSingleInstructionRun_{false}
+    debugger_{new Debugger(this)}
 {
     connect(clock_, &Clock::clockEdge, this, &Board::onClockEdge);
 
@@ -142,32 +141,9 @@ void Board::clearDevices()
     }
 }
 
-void Board::startSingleInstructionStep()
-{
-    dbgSingleInstructionRun_ = true;
-    clock_->start();
-}
-
-void Board::checkNewInstructionStart(StateEdge edge)
-{
-    if (edge == StateEdge::Raising && syncLine_ == WireState::High)
-    {
-        // new instruction start - stop single instruction run
-        if (dbgSingleInstructionRun_)
-        {
-            clock_->stop();
-            dbgSingleInstructionRun_ = false;
-        }
-
-        emit newInstructionStart();
-    }
-}
-
 void Board::onClockEdge(StateEdge edge)
 {
     cpu_->clockEdge(edge);
-
-    checkNewInstructionStart(edge);
 
     setIrqLine(WireState::High);
     setNmiLine(WireState::High);

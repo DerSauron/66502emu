@@ -70,16 +70,11 @@ public:
     }
     void clearDevices();
 
-public slots:
-    void startSingleInstructionStep();
-
 signals:
     void signalChanged();
     void clockEdge(StateEdge edge);
-    void newInstructionStart();
 
 private slots:
-    void checkNewInstructionStart(StateEdge edge);
     void onClockEdge(StateEdge edge);
 
 private:
@@ -95,6 +90,4 @@ private:
     Clock* clock_;
 
     Debugger* debugger_;
-
-    bool dbgSingleInstructionRun_;
 };

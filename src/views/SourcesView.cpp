@@ -21,7 +21,9 @@
 
 SourcesView::SourcesView(const QString& name, Program* program, MainWindow* mainWindow, QWidget* parent) :
     View(name, mainWindow, parent),
-    ui(new Ui::SourcesView)
+    ui(new Ui::SourcesView),
+    program_{},
+    clockRunning_{}
 {
     ui->setupUi(this);
     setup();
@@ -42,9 +44,12 @@ void SourcesView::setProgram(Program* program)
 void SourcesView::setup()
 {
     connect(mainWindow()->board()->clock(), &Clock::runningChanged, this, &SourcesView::onClockRunningChanged);
-    connect(mainWindow()->board(), &Board::newInstructionStart, this, &SourcesView::onNewInstructionStart);
-    connect(ui->stepButton, &QPushButton::clicked, mainWindow()->board(), &Board::startSingleInstructionStep);
+    connect(mainWindow()->board()->debugger(), &Debugger::newInstructionStart, this, &SourcesView::onNewInstructionStart);
+    connect(ui->stepInstructionButton, &QPushButton::clicked, mainWindow()->board()->debugger(), &Debugger::stepInstruction);
+    connect(ui->stepSubroutineButton, &QPushButton::clicked, mainWindow()->board()->debugger(), &Debugger::stepSubroutine);
     connect(ui->codeView, &ce::CodeEditor::lineNumberDoubleClicked, this, &SourcesView::onLineNumberDoubleClicked);
+
+    onClockRunningChanged();
 }
 
 void SourcesView::handleProgramChange()
@@ -121,20 +126,30 @@ void SourcesView::setHighlighterRules()
                 );
 }
 
-void SourcesView::onClockRunningChanged()
+void SourcesView::setButtonStates()
 {
-    bool running = mainWindow()->board()->clock()->isRunning();
-    if (running)
+    if (clockRunning_)
         ui->startStopButton->showStopMode();
     else
         ui->startStopButton->showStartMode();
-    ui->stepButton->setEnabled(!running);
+    ui->stepInstructionButton->setEnabled(!clockRunning_);
+    ui->stepSubroutineButton->setEnabled(!clockRunning_);
+}
+
+void SourcesView::onClockRunningChanged()
+{
+    clockRunning_ = mainWindow()->board()->clock()->isRunning();
+
+    onNewInstructionStart();
 }
 
 void SourcesView::onNewInstructionStart()
 {
-    uint16_t address = mainWindow()->board()->addressBus()->typedData<uint16_t>();
-    highlightCurrentLine(address);
+    if (!clockRunning_)
+    {
+        uint16_t address = mainWindow()->board()->addressBus()->typedData<uint16_t>();
+        highlightCurrentLine(address);
+    }
 }
 
 void SourcesView::onLineNumberDoubleClicked(int line)
@@ -153,12 +168,12 @@ void SourcesView::onLineNumberDoubleClicked(int line)
     if (!ui->codeView->hasBreakpoint(line))
     {
         ui->codeView->addBreakpoint(line);
-        emit addBreakpoint(address);
+        emit addBreakpoint(static_cast<uint16_t>(address));
     }
     else
     {
         ui->codeView->removeBreakpoint(line);
-        emit removeBreakpoint(address);
+        emit removeBreakpoint(static_cast<uint16_t>(address));
     }
 }
 

@@ -18,6 +18,7 @@
 #include "UserState.h"
 #include "board/Board.h"
 #include "board/Clock.h"
+#include "board/Debugger.h"
 #include "board/Device.h"
 #include "views/DeviceView.h"
 #include "views/DisassemblerView.h"
@@ -80,7 +81,8 @@ void MainWindow::setup()
     ui->cpuView->setCPU(board_->cpu());
     ui->signalsView->setBoard(board_);
 
-    connect(ui->singleInstructionButton, &QPushButton::clicked, board_, &Board::startSingleInstructionStep);
+    connect(ui->stepInstructionButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepInstruction);
+    connect(ui->stepSubroutineButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepSubroutine);
     connect(board_->clock(), &Clock::runningChanged, this, &MainWindow::onClockRunningChanged);
 
     ui->centralwidget->setEnabled(false);
@@ -280,7 +282,8 @@ void MainWindow::loadBoard(const QString& fileName)
 
 void MainWindow::onClockRunningChanged()
 {
-    ui->singleInstructionButton->setEnabled(!board_->clock()->isRunning());
+    ui->stepInstructionButton->setEnabled(!board_->clock()->isRunning());
+    ui->stepSubroutineButton->setEnabled(!board_->clock()->isRunning());
 }
 
 void MainWindow::onBoardViewAction()

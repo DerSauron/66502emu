@@ -10,8 +10,8 @@
    viewBox="0 0 22 22"
    version="1.1"
    id="svg7"
-   sodipodi:docname="step-instruction.svg"
-   inkscape:export-filename="/home/KKS/volk/development/local/6502/6502emu/src/icons/step-instruction.png"
+   sodipodi:docname="step-out.svg"
+   inkscape:export-filename="/home/KKS/volk/development/local/6502/6502emu/src/icons/step-out.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
@@ -23,6 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -120,16 +121,17 @@
      x="11"
      y="12" />
   <g
-     id="g47"
-     transform="translate(8.5013902,0.48000405)">
+     id="g87"
+     transform="translate(0.50630706,-0.39044166)">
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -1,3 C -1,3 -5.1843549,3.7411412 -5,5.6043254 -4.8156451,7.4675096 1,8 1,8 v 0"
+       d="m 8,12 c 0,0 -5.1843549,1.136815 -5,3 0.1843549,1.863184 4,2 4,2"
        id="path41"
-       sodipodi:nodetypes="czcc" />
+       sodipodi:nodetypes="czc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m -1,6 2,2 -2,2 v 0"
-       id="path43" />
+       d="m 5,15 2,2 -2,2"
+       id="path43"
+       sodipodi:nodetypes="ccc" />
   </g>
 </svg>

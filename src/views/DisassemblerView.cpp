@@ -18,6 +18,7 @@
 #include "M6502Disassembler.h"
 #include "board/Board.h"
 #include "board/Bus.h"
+#include "board/Debugger.h"
 #include "board/Memory.h"
 #include <QScrollBar>
 
@@ -64,7 +65,7 @@ DisassemblerView::~DisassemblerView()
 
 void DisassemblerView::setup()
 {
-    connect(mainWindow()->board(), &Board::newInstructionStart, this, &DisassemblerView::onNewInstructionStart);
+    connect(mainWindow()->board()->debugger(), &Debugger::newInstructionStart, this, &DisassemblerView::onNewInstructionStart);
 }
 
 void DisassemblerView::onNewInstructionStart()

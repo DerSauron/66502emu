@@ -17,13 +17,24 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="stepButton">
+      <widget class="QPushButton" name="stepInstructionButton">
        <property name="text">
-        <string>Step</string>
+        <string>Step instruction</string>
        </property>
        <property name="icon">
         <iconset resource="../icons.qrc">
          <normaloff>:/icons/step-instruction.png</normaloff>:/icons/step-instruction.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="stepSubroutineButton">
+       <property name="text">
+        <string>Step Subroutine</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/step-subroutine.png</normaloff>:/icons/step-subroutine.png</iconset>
        </property>
       </widget>
      </item>

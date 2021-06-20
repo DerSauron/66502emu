@@ -53,9 +53,11 @@ private:
     void buildAddressIndex();
     Labels scanLabels();
     void setHighlighterRules();
+    void setButtonStates();
 
 private:
     Ui::SourcesView* ui;
     Program* program_;
     QMap<int, int> addressMap_;
+    bool clockRunning_;
 };
