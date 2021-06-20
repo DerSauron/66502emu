@@ -31,6 +31,7 @@ public:
     void setBitCount(uint8_t bitCount);
     void setBitNames(const QStringList& names);
     void setEditableMask(uint64_t mask);
+    void setHotkeysEnabled(bool enabled);
 
     uint64_t value() const;
     void setValue(uint64_t value);

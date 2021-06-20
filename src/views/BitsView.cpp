@@ -13,6 +13,11 @@
 
 #include "BitsView.h"
 
+#include "HotkeyDialog.h"
+#include "KeySequence.h"
+#include <QAction>
+#include <QDebug>
+#include <QMenu>
 #include <QPaintEvent>
 #include <QPainter>
 
@@ -21,7 +26,7 @@ namespace {
 constexpr int BLOCK_SIZE = 22;
 constexpr int SPACE = 2;
 
-inline bool bit(uint64_t value, uint8_t _bit)
+inline bool bitValue(uint64_t value, uint8_t _bit)
 {
      return (value >> _bit) & 1;
 }
@@ -29,6 +34,16 @@ inline bool bit(uint64_t value, uint8_t _bit)
 inline uint64_t toggleBit(uint64_t value, uint8_t _bit)
 {
     return value ^ (1ULL << _bit);
+}
+
+inline uint64_t setBit(uint64_t value, uint8_t _bit)
+{
+    return value | (1ULL << _bit);
+}
+
+inline uint64_t unsetBit(uint64_t value, uint8_t _bit)
+{
+    return value & ~(1ULL << _bit);
 }
 
 } // namespace
@@ -39,8 +54,11 @@ BitsView::BitsView(QWidget* parent) :
     bitCount_{},
     value_{},
     editableMask_{},
-    enabledColor_{EnabledColor::Green}
+    enabledColor_{EnabledColor::Green},
+    hotkeysEnabled_{false}
 {
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &BitsView::customContextMenuRequested, this, &BitsView::onShowContextMenu);
 }
 
 BitsView::~BitsView()
@@ -84,6 +102,19 @@ void BitsView::setEnableColor(BitsView::EnabledColor enabledColor)
     update();
 }
 
+void BitsView::setHotkeysEnabled(bool enabled)
+{
+    if (enabled == hotkeysEnabled_)
+        return;
+
+    hotkeysEnabled_ = enabled;
+
+    if (hotkeysEnabled_)
+        installEventFilters();
+    else
+        uninstallEventFilters();
+}
+
 void BitsView::setValue(uint64_t value)
 {
     if (value == value_)
@@ -105,6 +136,24 @@ QSize BitsView::minimumSizeHint() const
     return sizeHint();
 }
 
+bool BitsView::eventFilter(QObject* object, QEvent* event)
+{
+    if (event->type() == QEvent::KeyPress)
+    {
+        auto* keyEvent = static_cast<QKeyEvent*>(event);
+        int keyCode = KeySequence::toKeyCode(keyEvent);
+        handleKeyPress(keyCode);
+    }
+    else if (event->type() == QEvent::KeyRelease)
+    {
+        auto* keyEvent = static_cast<QKeyEvent*>(event);
+        int keyCode = KeySequence::toKeyCode(keyEvent);
+        handleKeyRelease(keyCode);
+    }
+
+    return false;
+}
+
 void BitsView::paintEvent(QPaintEvent* event)
 {
     static QBrush gray{QColor{0x88, 0x88, 0x88}};
@@ -117,6 +166,8 @@ void BitsView::paintEvent(QPaintEvent* event)
         {QStringLiteral("Monospaced"), 8},
         {QStringLiteral("Monospaced"), 6},
     };
+    static QFont superSmallFont(QStringLiteral("Monospaced"), 5);
+    static QFontMetrics superSmallFontMetric(superSmallFont);
 
     if (bitCount_ == 0)
         return;
@@ -134,7 +185,7 @@ void BitsView::paintEvent(QPaintEvent* event)
         QRect bitBlock{x, offset.height(), BLOCK_SIZE, BLOCK_SIZE};
 
         QBrush* color = &gray;
-        if (bit(value_, i))
+        if (bitValue(value_, i))
         {
             switch (enabledColor_)
             {
@@ -148,10 +199,10 @@ void BitsView::paintEvent(QPaintEvent* event)
         }
         p.fillRect(bitBlock, *color);
 
-        if (bit(editableMask_, i))
+        if (bitValue(editableMask_, i))
         {
             p.setPen(editablePen);
-            p.drawRect(bitBlock);
+            p.drawRect(bitBlock.adjusted(0, 0, -1, -1));
         }
 
         if (names_.size() > i)
@@ -161,6 +212,15 @@ void BitsView::paintEvent(QPaintEvent* event)
             p.drawText(bitBlock, Qt::AlignCenter, names_[i]);
         }
 
+        int kc = findKeyCode(i);
+        if (kc != Qt::Key_unknown)
+        {
+            p.setFont(superSmallFont);
+            p.setPen(textPen);
+            p.drawText(bitBlock.adjusted(0, 0, -1, superSmallFontMetric.descent() - 1),
+                       Qt::AlignRight | Qt::AlignBottom, QStringLiteral("X"));
+        }
+
         x += BLOCK_SIZE + SPACE + ((i % 8 == 0) ? 2 * SPACE : 0);
     }
     while (i > 0);
@@ -168,30 +228,56 @@ void BitsView::paintEvent(QPaintEvent* event)
 
 void BitsView::mouseDoubleClickEvent(QMouseEvent* event)
 {
-    QPoint clickPos = event->pos();
+    int bitPos = findBit(event->pos());
+    if (bitPos < 0)
+        return;
 
-    auto offset = blocksOffset();
+    uint8_t b = static_cast<uint8_t>(bitPos);
 
-    int x = offset.width();
-    uint8_t i = bitCount_;
-    do
+    if (bitValue(editableMask_, b))
+        setValue(toggleBit(value_, b));
+}
+
+void BitsView::onShowContextMenu(const QPoint& pos)
+{
+    int bit = findBit(pos);
+    if (bit < 0)
+        return;
+
+    QMenu contextMenu;
+
+    if (hotkeysEnabled_)
     {
-        --i;
-
-        QRect bitBlock{x, offset.height(), BLOCK_SIZE, BLOCK_SIZE};
-
-        if (bitBlock.contains(clickPos))
+        auto* a1 = new QAction(tr("Assign Hotkey"), &contextMenu);
+        contextMenu.addAction(a1);
+        connect(a1, &QAction::triggered, [this, bit]()
         {
-            if (bit(editableMask_, i))
-            {
-                setValue(toggleBit(value_, i));
-                break;
-            }
-        }
-
-        x += BLOCK_SIZE + SPACE + ((i % 8 == 0) ? 2 * SPACE : 0);
+            auto dlg = new HotkeyDialog(bit, findKeyCode(bit), this);
+            connect(dlg, &QDialog::accepted, this, &BitsView::onHotkeyDialogAccepted);
+            dlg->show();
+        });
     }
-    while (i > 0);
+
+    if (!contextMenu.actions().isEmpty())
+        contextMenu.exec(mapToGlobal(pos));
+}
+
+void BitsView::onHotkeyDialogAccepted()
+{
+    auto* dlg = qobject_cast<HotkeyDialog*>(sender());
+    Q_ASSERT(dlg);
+
+    assignHotkey(dlg->bit(), dlg->keyCode());
+}
+
+void BitsView::installEventFilters()
+{
+    window()->installEventFilter(this);
+}
+
+void BitsView::uninstallEventFilters()
+{
+    window()->removeEventFilter(this);
 }
 
 void BitsView::calcSizeHint()
@@ -206,4 +292,59 @@ QSize BitsView::blocksOffset()
     auto as = size();
     QSize sh = sizeHint();
     return {qMax(0, as.width() - sh.width()) / 2, qMax(0, as.height() - sh.height()) / 2};
+}
+
+int BitsView::findBit(const QPoint& pos)
+{
+    auto offset = blocksOffset();
+
+    int x = offset.width();
+    int i = bitCount_;
+    do
+    {
+        --i;
+
+        QRect bitBlock{x, offset.height(), BLOCK_SIZE, BLOCK_SIZE};
+
+        if (bitBlock.contains(pos))
+        {
+            return i;
+        }
+
+        x += BLOCK_SIZE + SPACE + ((i % 8 == 0) ? 2 * SPACE : 0);
+    }
+    while (i > 0);
+
+    return -1;
+}
+
+void BitsView::assignHotkey(int bit, int keyCode)
+{
+    int kc = findKeyCode(bit);
+    if (kc != Qt::Key_unknown)
+        keyMap_.remove(kc);
+    if (keyCode != Qt::Key_unknown)
+        keyMap_[keyCode] = bit;
+    update();
+}
+
+void BitsView::handleKeyPress(int keyCode)
+{
+    auto it = keyMap_.find(keyCode);
+    if (it == keyMap_.end())
+        return;
+    setValue(setBit(value_, static_cast<uint8_t>(it.value())));
+}
+
+void BitsView::handleKeyRelease(int keyCode)
+{
+    auto it = keyMap_.find(keyCode);
+    if (it == keyMap_.end())
+        return;
+    setValue(unsetBit(value_, static_cast<uint8_t>(it.value())));
+}
+
+int BitsView::findKeyCode(int bit)
+{
+    return keyMap_.key(bit, Qt::Key_unknown);
 }

@@ -68,13 +68,18 @@ void VIAView::setup()
     connect(via(), &VIA::ifrChanged, this, &VIAView::onIFRChanged);
     connect(via(), &VIA::registerChanged, this, &VIAView::onRegisterChanged);
 
-    ui->paView->setName(QStringLiteral("IOA"));
+    ui->paView->setName(QStringLiteral("PA"));
     ui->paView->setBitCount(8);
-    ui->pbView->setName(QStringLiteral("IOB"));
+    ui->paView->setHotkeysEnabled(true);
+
+    ui->pbView->setName(QStringLiteral("PB"));
     ui->pbView->setBitCount(8);
+    ui->pbView->setHotkeysEnabled(true);
+
     ui->ierView->setName(QStringLiteral("IER"));
     ui->ierView->setBitCount(8);
     ui->ierView->setBitNames(makeBitNames("CA2", "CA1", "SR", "CB2", "CB1", "T2", "T1", ""));
+
     ui->ifrView->setName(QStringLiteral("IFR"));
     ui->ifrView->setBitCount(8);
     ui->ifrView->setBitNames(makeBitNames("CA2", "CA1", "SR", "CB2", "CB1", "T2", "T1", "IRQ"));

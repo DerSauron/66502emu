@@ -49,6 +49,10 @@ void RegisterView::setEditableMask(uint64_t mask)
     ui->bitsView->setEditableMask(mask);
 }
 
+void RegisterView::setHotkeysEnabled(bool enabled)
+{
+    ui->bitsView->setHotkeysEnabled(enabled);
+}
 
 uint64_t RegisterView::value() const
 {

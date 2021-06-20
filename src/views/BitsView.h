@@ -20,8 +20,6 @@ class BitsView : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(uint64_t value READ value WRITE setValue NOTIFY valueChanged)
-
 public:
     enum class EnabledColor
     {
@@ -37,6 +35,10 @@ public:
     void setBitNames(const QStringList& names);
     void setEditableMask(uint64_t editableMask);
     void setEnableColor(EnabledColor enabledColor);
+    void setHotkeysEnabled(bool enabled);
+
+    const QHash<int, int>& keyMap() const { return keyMap_; }
+    void setKeyMap(const QHash<int, int>& keyMap) { keyMap_ = keyMap; }
 
     uint64_t value() const { return value_; }
     void setValue(uint64_t value);
@@ -48,12 +50,24 @@ signals:
     void valueChanged();
 
 protected:
-    void paintEvent(QPaintEvent *event) override;
+    bool eventFilter(QObject* object, QEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 
+private slots:
+    void onShowContextMenu(const QPoint& pos);
+    void onHotkeyDialogAccepted();
+
 private:
+    void installEventFilters();
+    void uninstallEventFilters();
     void calcSizeHint();
     QSize blocksOffset();
+    int findBit(const QPoint& pos);
+    void assignHotkey(int bit, int keyCode);
+    void handleKeyPress(int keyCode);
+    void handleKeyRelease(int keyCode);
+    int findKeyCode(int bit);
 
 private:
     QSize sizeHint_;
@@ -62,5 +76,6 @@ private:
     uint64_t value_;
     uint64_t editableMask_;
     EnabledColor enabledColor_;
+    bool hotkeysEnabled_;
+    QHash<int, int> keyMap_;
 };
-

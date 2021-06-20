@@ -63,6 +63,9 @@ add_library(6502emu STATIC
     views/DisassemblerView.cpp
     views/DisassemblerView.h
     views/DisassemblerView.ui
+    views/HotkeyDialog.cpp
+    views/HotkeyDialog.h
+    views/HotkeyDialog.ui
     views/LCDCharPanel.cpp
     views/LCDCharPanel.h
     views/LCDView.cpp
@@ -100,6 +103,8 @@ add_library(6502emu STATIC
     DeviceConfigModel.h
     DeviceViewCreator.cpp
     DeviceViewCreator.h
+    KeySequence.cpp
+    KeySequence.h
     M6502Disassembler.cpp
     M6502Disassembler.h
     MainWindow.cpp
