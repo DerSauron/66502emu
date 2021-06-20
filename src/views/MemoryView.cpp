@@ -18,12 +18,12 @@
 #include "UserState.h"
 #include "Program.h"
 #include "ProgramLoader.h"
+#include "ProgramFileWatcher.h"
 #include "board/Board.h"
 #include "board/Clock.h"
 #include "views/SourcesView.h"
 #include <QIntValidator>
 #include <QFileDialog>
-#include <QFileSystemWatcher>
 #include <QMessageBox>
 #include <QSettings>
 
@@ -31,6 +31,7 @@ namespace {
 
 const QString kSettingsLastAccesesdFilePath = QStringLiteral("LastAccesesdFilePath");
 const QString kLoadedProgram = QStringLiteral("loaded_programm");
+const QString kAutoReload = QStringLiteral("auto_reload");
 
 } // namespace
 
@@ -39,7 +40,7 @@ MemoryView::MemoryView(Memory* memory, MainWindow* parent) :
     ui(new Ui::MemoryView),
     pageAutomaticallyChanged_{},
     sourcesView_{nullptr},
-    fileSystemWatcher_(new QFileSystemWatcher(this)),
+    fileSystemWatcher_(new ProgramFileWatcher(this)),
     reloadInProgress_{false}
 {
     ui->setupUi(this);
@@ -54,6 +55,8 @@ MemoryView::~MemoryView()
         rememberShowSources();
     }
 
+    mainWindow()->userState()->setViewValue(name(), kAutoReload, ui->autoReloadMode->currentIndex());
+
     if (sourcesView_)
         hideSources();
 
@@ -63,6 +66,8 @@ MemoryView::~MemoryView()
 void MemoryView::initialize()
 {
     DeviceView::initialize();
+
+    ui->autoReloadMode->setCurrentIndex(mainWindow()->userState()->viewValue(name(), kAutoReload).toInt());
 
     if (memory()->isPersistant())
     {
@@ -84,7 +89,7 @@ void MemoryView::setup()
     connect(memory(), &Memory::byteAccessed, this, &MemoryView::onMemoryAccessed);
     connect(memory(), &Memory::selectedChanged, this, &MemoryView::onMemorySelectedChanged);
 
-    connect(fileSystemWatcher_, &QFileSystemWatcher::fileChanged, this, &MemoryView::onProgramFileChanged);
+    connect(fileSystemWatcher_, &ProgramFileWatcher::programFileChanged, this, &MemoryView::onProgramFileChanged);
 }
 
 void MemoryView::maybeLoadProgram()
@@ -144,36 +149,22 @@ void MemoryView::onSourcesViewClosingEvent()
     hideSources();
 }
 
-void MemoryView::onProgramFileChanged(const QString& path)
+void MemoryView::onProgramFileChanged()
 {
     if (reloadInProgress_)
         return;
 
     reloadInProgress_ = true;
 
-    QFileInfo info(programFileName_);
-    if (!info.exists())
-        return;
-
-    QMessageBox dialog;
-    dialog.setWindowTitle(tr("File changed"));
-    dialog.setIcon(QMessageBox::Question);
-    dialog.setText(tr("The program file was changed outside the emulator"));
-    dialog.setInformativeText(tr("Would yuour like to reload the program into memory?"));
-    QPushButton* reloadBtn = dialog.addButton(tr("Reload"), QMessageBox::ActionRole);
-    QPushButton* reloadAndResetBtn = dialog.addButton(tr("Reload and Reset CPU"), QMessageBox::ActionRole);
-    dialog.addButton(tr("Abort"), QMessageBox::RejectRole);
-    dialog.setDefaultButton(reloadAndResetBtn);
-
-    dialog.exec();
-
-    if (dialog.clickedButton() == reloadBtn || dialog.clickedButton() == reloadAndResetBtn)
+    if (ui->autoReloadMode->currentIndex() != 0)
     {
+        qInfo() << "Start program reload" << programFileName_;
+
         mainWindow()->board()->clock()->stop();
 
         loadProgram(programFileName_);
 
-        if (dialog.clickedButton() == reloadAndResetBtn)
+        if (ui->autoReloadMode->currentIndex() == 2)
         {
             mainWindow()->board()->setResetLine(WireState::Low);
         }
@@ -223,9 +214,9 @@ void MemoryView::on_showSourcesButton_clicked()
 
 void MemoryView::loadProgram(const QString& fileName)
 {
-    disableFileWatcher();
-
     programFileName_ = fileName;
+
+    fileSystemWatcher_->setFileName({});
 
     ProgramLoader loader;
     program_ = loader.loadProgram(programFileName_);
@@ -244,7 +235,7 @@ void MemoryView::loadProgram(const QString& fileName)
         sourcesView_->setProgram(&program_);
     }
 
-    enableFileWatcher();
+    fileSystemWatcher_->setFileName(programFileName_);
 }
 
 void MemoryView::rememberProgram()
@@ -274,19 +265,6 @@ void MemoryView::hideSources()
     Q_ASSERT(sourcesView_);
     delete sourcesView_;
     sourcesView_ = nullptr;
-}
-
-void MemoryView::enableFileWatcher()
-{
-    QFileInfo info(programFileName_);
-    fileSystemWatcher_->addPath(info.absoluteFilePath());
-}
-
-void MemoryView::disableFileWatcher()
-{
-    const auto list = fileSystemWatcher_->files();
-    if (!list.isEmpty())
-        fileSystemWatcher_->removePaths(list);
 }
 
 QString MemoryView::sourcesName()

@@ -2,33 +2,50 @@
 <ui version="4.0">
  <class>MemoryView</class>
  <widget class="QDialog" name="MemoryView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>537</width>
+    <height>284</height>
+   </rect>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QPushButton" name="loadButton">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>Load</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../icons.qrc">
-         <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
+        <string>Page</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="showSourcesButton">
-       <property name="enabled">
-        <bool>false</bool>
+      <widget class="QSpinBox" name="page">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>0</height>
+        </size>
        </property>
+       <property name="maximum">
+        <number>512</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="followButton">
        <property name="text">
-        <string>Show source</string>
+        <string>Follow</string>
        </property>
        <property name="icon">
         <iconset resource="../icons.qrc">
-         <normaloff>:/icons/code.png</normaloff>:/icons/code.png</iconset>
+         <normaloff>:/icons/follow.png</normaloff>:/icons/follow.png</iconset>
        </property>
        <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
         <bool>true</bool>
        </property>
       </widget>
@@ -72,46 +89,59 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QPushButton" name="loadButton">
        <property name="text">
-        <string>Page</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="page">
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximum">
-        <number>512</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="followButton">
-       <property name="text">
-        <string>Follow</string>
+        <string>Load</string>
        </property>
        <property name="icon">
         <iconset resource="../icons.qrc">
-         <normaloff>:/icons/follow.png</normaloff>:/icons/follow.png</iconset>
+         <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="showSourcesButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Show source</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/code.png</normaloff>:/icons/code.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
        </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
+      <widget class="QComboBox" name="autoReloadMode">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>Auto Reload off</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Auto Reload on</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Auto Reload on and reset</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>

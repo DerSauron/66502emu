@@ -90,7 +90,7 @@ private:
         if (sectionExpression_.indexIn(QString::fromUtf8(line)) == -1)
             return false;
 
-        uint16_t startAddress = sectionExpression_.cap(2).toInt(nullptr, 16);
+        uint16_t startAddress = static_cast<uint16_t>(sectionExpression_.cap(2).toInt(nullptr, 16));
         if (startAddress < programStartAddress_)
         {
             programStartAddress_ = startAddress;
@@ -131,7 +131,7 @@ private:
         if (addrExpression_.indexIn(QString::fromUtf8(tokens[0])) != -1)
         {
             sl.address = addrExpression_.cap(2).toInt(nullptr, 16);
-            uint16_t relAddr = sl.address - programStartAddress_;
+            uint16_t relAddr = static_cast<uint16_t>(sl.address - programStartAddress_);
             QByteArray data = QByteArray::fromHex(addrExpression_.cap(3).toUtf8());
 
             if (binaryData_.length() < relAddr + data.length())
@@ -158,7 +158,7 @@ private:
     const QRegExp lineExpression_{QStringLiteral("([0-9]+)(.)\\s(.*)"), Qt::CaseInsensitive};
     const QRegExp addrExpression_{QStringLiteral("([0-9a-z]+):([0-9a-z]+)\\s+([0-9a-z]+)"), Qt::CaseInsensitive};
 
-    State state_;
+    State state_{State::None};
 
     int run_{0};
     bool needMoreRuns_{false};
