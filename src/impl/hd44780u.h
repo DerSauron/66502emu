@@ -64,7 +64,7 @@ public:
     uint16_t busyDelay() const { return busyDelay_; }
     void setBusyDelay(uint16_t cycles) { busyDelay_ = cycles; }
 
-    uint16_t cursorPos() const;
+    uint8_t cursorPos() const;
     uint8_t displayShift() const { return shift_; }
     bool isBusy() const { return busy_ > 0; }
     bool isDisplayOn() const { return displayOn_; }
@@ -110,8 +110,8 @@ private:
     uint16_t busy_{0};
     std::array<uint8_t, 80> ddram_{};
     std::array<uint8_t, 64> cgram_{};
-    uint16_t ramAddr_{0};
-    uint16_t cursorPos_{0};
+    uint8_t ramAddr_{0};
+    uint8_t cursorPos_{0};
     uint8_t shift_{0};
     uint8_t ramSelector_{0};
     bool increment_{true};

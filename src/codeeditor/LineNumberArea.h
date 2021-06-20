@@ -17,7 +17,7 @@ class LineNumberArea : public QWidget
 {
     Q_OBJECT
 public:
-    LineNumberArea(CodeEditor* parent = nullptr);
+    LineNumberArea(CodeEditor* codeEditor = nullptr);
     ~LineNumberArea() override;
 
     CodeEditor* codeEditor() const { return codeEditor_; }

@@ -311,7 +311,7 @@ void MainWindow::handleBoardLoaded()
     ui->centralwidget->setEnabled(true);
 }
 
-void MainWindow::foreachView(std::function<void(QAction*, ViewFactory*)> callback)
+void MainWindow::foreachView(const std::function<void(QAction*, ViewFactory*)>& callback)
 {
     auto actions = ui->menuBoard->actions();
     for (auto* action : actions)

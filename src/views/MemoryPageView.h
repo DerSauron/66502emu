@@ -49,9 +49,9 @@ private:
     Memory* memory_;
     uint8_t page_;
     uint16_t addressOffset_;
-    uint8_t charWidth_;
-    uint8_t charHeight_;
-    uint8_t charAscent_;
+    int charWidth_;
+    int charHeight_;
+    int charAscent_;
     uint16_t highLightByte_;
     bool highlightWrite_;
 };

@@ -50,7 +50,7 @@ void LCDView::redrawCharacters()
     {
         for (int x = 0; x < LCDCharPanel::width(); x++)
         {
-            const uint8_t address = y * lcd()->bufferWidth() + x + panelShift_;
+            const uint8_t address = static_cast<uint8_t>(y * lcd()->bufferWidth() + x + panelShift_);
             ui->lcdPanel->setCharacterData(QPoint(x, y), lcd()->charMatrix(address));
         }
     }

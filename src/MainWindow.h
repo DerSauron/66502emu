@@ -66,7 +66,7 @@ private:
     void loadBoard(const QString& fileName);
     void saveBoard(const QString& fileName);
     void handleBoardLoaded();
-    void foreachView(std::function<void(QAction*, ViewFactory*)> callback);
+    void foreachView(const std::function<void(QAction*, ViewFactory*)>& callback);
 
 private:
     Ui::MainWindow* ui;

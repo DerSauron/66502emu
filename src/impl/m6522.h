@@ -297,7 +297,7 @@ typedef struct _m6522_t {
 /* extract 8-bit data bus from 64-bit pins */
 #define M6522_GET_DATA(p) ((uint8_t)(p>>16))
 /* merge 8-bit data bus value into 64-bit pins */
-#define M6522_SET_DATA(p,d) {p=((p&~0xFF0000)|(((d)&0xFF)<<16));}
+#define M6522_SET_DATA(p,d) {p=((p&~0xFF0000u)|(((d)&0xFFu)<<16u));}
 /* extract port A pins */
 #define M6522_GET_PA(p) ((uint8_t)(p>>48))
 /* extract port B pins */
