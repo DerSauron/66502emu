@@ -1,4 +1,5 @@
-### 6502emu
+6502emu
+=======
 
 Copyright (C) 2021 Daniel Volk <mail@volkarts.com>
 If not stated otherwise.
@@ -25,7 +26,8 @@ Copyright (C) 2016 The Qt Company Ltd.
 Contact: https://www.qt.io/licensing/
 
 
-### GNU GENERAL PUBLIC LICENSE
+GNU GENERAL PUBLIC LICENSE
+==========================
 
 Version 3, 29 June 2007
 
