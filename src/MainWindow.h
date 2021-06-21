@@ -43,6 +43,7 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
+    void onBoardLoadingFinished(bool result);
     void onCloseView();
     void onClockRunningChanged();
     void onBoardViewAction();

@@ -32,7 +32,7 @@ public:
     explicit Board(QObject* parent = nullptr);
     ~Board() override;
 
-    bool load(const QString& fileName);
+    void load(const QString& fileName);
 
     Bus* addressBus() const { return addressBus_; }
     Bus* dataBus() const { return dataBus_; }
@@ -71,6 +71,7 @@ public:
     void clearDevices();
 
 signals:
+    void loadingFinished(bool result);
     void signalChanged();
     void clockEdge(StateEdge edge);
 

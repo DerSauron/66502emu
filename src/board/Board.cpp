@@ -50,20 +50,33 @@ Board::~Board()
 {
 }
 
-bool Board::load(const QString& fileName)
+void Board::load(const QString& fileName)
+{
+    if (QThread::currentThread() == thread())
+        loadImpl(fileName);
+    QMetaObject::invokeMethod(this, "loadImpl", Q_ARG(QString, fileName));
+}
+
+void Board::loadImpl(const QString& fileName)
 {
     QFile file(fileName);
     if (!file.open(QFile::ReadOnly))
-        return false;
+    {
+        emit loadingFinished(false);
+        return;
+    }
 
     clearDevices();
 
     if (!BoardLoader::load(&file, this))
-        return false;
+    {
+        emit loadingFinished(false);
+        return;
+    }
 
     BoardLoader::validate(this);
 
-    return true;
+    emit loadingFinished(true);
 }
 
 void Board::setRwLine(WireState rwLine)

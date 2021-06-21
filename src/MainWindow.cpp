@@ -104,8 +104,11 @@ void MainWindow::setup()
 
     statusMessage_ = new QLabel(ui->statusBar);
     ui->statusBar->addPermanentWidget(statusMessage_);
+
     connect(ui->stepInstructionButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepInstruction);
     connect(ui->stepSubroutineButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepSubroutine);
+
+    connect(board_, &Board::loadingFinished, this, &MainWindow::onBoardLoadingFinished);
     connect(board_->clock(), &Clock::runningChanged, this, &MainWindow::onClockRunningChanged);
     connect(board_->clock(), &Clock::statsUpdatedClockCycles, this, &MainWindow::onStatsUpdatedClockCycles);
 
@@ -180,6 +183,25 @@ void MainWindow::closeEvent(QCloseEvent* event)
     saveWindowState();
 
     QMainWindow::closeEvent(event);
+}
+
+void MainWindow::onBoardLoadingFinished(bool result)
+{
+    if (!result)
+    {
+        loadedFile_ = QString{};
+        QMessageBox::warning(this, tr("Could not load file"), tr("Board file could not be loaded"));
+        return;
+    }
+
+    QString stateFileName = loadedFile_ + QLatin1String(".state");
+    userState_->setFileName(stateFileName);
+
+    QSettings s;
+    s.setValue(kSettingsLastLoadedBoardFileName, loadedFile_);
+
+    handleBoardLoaded();
+
 }
 
 void MainWindow::createBoardMenu()
@@ -287,21 +309,8 @@ void MainWindow::loadBoard(const QString& fileName)
     saveViewsVisibleState();
     destroyAllViews();
 
-    if (!board_->load(fileName))
-    {
-        QMessageBox::warning(this, tr("Could not load file"), tr("Board file could not be loaded"));
-        return;
-    }
-
-    QString stateFileName = fileName + QLatin1String(".state");
-    userState_->setFileName(stateFileName);
-
-    QSettings s;
-    s.setValue(kSettingsLastLoadedBoardFileName, fileName);
-
     loadedFile_ = fileName;
-
-    handleBoardLoaded();
+    board_->load(fileName);
 }
 
 void MainWindow::onClockRunningChanged()
