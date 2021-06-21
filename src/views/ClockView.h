@@ -38,7 +38,7 @@ private slots:
     void on_startStopButton_clicked();
     void on_singleStepButton_pressed();
     void on_singleStepButton_released();
-    void on_period_textChanged(const QString &text);
+    void on_frequency_currentIndexChanged(int index);
 
 private:
     void setup();

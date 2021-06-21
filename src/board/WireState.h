@@ -25,6 +25,7 @@ enum class WireState
 
 enum class StateEdge
 {
+    Invalid,
     Raising,
     Falling,
 };

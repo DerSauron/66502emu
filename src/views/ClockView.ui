@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
+    <width>327</width>
     <height>46</height>
    </rect>
   </property>
@@ -26,19 +26,57 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="period">
-     <property name="minimumSize">
-      <size>
-       <width>80</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>80</width>
-       <height>16777215</height>
-      </size>
-     </property>
+    <widget class="QComboBox" name="frequency">
+     <item>
+      <property name="text">
+       <string>0.25 Hz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>0.5 Hz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1 Hz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2 Hz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>5 Hz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10 Hz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>100 Hz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1 kHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10 kHz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Unlimited</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item>

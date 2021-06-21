@@ -73,10 +73,10 @@ public:
 signals:
     void loadingFinished(bool result);
     void signalChanged();
-    void clockEdge(StateEdge edge);
 
 private slots:
-    void onClockEdge(StateEdge edge);
+    void loadImpl(const QString& fileName);
+    void onClockCycleChanged();
 
 private:
     Bus* addressBus_;

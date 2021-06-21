@@ -30,8 +30,6 @@ Debugger::Debugger(Board* board) :
     Q_ASSERT(rtsOpcode_ != 0xEA);
 
     callStack_.reserve(1024);
-
-    connect(board_, &Board::clockEdge, this, &Debugger::onClockEdge);
 }
 
 Debugger::~Debugger()
@@ -66,13 +64,13 @@ void Debugger::stepSubroutine()
 
 void Debugger::addBreakpoint(int address)
 {
-    Q_ASSERT(QThread::currentThreadId() == thread());
+    Q_ASSERT(QThread::currentThread() == thread());
     breakpoints_.insert(address);
 }
 
 void Debugger::removeBreakpoint(int address)
 {
-    Q_ASSERT(QThread::currentThreadId() == thread());
+    Q_ASSERT(QThread::currentThread() == thread());
     breakpoints_.remove(address);
 }
 
@@ -136,7 +134,7 @@ void Debugger::handleNewInstructionStart()
     emit newInstructionStart();
 }
 
-void Debugger::onClockEdge(StateEdge edge)
+void Debugger::handleClockEdge(StateEdge edge)
 {
     if (edge == StateEdge::Raising && board_->syncLine() == WireState::High)
     {

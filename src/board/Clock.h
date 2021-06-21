@@ -14,6 +14,8 @@
 #pragma once
 
 #include "WireState.h"
+#include <QAtomicInt>
+#include <QElapsedTimer>
 #include <QObject>
 
 class QTimer;
@@ -26,21 +28,21 @@ public:
     explicit Clock(QObject* parent = nullptr);
     ~Clock() override;
 
-    int period() const;
-    void setPeriod(int period);
+    int period() const { return period_; }
 
     bool isRunning() const;
 
     WireState state() const { return state_; }
 
 public slots:
+    void setPeriod(int period);
     void start();
     void stop();
     void triggerEdge(StateEdge edge);
 
 signals:
     void runningChanged();
-    void clockEdge(StateEdge edge);
+    void clockCycleChanged();
     void statsUpdatedClockCycles(quint32 clockCycles);
 
 private slots:
@@ -48,9 +50,12 @@ private slots:
     void collectStats();
 
 private:
+    int period_;
+    QElapsedTimer busyWaiter_;
+    int busyWaitTimeout_;
     QTimer* timer_;
     WireState state_;
-    bool shouldStop_;
+    QAtomicInt shouldStop_;
 
     QTimer* statsTimer_;
     uint32_t statsCycleCounter_;

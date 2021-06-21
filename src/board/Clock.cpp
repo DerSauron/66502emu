@@ -14,12 +14,17 @@
 #include "Clock.h"
 
 #include <QTimer>
+#include <QThread>
+#include <QDebug>
 
 Clock::Clock(QObject* parent) :
     QObject{parent},
+    period_{0},
+    busyWaiter_{},
+    busyWaitTimeout_{0},
     timer_{new QTimer{this}},
     state_{true},
-    shouldStop_{false}
+    shouldStop_{0},
     statsTimer_(new QTimer(this)),
     statsCycleCounter_{}
 {
@@ -27,20 +32,31 @@ Clock::Clock(QObject* parent) :
 
     connect(statsTimer_, &QTimer::timeout, this, &Clock::collectStats);
     statsTimer_->start(1000);
+
+    setPeriod(1000000);
 }
 
 Clock::~Clock()
 {
 }
 
-int Clock::period() const
-{
-    return timer_->interval() * 2;
-}
-
 void Clock::setPeriod(int period)
 {
-    timer_->setInterval(period / 2 + period % 2);
+    if (period == period_)
+        return;
+
+    period_ = period;
+    if (period_ < 2000)
+    {
+        busyWaitTimeout_ = period_ / 2;
+        busyWaiter_.start();
+        timer_->setInterval(0);
+    }
+    else
+    {
+        busyWaitTimeout_ = 0;
+        timer_->setInterval(period_ / 2000);
+    }
 }
 
 bool Clock::isRunning() const
@@ -50,18 +66,24 @@ bool Clock::isRunning() const
 
 void Clock::start()
 {
+    if (QThread::currentThread() != thread())
+    {
+        QMetaObject::invokeMethod(this, "start");
+        return;
+    }
+
     if (!isRunning())
     {
         timer_->start();
         emit runningChanged();
     }
 
-    shouldStop_ = false;
+    shouldStop_ = 0;
 }
 
 void Clock::stop()
 {
-    shouldStop_ = true;
+    shouldStop_ = 1;
 }
 
 void Clock::triggerEdge(StateEdge edge)
@@ -79,6 +101,8 @@ void Clock::triggerEdge(StateEdge edge)
         case StateEdge::Falling:
             extraTick = isLow(state_);
             break;
+        default:
+            return;
     }
 
     if (extraTick)
@@ -89,12 +113,18 @@ void Clock::triggerEdge(StateEdge edge)
 
 void Clock::tick()
 {
+    if (isRunning() && busyWaitTimeout_ > 0)
+    {
+        while (busyWaiter_.nsecsElapsed() / 1000 <= busyWaitTimeout_);
+        busyWaiter_.start();
+    }
+
     state_ = isLow(state_) ? WireState::High : WireState::Low;
 
     if (isHigh(state_))
         statsCycleCounter_++;
 
-    emit clockEdge(isHigh(state_) ? StateEdge::Raising : StateEdge::Falling);
+    emit clockCycleChanged();
 
     if (shouldStop_ && isHigh(state_))
     {

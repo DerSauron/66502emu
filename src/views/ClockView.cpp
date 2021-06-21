@@ -18,6 +18,33 @@
 #include "board/Clock.h"
 #include <QIntValidator>
 
+namespace {
+
+QVector<int> Periods{ // clazy:exclude=non-pod-global-static
+    4000000,
+    2000000,
+    1000000,
+    500000,
+    200000,
+    100000,
+    10000,
+    1000,
+    100,
+    0
+};
+
+int findPeriodIndex(int period)
+{
+    for (int i = 0; i < Periods.size(); i++)
+    {
+        if (Periods[i] <= period)
+            return i;
+    }
+    return 2;
+}
+
+} // namespace
+
 ClockView::ClockView(QWidget* parent) :
     QWidget{parent},
     ui{new Ui::ClockView},
@@ -35,8 +62,7 @@ ClockView::~ClockView()
 void ClockView::setup()
 {
     ui->clockState->setBitCount(1);
-    ui->period->setValidator(new QIntValidator(1, 5000, this));
-    ui->period->setText(QStringLiteral("1"));
+    ui->frequency->setCurrentIndex(2);
 }
 
 void ClockView::setClock(Clock* clock)
@@ -49,7 +75,7 @@ void ClockView::setClock(Clock* clock)
     LooseSignal::connect(clock_, &Clock::runningChanged, this, &ClockView::onClockRunningChanged);
     LooseSignal::connect(clock_, &Clock::clockCycleChanged, this, &ClockView::onClockCycleChanged);
 
-    ui->period->setText(QString::number(clock_->period()));
+    ui->frequency->setCurrentIndex(findPeriodIndex(clock_->period()));
 
     onClockRunningChanged();
     onClockCycleChanged();
@@ -62,7 +88,6 @@ void ClockView::onClockRunningChanged()
         ui->startStopButton->showStopMode();
     else
         ui->startStopButton->showStartMode();
-    ui->period->setEnabled(!running);
     ui->singleStepButton->setEnabled(!running);
 }
 
@@ -89,8 +114,9 @@ void ClockView::on_singleStepButton_released()
     clock_->triggerEdge(StateEdge::Raising);
 }
 
-void ClockView::on_period_textChanged(const QString& text)
+void ClockView::on_frequency_currentIndexChanged(int index)
 {
     if (clock_)
-        clock_->setPeriod(ui->period->text().toInt());
+        QMetaObject::invokeMethod(clock_, "setPeriod", Q_ARG(int, Periods[ui->frequency->currentIndex()]));
 }
+

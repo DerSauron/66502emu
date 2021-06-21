@@ -23,6 +23,7 @@
 #include <QChildEvent>
 #include <QFile>
 #include <QTimer>
+#include <QThread>
 
 namespace {
 
@@ -41,9 +42,9 @@ Board::Board(QObject* parent) :
     clock_{new Clock{this}},
     debugger_{new Debugger(this)}
 {
-    connect(clock_, &Clock::clockEdge, this, &Board::onClockEdge);
+    connect(clock_, &Clock::clockCycleChanged, this, &Board::onClockCycleChanged);
 
-    clock_->setPeriod(2);
+    clock_->setPeriod(1000000);
 }
 
 Board::~Board()
@@ -154,8 +155,21 @@ void Board::clearDevices()
     }
 }
 
-void Board::onClockEdge(StateEdge edge)
+void Board::onClockCycleChanged()
 {
+    StateEdge edge{StateEdge::Invalid};
+    switch (clock_->state())
+    {
+        case WireState::High:
+            edge = StateEdge::Raising;
+            break;
+        case WireState::Low:
+            edge = StateEdge::Falling;
+            break;
+        default:
+            break;
+    }
+
     cpu_->clockEdge(edge);
 
     setIrqLine(WireState::High);
@@ -167,5 +181,5 @@ void Board::onClockEdge(StateEdge edge)
         device->clockEdge(edge);
     }
 
-    emit clockEdge(edge);
+    debugger_->handleClockEdge(edge);
 }

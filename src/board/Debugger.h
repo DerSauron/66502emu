@@ -34,6 +34,8 @@ public:
 
     bool breakpointMatches(int address) const;
 
+    void handleClockEdge(StateEdge edge);
+
 signals:
     void newInstructionStart();
 
@@ -51,9 +53,6 @@ private:
     void stopAfterInstruction();
     void stopAfterSubroutine();
     void handleNewInstructionStart();
-
-private slots:
-    void onClockEdge(StateEdge edge);
 
 private:
     enum class SteppingMode
