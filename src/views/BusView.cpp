@@ -48,19 +48,6 @@ void BusView::setBus(Bus* bus)
 
     onDataChanged();
 }
-
-void BusView::changeEvent(QEvent *e)
-{
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
-}
-
 void BusView::onDataChanged()
 {
     auto data = bus_->data();

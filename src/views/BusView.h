@@ -31,9 +31,6 @@ public:
 
     void setBus(Bus* bus);
 
-protected:
-    void changeEvent(QEvent *e);
-
 private slots:
     void onDataChanged();
 
