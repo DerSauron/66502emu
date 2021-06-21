@@ -21,7 +21,7 @@
     <message>
         <location filename="views/ACIAView.ui" line="97"/>
         <location filename="views/ACIAView.ui" line="149"/>
-        <source>0x00</source>
+        <source>00</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -30,17 +30,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ACIAView.cpp" line="26"/>
+        <location filename="views/ACIAView.cpp" line="41"/>
         <source>STAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ACIAView.cpp" line="32"/>
+        <location filename="views/ACIAView.cpp" line="47"/>
         <source>CMD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ACIAView.cpp" line="38"/>
+        <location filename="views/ACIAView.cpp" line="53"/>
         <source>CTRL</source>
         <translation type="unfinished"></translation>
     </message>
@@ -80,6 +80,14 @@
     <message>
         <location filename="AboutDialog.ui" line="146"/>
         <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BitsView</name>
+    <message>
+        <location filename="views/BitsView.cpp" line="251"/>
+        <source>Assign Hotkey</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -188,6 +196,24 @@
     </message>
 </context>
 <context>
+    <name>HotkeyDialog</name>
+    <message>
+        <location filename="views/HotkeyDialog.ui" line="14"/>
+        <source>Grap Hotkey</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/HotkeyDialog.ui" line="25"/>
+        <source>Hotkey:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/HotkeyDialog.ui" line="35"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LCDView</name>
     <message>
         <location filename="views/LCDView.ui" line="38"/>
@@ -263,169 +289,159 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="311"/>
+        <location filename="MainWindow.ui" line="312"/>
         <source>&amp;Manage Devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="314"/>
+        <location filename="MainWindow.ui" line="315"/>
         <source>Add/remove devices or change their config</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="317"/>
+        <location filename="MainWindow.ui" line="318"/>
         <source>Ctrl+D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="322"/>
+        <location filename="MainWindow.ui" line="323"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="325"/>
+        <location filename="MainWindow.ui" line="326"/>
         <source>Exit application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="328"/>
+        <location filename="MainWindow.ui" line="329"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="336"/>
+        <location filename="MainWindow.ui" line="337"/>
         <source>&amp;New Board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="339"/>
+        <location filename="MainWindow.ui" line="340"/>
         <source>Create new Board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="342"/>
+        <location filename="MainWindow.ui" line="343"/>
         <source>Ctrl+N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="347"/>
+        <location filename="MainWindow.ui" line="348"/>
         <source>&amp;Open Board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="350"/>
+        <location filename="MainWindow.ui" line="351"/>
         <source>Open existing board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="353"/>
+        <location filename="MainWindow.ui" line="354"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="361"/>
+        <location filename="MainWindow.ui" line="362"/>
         <source>No devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="369"/>
+        <location filename="MainWindow.ui" line="370"/>
         <source>&amp;Disassembly log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="372"/>
+        <location filename="MainWindow.ui" line="373"/>
         <source>Alt+-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="377"/>
+        <location filename="MainWindow.ui" line="378"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="165"/>
-        <source>Disassembly log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MainWindow.cpp" line="175"/>
-        <source>&amp;%1 %2 (%3)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MainWindow.cpp" line="176"/>
-        <source>Alt+%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MainWindow.cpp" line="268"/>
+        <location filename="MainWindow.cpp" line="193"/>
         <source>Could not load file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="268"/>
+        <location filename="MainWindow.cpp" line="193"/>
         <source>Board file could not be loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="308"/>
+        <location filename="MainWindow.cpp" line="211"/>
+        <source>Disassembly log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="221"/>
+        <source>&amp;%1 %2 (%3)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="222"/>
+        <source>Alt+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="337"/>
+        <source>Running at %1Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="347"/>
         <source>6502 emulator - %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="341"/>
+        <location filename="MainWindow.cpp" line="380"/>
         <source>Select file for new board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="342"/>
         <location filename="MainWindow.cpp" line="381"/>
+        <location filename="MainWindow.cpp" line="420"/>
         <source>Board files (*.board)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="352"/>
+        <location filename="MainWindow.cpp" line="391"/>
         <source>File exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="353"/>
+        <location filename="MainWindow.cpp" line="392"/>
         <source>Do you want to override the existing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="363"/>
+        <location filename="MainWindow.cpp" line="402"/>
         <source>Could not open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="364"/>
+        <location filename="MainWindow.cpp" line="403"/>
         <source>The selected file coult no be open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="380"/>
+        <location filename="MainWindow.cpp" line="419"/>
         <source>Select board file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MemoryView</name>
-    <message>
-        <location filename="views/MemoryView.ui" line="96"/>
-        <source>Load</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/MemoryView.ui" line="110"/>
-        <source>Show source</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/MemoryView.ui" line="75"/>
-        <source>CS</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="views/MemoryView.ui" line="19"/>
         <source>Page</source>
@@ -437,32 +453,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.ui" line="124"/>
-        <source>Auto reload</source>
+        <location filename="views/MemoryView.ui" line="75"/>
+        <source>CS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.ui" line="135"/>
-        <source>Disabled</source>
+        <location filename="views/MemoryView.ui" line="96"/>
+        <source>Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.ui" line="140"/>
-        <source>Enabled</source>
+        <location filename="views/MemoryView.ui" line="110"/>
+        <source>Show source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.ui" line="145"/>
-        <source>Enabled with reset</source>
+        <location filename="views/MemoryView.ui" line="128"/>
+        <source>Auto Reload off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.cpp" line="188"/>
+        <location filename="views/MemoryView.ui" line="133"/>
+        <source>Auto Reload on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/MemoryView.ui" line="138"/>
+        <source>Auto Reload on and reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/MemoryView.cpp" line="191"/>
         <source>Open Binary Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.cpp" line="190"/>
+        <location filename="views/MemoryView.cpp" line="193"/>
         <source>Listing files (*.lst);;Binary Image Files (*.img *.bin)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -534,12 +560,12 @@
 <context>
     <name>StartStopButton</name>
     <message>
-        <location filename="views/StartStopButton.cpp" line="14"/>
+        <location filename="views/StartStopButton.cpp" line="27"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/StartStopButton.cpp" line="22"/>
+        <location filename="views/StartStopButton.cpp" line="35"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
