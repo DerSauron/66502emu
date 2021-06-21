@@ -47,6 +47,9 @@ void SourcesView::setup()
     connect(mainWindow()->board()->debugger(), &Debugger::newInstructionStart, this, &SourcesView::onNewInstructionStart);
     connect(ui->stepInstructionButton, &QPushButton::clicked, mainWindow()->board()->debugger(), &Debugger::stepInstruction);
     connect(ui->stepSubroutineButton, &QPushButton::clicked, mainWindow()->board()->debugger(), &Debugger::stepSubroutine);
+    connect(this, &SourcesView::addBreakpoint, mainWindow()->board()->debugger(), &Debugger::addBreakpoint);
+    connect(this, &SourcesView::removeBreakpoint, mainWindow()->board()->debugger(), &Debugger::removeBreakpoint);
+
     connect(ui->codeView, &ce::CodeEditor::lineNumberDoubleClicked, this, &SourcesView::onLineNumberDoubleClicked);
 
     onClockRunningChanged();
@@ -155,7 +158,7 @@ void SourcesView::onNewInstructionStart()
 void SourcesView::onLineNumberDoubleClicked(int line)
 {
     int address = -1;
-    while (true)
+    while (line < program_->sourceLines().size())
     {
         if (line >= program_->sourceLines().size())
             return;
@@ -164,16 +167,18 @@ void SourcesView::onLineNumberDoubleClicked(int line)
             break;
         line++;
     }
+    if (address == -1)
+        return;
 
     if (!ui->codeView->hasBreakpoint(line))
     {
         ui->codeView->addBreakpoint(line);
-        emit addBreakpoint(static_cast<uint16_t>(address));
+        emit addBreakpoint(address);
     }
     else
     {
         ui->codeView->removeBreakpoint(line);
-        emit removeBreakpoint(static_cast<uint16_t>(address));
+        emit removeBreakpoint(address);
     }
 }
 

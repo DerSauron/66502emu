@@ -27,8 +27,8 @@ public:
     void setProgram(Program* program);
 
 signals:
-    void addBreakpoint(uint16_t address);
-    void removeBreakpoint(uint16_t address);
+    void addBreakpoint(int address);
+    void removeBreakpoint(int address);
     void breakpointChanged(int line);
 
 private slots:
