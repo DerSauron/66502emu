@@ -303,6 +303,7 @@
    <addaction name="menuBoard"/>
    <addaction name="menu_About"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionManageDevices">
    <property name="enabled">
     <bool>false</bool>

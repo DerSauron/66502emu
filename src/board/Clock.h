@@ -41,13 +41,17 @@ public slots:
 signals:
     void runningChanged();
     void clockEdge(StateEdge edge);
+    void statsUpdatedClockCycles(quint32 clockCycles);
 
 private slots:
     void tick();
+    void collectStats();
 
 private:
     QTimer* timer_;
     WireState state_;
     bool shouldStop_;
-};
 
+    QTimer* statsTimer_;
+    uint32_t statsCycleCounter_;
+};

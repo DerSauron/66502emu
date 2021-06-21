@@ -20,8 +20,13 @@ Clock::Clock(QObject* parent) :
     timer_{new QTimer{this}},
     state_{true},
     shouldStop_{false}
+    statsTimer_(new QTimer(this)),
+    statsCycleCounter_{}
 {
     connect(timer_, &QTimer::timeout, this, &Clock::tick);
+
+    connect(statsTimer_, &QTimer::timeout, this, &Clock::collectStats);
+    statsTimer_->start(1000);
 }
 
 Clock::~Clock()
@@ -86,6 +91,9 @@ void Clock::tick()
 {
     state_ = isLow(state_) ? WireState::High : WireState::Low;
 
+    if (isHigh(state_))
+        statsCycleCounter_++;
+
     emit clockEdge(isHigh(state_) ? StateEdge::Raising : StateEdge::Falling);
 
     if (shouldStop_ && isHigh(state_))
@@ -93,4 +101,11 @@ void Clock::tick()
         timer_->stop();
         emit runningChanged();
     }
+}
+
+void Clock::collectStats()
+{
+    emit statsUpdatedClockCycles(statsCycleCounter_);
+
+    statsCycleCounter_ = 0;
 }

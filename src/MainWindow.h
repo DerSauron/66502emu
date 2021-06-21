@@ -20,6 +20,7 @@ class Board;
 class Device;
 class View;
 class UserState;
+class QLabel;
 
 namespace Ui {
 class MainWindow;
@@ -45,6 +46,7 @@ private slots:
     void onCloseView();
     void onClockRunningChanged();
     void onBoardViewAction();
+    void onStatsUpdatedClockCycles(uint32_t clockCycles);
     void on_actionManageDevices_triggered();
     void on_actionQuit_triggered();
     void on_actionNewBoard_triggered();
@@ -73,4 +75,5 @@ private:
     QScopedPointer<UserState> userState_;
     Board* board_;
     QString loadedFile_;
+    QLabel* statusMessage_;
 };

@@ -24,6 +24,7 @@
 #include "views/DisassemblerView.h"
 #include <QCloseEvent>
 #include <QFileDialog>
+#include <QLabel>
 #include <QMessageBox>
 #include <QSettings>
 
@@ -33,6 +34,26 @@ const QString kSettingsLastAccesesdFilePath = QStringLiteral("LastAccesesdFilePa
 const QString kSettingsLastLoadedBoardFileName = QStringLiteral("LastLoadedBoardFileName");
 const QString kSettingsGeometry = QStringLiteral("MainWindow/Geometry");
 const QString kSesstionsState = QStringLiteral("MainWindow/State");
+const QList<QString> Units = {QStringLiteral(""), // clazy:exclude=non-pod-global-static
+                              QStringLiteral("k"),
+                              QStringLiteral("M"),
+                              QStringLiteral("G"),
+                              QStringLiteral("T")};
+
+template<typename T>
+QString humanReadable(T number)
+{
+    auto num = static_cast<double>(number);
+    int unit = 0;
+
+    while (num >= 1000.0)
+    {
+        num /= 1000.0;
+        unit++;
+    }
+
+    return QString::number(num, 'f', 1) + Units[unit];
+}
 
 } // namespace
 
@@ -81,9 +102,12 @@ void MainWindow::setup()
     ui->cpuView->setCPU(board_->cpu());
     ui->signalsView->setBoard(board_);
 
+    statusMessage_ = new QLabel(ui->statusBar);
+    ui->statusBar->addPermanentWidget(statusMessage_);
     connect(ui->stepInstructionButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepInstruction);
     connect(ui->stepSubroutineButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepSubroutine);
     connect(board_->clock(), &Clock::runningChanged, this, &MainWindow::onClockRunningChanged);
+    connect(board_->clock(), &Clock::statsUpdatedClockCycles, this, &MainWindow::onStatsUpdatedClockCycles);
 
     ui->centralwidget->setEnabled(false);
 
@@ -297,6 +321,12 @@ void MainWindow::onBoardViewAction()
         showView(viewFactory.get());
     else
         hideView(viewFactory.get());
+}
+
+void MainWindow::onStatsUpdatedClockCycles(uint32_t clockCycles)
+{
+    const QString message = tr("Running at %1Hz").arg(humanReadable(clockCycles));
+    statusMessage_->setText(message);
 }
 
 void MainWindow::handleBoardLoaded()
