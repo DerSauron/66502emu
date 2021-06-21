@@ -54,7 +54,6 @@ signals:
     void t1Changed();
     void t2Changed();
     void ifrChanged();
-    void registerChanged(uint8_t reg);
 
 protected:
     uint64_t mapPortTag(const QString& portTagName) const override;

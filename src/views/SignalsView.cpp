@@ -14,6 +14,7 @@
 #include "SignalsView.h"
 #include "ui_SignalsView.h"
 
+#include "LooseSignal.h"
 #include "board/Board.h"
 #include "BitsView.h"
 
@@ -44,7 +45,7 @@ void SignalsView::setBoard(Board* board)
 {
     board_ = board;
 
-    connect(board_, &Board::signalChanged, this, &SignalsView::onBoardSignalChanged);
+    LooseSignal::connect(board_, &Board::signalChanged, this, &SignalsView::onBoardSignalChanged);
     onBoardSignalChanged();
 }
 

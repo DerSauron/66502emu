@@ -14,6 +14,7 @@
 #include "MemoryView.h"
 #include "ui_MemoryView.h"
 
+#include "LooseSignal.h"
 #include "MainWindow.h"
 #include "UserState.h"
 #include "Program.h"
@@ -86,8 +87,8 @@ void MemoryView::setup()
     ui->memoryPage->setAddressOffset(memory()->mapAddressStart());
     ui->memoryPage->setPage(0);
 
-    connect(memory(), &Memory::byteAccessed, this, &MemoryView::onMemoryAccessed);
-    connect(memory(), &Memory::selectedChanged, this, &MemoryView::onMemorySelectedChanged);
+    LooseSignal::connect(memory(), &Memory::accessed, this, &MemoryView::onMemoryAccessed);
+    LooseSignal::connect(memory(), &Memory::selectedChanged, this, &MemoryView::onMemorySelectedChanged);
 
     connect(fileSystemWatcher_, &ProgramFileWatcher::programFileChanged, this, &MemoryView::onProgramFileChanged);
 }
@@ -112,8 +113,11 @@ void MemoryView::maybeShowSources()
         showSources();
 }
 
-void MemoryView::onMemoryAccessed(uint16_t address, bool write)
+void MemoryView::onMemoryAccessed()
 {
+    uint16_t address = memory()->lastAccessAddress();
+    bool write = memory()->lastAccessWasWrite();
+
     uint16_t startAddress = address & 0xFF00;
     uint8_t page = startAddress >> 8;
 

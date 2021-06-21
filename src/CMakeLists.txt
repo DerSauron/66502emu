@@ -105,6 +105,8 @@ add_library(6502emu STATIC
     DeviceViewCreator.h
     KeySequence.cpp
     KeySequence.h
+    LooseSignal.cpp
+    LooseSignal.h
     M6502Disassembler.cpp
     M6502Disassembler.h
     MainWindow.cpp

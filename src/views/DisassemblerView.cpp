@@ -18,6 +18,7 @@
 #include "M6502Disassembler.h"
 #include "board/Board.h"
 #include "board/Bus.h"
+#include "board/Clock.h"
 #include "board/Debugger.h"
 #include "board/Memory.h"
 #include <QScrollBar>
@@ -65,7 +66,25 @@ DisassemblerView::~DisassemblerView()
 
 void DisassemblerView::setup()
 {
-    connect(mainWindow()->board()->debugger(), &Debugger::newInstructionStart, this, &DisassemblerView::onNewInstructionStart);
+    connect(mainWindow()->board()->clock(), &Clock::runningChanged, this, &DisassemblerView::onClockRunningChanged);
+    onClockRunningChanged();
+}
+
+void DisassemblerView::onClockRunningChanged()
+{
+    // Run update in sync when clock is not running automatically
+
+    auto board = mainWindow()->board();
+    if (board->clock()->isRunning())
+    {
+        setEnabled(false);
+        disconnect(board->debugger(), &Debugger::newInstructionStart, this, &DisassemblerView::onNewInstructionStart);
+    }
+    else
+    {
+        setEnabled(true);
+        connect(board->debugger(), &Debugger::newInstructionStart, this, &DisassemblerView::onNewInstructionStart);
+    }
 }
 
 void DisassemblerView::onNewInstructionStart()

@@ -14,6 +14,7 @@
 #include "CPUView.h"
 #include "ui_CPUView.h"
 
+#include "LooseSignal.h"
 #include "board/CPU.h"
 
 CPUView::CPUView(QWidget* parent) :
@@ -52,17 +53,12 @@ void CPUView::setup()
 
 void CPUView::setCPU(CPU* cpu)
 {
-    if (cpu == cpu_)
-        return;
-
-    if (cpu_)
-    {
-        disconnect(cpu_, &CPU::stepped, this, &CPUView::onCPUStepped);
-    }
+    Q_ASSERT(!cpu_);
+    Q_ASSERT(cpu);
 
     cpu_ = cpu;
 
-    connect(cpu_, &CPU::stepped, this, &CPUView::onCPUStepped);
+    LooseSignal::connect(cpu_, &CPU::stepped, this, &CPUView::onCPUStepped);
 
     onCPUStepped();
 }

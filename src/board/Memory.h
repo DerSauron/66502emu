@@ -37,6 +37,9 @@ public:
     bool isWriteable() const { return type_ == Type::RAM || type_ == Type::FLASH; }
     bool isPersistant() const { return type_ == Type::ROM || type_ == Type::FLASH; }
 
+    uint16_t lastAccessAddress() const { return lastAccessAddress_; }
+    bool lastAccessWasWrite() const { return lastAccessWasWrite_; }
+
     Type type() const { return type_; }
     uint32_t size() const { return static_cast<uint32_t>(data_.size()); }
     QVector<uint8_t>& data() { return data_; };
@@ -45,7 +48,7 @@ public:
     uint8_t byte(uint16_t address) const { return data_[address]; }
 
 signals:
-    void byteAccessed(uint16_t address, bool write);
+    void accessed();
 
 protected:
     void setup();
@@ -55,4 +58,6 @@ protected:
 private:
     Type type_;
     QVector<uint8_t> data_;
+    uint16_t lastAccessAddress_;
+    bool lastAccessWasWrite_;
 };

@@ -14,6 +14,7 @@
 #include "ClockView.h"
 #include "ui_ClockView.h"
 
+#include "LooseSignal.h"
 #include "board/Clock.h"
 #include <QIntValidator>
 
@@ -40,26 +41,18 @@ void ClockView::setup()
 
 void ClockView::setClock(Clock* clock)
 {
+    Q_ASSERT(!clock_);
     Q_ASSERT(clock);
-
-    if (clock == clock_)
-        return;
-
-    if (clock_)
-    {
-        disconnect(clock_, &Clock::runningChanged, this, &ClockView::onClockRunningChanged);
-        disconnect(clock_, &Clock::clockEdge, this, &ClockView::onClockEdge);
-    }
 
     clock_ = clock;
 
-    connect(clock_, &Clock::runningChanged, this, &ClockView::onClockRunningChanged);
-    connect(clock_, &Clock::clockEdge, this, &ClockView::onClockEdge);
+    LooseSignal::connect(clock_, &Clock::runningChanged, this, &ClockView::onClockRunningChanged);
+    LooseSignal::connect(clock_, &Clock::clockCycleChanged, this, &ClockView::onClockCycleChanged);
 
     ui->period->setText(QString::number(clock_->period()));
 
     onClockRunningChanged();
-    onClockEdge(StateEdge::Raising);
+    onClockCycleChanged();
 }
 
 void ClockView::onClockRunningChanged()
@@ -73,7 +66,7 @@ void ClockView::onClockRunningChanged()
     ui->singleStepButton->setEnabled(!running);
 }
 
-void ClockView::onClockEdge(StateEdge edge)
+void ClockView::onClockCycleChanged()
 {
     ui->clockState->setValue(toInt(clock_->state()));
 }

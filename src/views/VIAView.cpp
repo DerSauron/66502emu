@@ -14,6 +14,7 @@
 #include "VIAView.h"
 #include "ui_VIAView.h"
 
+#include "LooseSignal.h"
 #include "impl/m6522.h"
 
 namespace {
@@ -60,13 +61,12 @@ VIAView::~VIAView()
 void VIAView::setup()
 {
     ui->chipSelected->setBitCount(1);
-    connect(via(), &VIA::selectedChanged, this, &VIAView::onVIASelectedChanged);
-    connect(via(), &VIA::paChanged, this, &VIAView::onPaChanged);
-    connect(via(), &VIA::pbChanged, this, &VIAView::onPbChanged);
-    connect(via(), &VIA::t1Changed, this, &VIAView::onT1Changed);
-    connect(via(), &VIA::t2Changed, this, &VIAView::onT2Changed);
-    connect(via(), &VIA::ifrChanged, this, &VIAView::onIFRChanged);
-    connect(via(), &VIA::registerChanged, this, &VIAView::onRegisterChanged);
+    LooseSignal::connect(via(), &VIA::selectedChanged, this, &VIAView::onSelectedChanged);
+    LooseSignal::connect(via(), &VIA::paChanged, this, &VIAView::onPaChanged);
+    LooseSignal::connect(via(), &VIA::pbChanged, this, &VIAView::onPbChanged);
+    LooseSignal::connect(via(), &VIA::t1Changed, this, &VIAView::onT1Changed);
+    LooseSignal::connect(via(), &VIA::t2Changed, this, &VIAView::onT2Changed);
+    LooseSignal::connect(via(), &VIA::ifrChanged, this, &VIAView::onIFRChanged);
 
     ui->paView->setName(QStringLiteral("PA"));
     ui->paView->setBitCount(8);
@@ -88,12 +88,10 @@ void VIAView::setup()
     connect(ui->pbView, &RegisterView::valueChanged, this, &VIAView::onSetPb);
 
     onPaChanged();
-    onRegisterChanged(M6522_REG_DDRA);
     onPbChanged();
-    onRegisterChanged(M6522_REG_DDRB);
 }
 
-void VIAView::onVIASelectedChanged()
+void VIAView::onSelectedChanged()
 {
     ui->chipSelected->setValue(via()->isSelected());
 }
@@ -101,74 +99,33 @@ void VIAView::onVIASelectedChanged()
 void VIAView::onPaChanged()
 {
     ui->paView->setValue(via()->pa());
+    ui->paView->setEditableMask(~via()->paDir() & 0xFF);
+    ui->paView->setBitNames(ioStates(via()->paDir()));
 }
 
 void VIAView::onPbChanged()
 {
     ui->pbView->setValue(via()->pb());
+    ui->pbView->setEditableMask(~via()->pbDir() & 0xFF);
+    ui->pbView->setBitNames(ioStates(via()->pbDir()));
 }
 
 void VIAView::onT1Changed()
 {
     ui->timer1->setText(QStringLiteral("T1: %1").arg(via()->t1(), 4, 16, QLatin1Char('0')));
+    ui->timer1Latch->setText(QStringLiteral("L: %1").arg(via()->t1l(), 4, 16, QLatin1Char('0')));
 }
 
 void VIAView::onT2Changed()
 {
     ui->timer2->setText(QStringLiteral("T2: %1").arg(via()->t2(), 4, 16, QLatin1Char('0')));
+    ui->timer2Latch->setText(QStringLiteral("L:   %1").arg(via()->t2l(), 2, 16, QLatin1Char('0')));
 }
 
 void VIAView::onIFRChanged()
 {
     ui->ifrView->setValue(via()->ifr());
-}
-
-void VIAView::onRegisterChanged(uint8_t reg)
-{
-    switch (reg)
-    {
-        case M6522_REG_RB:
-        case M6522_REG_RA:
-            break;
-
-        case M6522_REG_DDRB:
-            ui->pbView->setEditableMask(~via()->pbDir() & 0xFF);
-            ui->pbView->setBitNames(ioStates(via()->pbDir()));
-            break;
-
-        case M6522_REG_DDRA:
-            ui->paView->setEditableMask(~via()->paDir() & 0xFF);
-            ui->paView->setBitNames(ioStates(via()->paDir()));
-            break;
-
-        case M6522_REG_T1CL:
-        case M6522_REG_T1CH:
-            break;
-
-        case M6522_REG_T1LL:
-        case M6522_REG_T1LH:
-            ui->timer1Latch->setText(QStringLiteral("L: %1").arg(via()->t1l(), 4, 16, QLatin1Char('0')));
-            break;
-
-        case M6522_REG_T2CL:
-            ui->timer2Latch->setText(QStringLiteral("L:   %1").arg(via()->t2l(), 2, 16, QLatin1Char('0')));
-            break;
-
-        case M6522_REG_T2CH:
-        case M6522_REG_SR:
-        case M6522_REG_ACR:
-        case M6522_REG_PCR:
-        case M6522_REG_IFR:
-            break;
-
-        case M6522_REG_IER:
-            ui->ierView->setValue(via()->ier());
-            break;
-
-        case M6522_REG_RA_NOH:
-        case M6522_NUM_REGS:
-            break;
-    }
+    ui->ierView->setValue(via()->ier());
 }
 
 void VIAView::onSetPa()

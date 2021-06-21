@@ -14,6 +14,7 @@
 #include "BusView.h"
 #include "ui_BusView.h"
 
+#include "LooseSignal.h"
 #include "board/Bus.h"
 
 BusView::BusView(QWidget *parent) :
@@ -36,17 +37,12 @@ void BusView::setup()
 
 void BusView::setBus(Bus* bus)
 {
+    Q_ASSERT(!bus_);
     Q_ASSERT(bus);
-
-    if (bus == bus_)
-        return;
-
-    if (bus_)
-        disconnect(bus_, &Bus::dataChanged, this, &BusView::onDataChanged);
 
     bus_ = bus;
 
-    connect(bus_, &Bus::dataChanged, this, &BusView::onDataChanged);
+    LooseSignal::connect(bus_, &Bus::dataChanged, this, &BusView::onDataChanged);
 
     ui->bitsView->setBitCount(bus_->width());
 

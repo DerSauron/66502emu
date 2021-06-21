@@ -37,7 +37,7 @@ public:
     void initialize() override;
 
 private slots:
-    void onMemoryAccessed(uint16_t address, bool write);
+    void onMemoryAccessed();
     void onMemorySelectedChanged();
     void onSourcesViewClosingEvent();
     void onProgramFileChanged();

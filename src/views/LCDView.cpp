@@ -14,6 +14,7 @@
 #include "LCDView.h"
 #include "ui_LCDView.h"
 
+#include "LooseSignal.h"
 #include "utils/ArrayView.h"
 #include <QTimer>
 
@@ -36,12 +37,12 @@ void LCDView::setup()
     ui->busyFlag->setBitCount(1);
     ui->busyFlag->setEnableColor(BitsView::EnabledColor::Red);
 
-    connect(lcd(), &LCD::characterChanged, this, &LCDView::onLCDCharaterChanged);
-    connect(lcd(), &LCD::busyChanged, this, &LCDView::onLCDBusyChanged);
-    connect(lcd(), &LCD::cursorPosChanged, this, &LCDView::onLCDCursorPosChanged);
-    connect(lcd(), &LCD::cursorChanged, this, &LCDView::onLCDCursorChanged);
-    connect(lcd(), &LCD::displayShiftChanged, this, &LCDView::onLCDDisplayShiftChanged);
-    connect(lcd(), &LCD::displayChanged, this, &LCDView::onLCDDisplayChanged);
+    connect(lcd(), &LCD::characterChanged, this, &LCDView::onLCDCharaterChanged); // this must run in sync
+    LooseSignal::connect(lcd(), &LCD::busyChanged, this, &LCDView::onLCDBusyChanged);
+    LooseSignal::connect(lcd(), &LCD::cursorPosChanged, this, &LCDView::onLCDCursorPosChanged);
+    LooseSignal::connect(lcd(), &LCD::cursorChanged, this, &LCDView::onLCDCursorChanged);
+    LooseSignal::connect(lcd(), &LCD::displayShiftChanged, this, &LCDView::onLCDDisplayShiftChanged);
+    LooseSignal::connect(lcd(), &LCD::displayChanged, this, &LCDView::onLCDDisplayChanged);
 }
 
 void LCDView::redrawCharacters()

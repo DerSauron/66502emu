@@ -14,6 +14,8 @@
 #include "ACIAView.h"
 #include "ui_ACIAView.h"
 
+#include "LooseSignal.h"
+
 ACIAView::ACIAView(ACIA* acia, MainWindow* parent) :
     DeviceView(acia, parent),
     ui(new Ui::ACIAView())
@@ -55,11 +57,11 @@ void ACIAView::setup()
                                       QStringLiteral("WL1"), QStringLiteral("SBN")});
 
 
-    connect(acia(), &ACIA::selectedChanged, this, &ACIAView::onChipSelectedChanged);
-    connect(acia(), &ACIA::sendByte, this, &ACIAView::onSendByte);
-    connect(acia(), &ACIA::transmittingChanged, this, &ACIAView::onTransmittingChanged);
-    connect(acia(), &ACIA::receivingChanged, this, &ACIAView::onReceivingChanged);
-    connect(acia(), &ACIA::registerChanged, this, &ACIAView::onRegisterChanged);
+    connect(acia(), &ACIA::sendByte, this, &ACIAView::onSendByte); // run synchronously
+    LooseSignal::connect(acia(), &ACIA::selectedChanged, this, &ACIAView::onChipSelectedChanged);
+    LooseSignal::connect(acia(), &ACIA::transmittingChanged, this, &ACIAView::onTransmittingChanged);
+    LooseSignal::connect(acia(), &ACIA::receivingChanged, this, &ACIAView::onReceivingChanged);
+    LooseSignal::connect(acia(), &ACIA::registerChanged, this, &ACIAView::onRegisterChanged);
 
     connect(ui->console, &Console::inputData, this, &ACIAView::onDataEntered);
 

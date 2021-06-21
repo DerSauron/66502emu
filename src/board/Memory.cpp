@@ -25,7 +25,9 @@ namespace {
 Memory::Memory(Type type, uint32_t size, const QString& name, Board* board) :
     Device{name, board},
     type_{type},
-    data_(static_cast<int>(size))
+    data_(static_cast<int>(size)),
+    lastAccessAddress_{0},
+    lastAccessWasWrite_{false}
 {
     setup();
 }
@@ -62,19 +64,23 @@ void Memory::deviceClockEdge(StateEdge edge)
 
         uint16_t addr = brd->addressBus()->typedData<uint16_t>() - mapAddressStart();
 
-        bool accessed = false;
+        bool wasAccessed = false;
         if (isHigh(brd->rwLine()))
         {
             brd->dataBus()->setData(data_[addr]);
-            accessed = true;
+            wasAccessed = true;
         }
         else if (isLow(brd->rwLine()) && isWriteable())
         {
             data_[addr] = brd->dataBus()->typedData<uint8_t>();
-            accessed = true;
+            wasAccessed = true;
         }
 
-        if (accessed)
-            emit byteAccessed(addr, isLow(brd->rwLine()));
+        if (wasAccessed)
+        {
+            lastAccessAddress_ = addr;
+            lastAccessWasWrite_ = isLow(brd->rwLine());
+            emit accessed();
+        }
     }
 }

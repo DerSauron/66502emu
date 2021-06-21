@@ -31,13 +31,12 @@ public:
     VIA* via() const { return static_cast<VIA*>(device()); }
 
 private slots:
-    void onVIASelectedChanged();
+    void onSelectedChanged();
     void onPaChanged();
     void onPbChanged();
     void onT1Changed();
     void onT2Changed();
     void onIFRChanged();
-    void onRegisterChanged(uint8_t reg);
     void onSetPa();
     void onSetPb();
 

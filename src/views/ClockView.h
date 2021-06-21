@@ -34,7 +34,7 @@ public:
 
 private slots:
     void onClockRunningChanged();
-    void onClockEdge(StateEdge edge);
+    void onClockCycleChanged();
     void on_startStopButton_clicked();
     void on_singleStepButton_pressed();
     void on_singleStepButton_released();

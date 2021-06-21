@@ -209,12 +209,17 @@ void VIA::populateState()
         else
         {
             uint8_t regNo = registerAddress() & M6522_RS_PINS;
-            if (regNo == M6522_REG_RA)
+            if (regNo == M6522_REG_RA || regNo == M6522_REG_DDRA)
                 emit paChanged();
-            else if (regNo == M6522_REG_RB)
+            else if (regNo == M6522_REG_RB || regNo == M6522_REG_DDRB)
                 emit pbChanged();
-            else
-                emit registerChanged(regNo);
+            else if (regNo == M6522_REG_T1CH || regNo == M6522_REG_T1CL ||
+                     regNo == M6522_REG_T1LH || regNo == M6522_REG_T1LL)
+                emit t1Changed();
+            else if (regNo == M6522_REG_T2CH || regNo == M6522_REG_T2CL)
+                emit t2Changed();
+            else if (regNo == M6522_REG_IFR || regNo == M6522_REG_IER)
+                emit ifrChanged();
         }
     }
 
