@@ -44,7 +44,6 @@ public:
     void clockEdge(StateEdge edge);
 
 signals:
-//    void nameChanged();
     void selectedChanged();
 
 protected:
