@@ -37,6 +37,8 @@ private slots:
     void onT1Changed();
     void onT2Changed();
     void onIFRChanged();
+    void onACRChanged();
+    void onPCRChanged();
     void onSetPa();
     void onSetPb();
 

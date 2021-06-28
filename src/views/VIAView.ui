@@ -2,7 +2,15 @@
 <ui version="4.0">
  <class>VIAView</class>
  <widget class="QDialog" name="VIAView">
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>452</width>
+    <height>290</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
@@ -186,6 +194,48 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="title">
+        <string>Auxiliary Control</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="RegisterView" name="acrView" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>22</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_6">
+       <property name="title">
+        <string>Peripheral Control</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="RegisterView" name="pcrView" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>22</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -202,15 +252,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>BitsView</class>
-   <extends>QWidget</extends>
-   <header>views/BitsView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>RegisterView</class>
    <extends>QWidget</extends>
    <header>views/RegisterView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BitsView</class>
+   <extends>QWidget</extends>
+   <header>views/BitsView.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

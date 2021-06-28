@@ -84,6 +84,14 @@ void VIAView::setup()
     ui->ifrView->setBitCount(8);
     ui->ifrView->setBitNames(makeBitNames("CA2", "CA1", "SR", "CB2", "CB1", "T2", "T1", "IRQ"));
 
+    ui->acrView->setName(QStringLiteral("ACR"));
+    ui->acrView->setBitCount(8);
+    ui->acrView->setBitNames(makeBitNames("PA", "PB", "SR0", "SR1", "SR2", "T2", "T10", "T11"));
+
+    ui->pcrView->setName(QStringLiteral("PCR"));
+    ui->pcrView->setBitCount(8);
+    ui->pcrView->setBitNames(makeBitNames("CA1", "CA2", "CA2", "CA2", "CB1", "CB2", "CB2", "CB2"));
+
     connect(ui->paView, &RegisterView::valueChanged, this, &VIAView::onSetPa);
     connect(ui->pbView, &RegisterView::valueChanged, this, &VIAView::onSetPb);
 
@@ -126,6 +134,16 @@ void VIAView::onIFRChanged()
 {
     ui->ifrView->setValue(via()->ifr());
     ui->ierView->setValue(via()->ier());
+}
+
+void VIAView::onACRChanged()
+{
+    ui->acrView->setValue(via()->acr());
+}
+
+void VIAView::onPCRChanged()
+{
+    ui->pcrView->setValue(via()->pcr());
 }
 
 void VIAView::onSetPa()

@@ -47,6 +47,8 @@ public:
     uint8_t t2l() const;
     uint8_t ifr() const;
     uint8_t ier() const;
+    uint8_t acr() const;
+    uint8_t pcr() const;
 
 signals:
     void paChanged();
@@ -54,6 +56,8 @@ signals:
     void t1Changed();
     void t2Changed();
     void ifrChanged();
+    void acrChanged();
+    void pcrChanged();
 
 protected:
     uint64_t mapPortTag(const QString& portTagName) const override;

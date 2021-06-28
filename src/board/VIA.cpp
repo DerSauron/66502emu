@@ -148,6 +148,16 @@ uint8_t VIA::ier() const
     return chip_->intr.ier;
 }
 
+uint8_t VIA::acr() const
+{
+    return chip_->acr;
+}
+
+uint8_t VIA::pcr() const
+{
+    return chip_->pcr;
+}
+
 uint16_t VIA::calcMapAddressEnd() const
 {
     return mapAddressStart_ + 0xF;
@@ -220,6 +230,10 @@ void VIA::populateState()
                 emit t2Changed();
             else if (regNo == M6522_REG_IFR || regNo == M6522_REG_IER)
                 emit ifrChanged();
+            else if (regNo == M6522_REG_ACR)
+                emit acrChanged();
+            else if (regNo == M6522_REG_PCR)
+                emit pcrChanged();
         }
     }
 
