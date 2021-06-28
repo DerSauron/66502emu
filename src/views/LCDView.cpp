@@ -94,6 +94,6 @@ void LCDView::onLCDDisplayChanged()
 QPoint LCDView::panelPos(uint16_t address) const
 {
     const int y = address / lcd()->bufferWidth();
-    const int x = address - y - panelShift_;
+    const int x = address - (y * lcd()->bufferWidth()) - panelShift_;
     return QPoint(x, y);
 }
