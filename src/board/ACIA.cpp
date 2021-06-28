@@ -81,7 +81,7 @@ ACIA::ACIA(const QString& name, Board* board) :
     transmitDelay_(new QTimer(this)),
     receiveDelay_(new QTimer(this))
 {
-    receiveBuffer_.resize(1024);
+    receiveBuffer_.reserve(1024);
 
     transmitDelay_->setSingleShot(true);
     connect(transmitDelay_, &QTimer::timeout, this, &ACIA::transmitDelayTimeout);
