@@ -43,8 +43,6 @@ Board::Board(QObject* parent) :
     debugger_{new Debugger(this)}
 {
     connect(clock_, &Clock::clockCycleChanged, this, &Board::onClockCycleChanged);
-
-    clock_->setPeriod(1000000);
 }
 
 Board::~Board()

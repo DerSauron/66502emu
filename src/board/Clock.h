@@ -28,14 +28,14 @@ public:
     explicit Clock(QObject* parent = nullptr);
     ~Clock() override;
 
-    int period() const { return period_; }
+    uint64_t period() const { return period_; }
 
     bool isRunning() const;
 
     WireState state() const { return state_; }
 
 public slots:
-    void setPeriod(int period);
+    void setPeriod(quint64 period);
     void start();
     void stop();
     void triggerEdge(StateEdge edge);
@@ -50,7 +50,7 @@ private slots:
     void collectStats();
 
 private:
-    int period_;
+    uint64_t period_;
     QElapsedTimer busyWaiter_;
     int busyWaitTimeout_;
     QTimer* timer_;

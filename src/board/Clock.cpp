@@ -33,14 +33,14 @@ Clock::Clock(QObject* parent) :
     connect(statsTimer_, &QTimer::timeout, this, &Clock::collectStats);
     statsTimer_->start(1000);
 
-    setPeriod(1000000);
+    setPeriod(1000);
 }
 
 Clock::~Clock()
 {
 }
 
-void Clock::setPeriod(int period)
+void Clock::setPeriod(quint64 period)
 {
     if (period == period_)
         return;
