@@ -39,6 +39,8 @@ void Console::setup()
     p.setColor(QPalette::Base, Qt::black);
     p.setColor(QPalette::Text, Qt::lightGray);
     setPalette(p);
+
+    setCursorWidth(QFontMetrics(font()).horizontalAdvance(QLatin1Char('M')));
 }
 
 void Console::setLocalEcho(bool localEcho)
