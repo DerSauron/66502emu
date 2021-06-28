@@ -143,6 +143,8 @@ void ACIA::deviceClockEdge(StateEdge edge)
         else // if (isHigh(board()->rwLine()))
             populateState();
     }
+
+    populateGlobalState();
 }
 
 void ACIA::resetChip(bool hard)
@@ -172,9 +174,9 @@ void ACIA::injectState()
     {
         case Register::Data:
             transmitData_ = data;
-            statusRegister_ |= TransmitterEmpty; // WDC BUG
+            statusRegister_ |= TransmitterEmpty | IRQ; // WDC BUG
             emit registerChanged();
-            if (!isTransmitting())
+            if (!isTransmitting() && commandRegister_ & DataTerminalReady)
                 startTransmit();
             emit transmittingChanged();
             break;
@@ -218,7 +220,10 @@ void ACIA::populateState()
     }
 
     board()->dataBus()->setData(data);
+}
 
+void ACIA::populateGlobalState()
+{
     if (statusRegister_ & IRQ)
         board()->setIrqLine(WireState::Low);
 }
@@ -262,9 +267,7 @@ void ACIA::receiveDelayTimeout()
         statusRegister_ |= ReceiverFull;
 
         if ((commandRegister_ & ReceiverIRQDisabled) == 0)
-        {
             statusRegister_ |= IRQ;
-        }
     }
 
     emit registerChanged();

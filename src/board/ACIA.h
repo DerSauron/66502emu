@@ -56,7 +56,7 @@ signals:
     void receivingChanged();
 
 public slots:
-    void receiveByte(uint8_t byte);
+    void receiveByte(quint8 byte);
 
 protected:
     uint16_t calcMapAddressEnd() const override;
@@ -66,6 +66,7 @@ private:
     void resetChip(bool hard);
     void injectState();
     void populateState();
+    void populateGlobalState();
     void startTransmit();
     void startReceive();
     int baudDelay();
