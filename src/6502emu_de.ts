@@ -125,12 +125,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="views/ClockView.ui" line="32"/>
+        <source>0.25 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="37"/>
+        <source>0.5 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="42"/>
+        <source>1 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="views/ClockView.ui" line="47"/>
+        <source>2 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="52"/>
+        <source>5 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="57"/>
+        <source>10 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="62"/>
+        <source>100 Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="67"/>
+        <source>1 kHz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="72"/>
+        <source>10 kHz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="77"/>
+        <source>Unlimited</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/ClockView.ui" line="85"/>
         <source>Single Step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/ClockView.ui" line="54"/>
+        <location filename="views/ClockView.ui" line="92"/>
         <source>Alt+S</source>
         <translation type="unfinished"></translation>
     </message>
@@ -573,48 +623,58 @@
 <context>
     <name>VIAView</name>
     <message>
-        <location filename="views/VIAView.ui" line="30"/>
+        <location filename="views/VIAView.ui" line="38"/>
         <source>CS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="51"/>
+        <location filename="views/VIAView.ui" line="59"/>
         <source>PA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="70"/>
+        <location filename="views/VIAView.ui" line="78"/>
         <source>PB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="93"/>
+        <location filename="views/VIAView.ui" line="101"/>
         <source>Counters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="107"/>
+        <location filename="views/VIAView.ui" line="115"/>
         <source>T1: 0000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="119"/>
+        <location filename="views/VIAView.ui" line="127"/>
         <source>L: 0000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="136"/>
+        <location filename="views/VIAView.ui" line="144"/>
         <source>T2: 0000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="148"/>
+        <location filename="views/VIAView.ui" line="156"/>
         <source>L:   00</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/VIAView.ui" line="160"/>
+        <location filename="views/VIAView.ui" line="168"/>
         <source>IRQ State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/VIAView.ui" line="201"/>
+        <source>Auxiliary Control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="views/VIAView.ui" line="220"/>
+        <source>Peripheral Control</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
