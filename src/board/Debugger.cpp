@@ -16,14 +16,18 @@
 #include "Board.h"
 #include "Bus.h"
 #include "Clock.h"
+#include "CPU.h"
 #include "M6502Disassembler.h"
 #include <QThread>
 #include <QTimer>
+#include <QDebug>
 
 Debugger::Debugger(Board* board) :
     QObject(board),
     board_(board)
 {
+    brkOpcode_ = M6502::searchOpcode(QStringLiteral("brk"), M6502::AddressingMode::IMPLI);
+    Q_ASSERT(brkOpcode_ != 0xEA);
     jsrOpcode_ = M6502::searchOpcode(QStringLiteral("jsr"), M6502::AddressingMode::ABSOL);
     Q_ASSERT(jsrOpcode_ != 0xEA);
     rtsOpcode_ = M6502::searchOpcode(QStringLiteral("rts"), M6502::AddressingMode::IMPLI);
@@ -74,6 +78,21 @@ void Debugger::removeBreakpoint(int address)
     breakpoints_.remove(address);
 }
 
+void Debugger::reset()
+{
+    failState_ = false;
+    emit failStateChanged();
+
+    lastInstruction_ = 0;
+    lastInstructionStart_ = 0;
+    currentInstruction_ = 0;
+    currentInstructionStart_ = 0;
+
+    callStack_.empty();
+
+    steppingSubroutineCallStackStart_ = 0;
+}
+
 void Debugger::updateInstructionState(uint16_t address)
 {
     lastInstruction_ = currentInstruction_;
@@ -86,9 +105,18 @@ void Debugger::updateInstructionState(uint16_t address)
 void Debugger::updateCallStack()
 {
     if (lastInstruction_ == jsrOpcode_)
+    {
         callStack_.push_back(lastInstructionStart_);
+    }
     else if (lastInstruction_ == rtsOpcode_)
+    {
+        if (callStack_.isEmpty())
+        {
+            enterFailState();
+            return;
+        }
         callStack_.pop_back();
+    }
 }
 
 void Debugger::stopAtBreakpoint(uint16_t address)
@@ -113,7 +141,8 @@ void Debugger::stopAfterSubroutine()
     if (steppingMode_ != SteppingMode::Subroutine)
         return;
 
-    if (lastInstruction_ == rtsOpcode_ && callStack_.size() == steppingSubroutineCallStackStart_)
+    if ((lastInstruction_ == brkOpcode_) ||
+        (lastInstruction_ == rtsOpcode_ && callStack_.size() == steppingSubroutineCallStackStart_))
     {
         board_->clock()->stop();
         steppingMode_ = SteppingMode::None;
@@ -134,9 +163,28 @@ void Debugger::handleNewInstructionStart()
     emit newInstructionStart();
 }
 
+void Debugger::enterFailState()
+{
+    failState_ = true;
+
+    board_->clock()->stop();
+    steppingMode_ = SteppingMode::None;
+
+    emit failStateChanged();
+}
+
 void Debugger::handleClockEdge(StateEdge edge)
 {
-    if (edge == StateEdge::Raising && board_->syncLine() == WireState::High)
+    if (isLow(board_->resetLine()))
+    {
+        reset();
+        return;
+    }
+
+    if (failState_)
+        return;
+
+    if (isRaising(edge) && isHigh(board_->syncLine()))
     {
         handleNewInstructionStart();
     }

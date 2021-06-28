@@ -34,6 +34,7 @@ signals:
 private slots:
     void onClockRunningChanged();
     void onNewInstructionStart();
+    void onDebuggerFailStateChanged();
     void onLineNumberDoubleClicked(int line);
     void on_startStopButton_clicked();
 

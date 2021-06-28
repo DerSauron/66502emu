@@ -16,6 +16,7 @@
 #include "board/Clock.h"
 #include "board/Debugger.h"
 #include "codeeditor/Highlighter.h"
+#include <QMessageBox>
 #include <QTextBlock>
 #include <QTextCursor>
 
@@ -45,6 +46,7 @@ void SourcesView::setup()
 {
     connect(mainWindow()->board()->clock(), &Clock::runningChanged, this, &SourcesView::onClockRunningChanged);
     connect(mainWindow()->board()->debugger(), &Debugger::newInstructionStart, this, &SourcesView::onNewInstructionStart);
+    connect(mainWindow()->board()->debugger(), &Debugger::failStateChanged, this, &SourcesView::onDebuggerFailStateChanged);
     connect(ui->stepInstructionButton, &QPushButton::clicked, mainWindow()->board()->debugger(), &Debugger::stepInstruction);
     connect(ui->stepSubroutineButton, &QPushButton::clicked, mainWindow()->board()->debugger(), &Debugger::stepSubroutine);
     connect(this, &SourcesView::addBreakpoint, mainWindow()->board()->debugger(), &Debugger::addBreakpoint);
@@ -136,7 +138,7 @@ void SourcesView::setButtonStates()
     else
         ui->startStopButton->showStartMode();
     ui->stepInstructionButton->setEnabled(!clockRunning_);
-    ui->stepSubroutineButton->setEnabled(!clockRunning_);
+    ui->stepSubroutineButton->setEnabled(!clockRunning_ && !mainWindow()->board()->debugger()->isFailState());
 }
 
 void SourcesView::onClockRunningChanged()
@@ -152,6 +154,20 @@ void SourcesView::onNewInstructionStart()
     {
         uint16_t address = mainWindow()->board()->addressBus()->typedData<uint16_t>();
         highlightCurrentLine(address);
+    }
+}
+
+void SourcesView::onDebuggerFailStateChanged()
+{
+    setButtonStates();
+
+    if (mainWindow()->board()->debugger()->isFailState())
+    {
+        const QString reason = QStringLiteral("JSR-RTS calls mismatch");
+        QMessageBox::warning(this,
+                             QStringLiteral("Malformed program"),
+                             QStringLiteral("The program is malformed: %1").arg(reason),
+                             QMessageBox::Ok, QMessageBox::Ok);
     }
 }
 

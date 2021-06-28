@@ -27,6 +27,8 @@ public:
     explicit Debugger(Board* board);
     ~Debugger() override;
 
+    bool isFailState() const { return failState_; }
+
     uint8_t lastInstruction() const { return lastInstruction_; }
     uint16_t lastInstructionStart() const { return lastInstructionStart_; }
     uint8_t currentInstruction() const { return currentInstruction_; }
@@ -38,6 +40,7 @@ public:
 
 signals:
     void newInstructionStart();
+    void failStateChanged();
 
 public slots:
     void stepInstruction();
@@ -47,12 +50,14 @@ public slots:
     void removeBreakpoint(int address);
 
 private:
+    void reset();
     void updateInstructionState(uint16_t address);
     void updateCallStack();
     void stopAtBreakpoint(uint16_t address);
     void stopAfterInstruction();
     void stopAfterSubroutine();
     void handleNewInstructionStart();
+    void enterFailState();
 
 private:
     enum class SteppingMode
@@ -64,8 +69,10 @@ private:
 
 private:
     Board* board_;
+    uint8_t brkOpcode_{};
     uint8_t jsrOpcode_{};
     uint8_t rtsOpcode_{};
+    bool failState_{false};
     uint8_t lastInstruction_{};
     uint16_t lastInstructionStart_{};
     uint8_t currentInstruction_{};
