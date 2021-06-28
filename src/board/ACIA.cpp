@@ -61,19 +61,6 @@ inline constexpr uint8_t baudRateConfig(uint8_t reg)
     return reg & 0x0F;
 }
 
-inline constexpr uint8_t externClockSource(uint8_t reg)
-{
-    return (reg & 0x10) == 0;
-}
-inline constexpr uint8_t wordLength(uint8_t reg)
-{
-    return 8 - ((reg & 0x60) >> 6);
-}
-inline constexpr bool stopBits(uint8_t reg)
-{
-    return ((reg & 0x0F) >> 7) + 1;
-}
-
 } // namespace
 
 ACIA::ACIA(const QString& name, Board* board) :

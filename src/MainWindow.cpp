@@ -364,7 +364,7 @@ void MainWindow::foreachView(const std::function<void(QAction*, ViewFactory*)>& 
 
 void MainWindow::on_actionManageDevices_triggered()
 {
-
+    // Not implemented
 }
 
 void MainWindow::on_actionQuit_triggered()
