@@ -42,8 +42,13 @@ void View::closeEvent(QCloseEvent* event)
 
 void View::initialize()
 {
-    setWindowTitle(name_);
     loadWindowState();
+
+    setWindowTitle(name_);
+
+    setWindowFlag(Qt::Window, false);
+    setWindowFlag(Qt::Dialog, false);
+    setWindowFlag(Qt::Tool, true);
 }
 
 void View::loadWindowState()
