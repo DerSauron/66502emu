@@ -50,7 +50,7 @@ signals:
     void stepped();
 
 private:
-    void setPin(uint64_t pin, WireState state);
+    void setPinValue(uint64_t pin, WireState state);
 
     void injectState();
     void populateState();

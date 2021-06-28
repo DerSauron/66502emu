@@ -80,7 +80,7 @@ uint64_t CPU::flags() const
     return m6502_p(chip_);
 }
 
-void CPU::setPin(uint64_t pin, WireState state)
+void CPU::setPinValue(uint64_t pin, WireState state)
 {
     if (isHigh(state))
         pinState_ |= pin;
@@ -90,9 +90,9 @@ void CPU::setPin(uint64_t pin, WireState state)
 
 void CPU::injectState()
 {
-    setPin(M6502_RES, negate(board_->resetLine()));
-    setPin(M6502_IRQ, negate(board_->irqLine()));
-    setPin(M6502_NMI, negate(board_->nmiLine()));
+    setPinValue(M6502_RES, negate(board_->resetLine()));
+    setPinValue(M6502_IRQ, negate(board_->irqLine()));
+    setPinValue(M6502_NMI, negate(board_->nmiLine()));
 
     if (isHigh(toState(pinState_ & M6502_RW)))
         M6502_SET_DATA(pinState_, board_->dataBus()->data());
