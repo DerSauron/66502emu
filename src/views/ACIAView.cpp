@@ -77,7 +77,7 @@ void ACIAView::onDataEntered(const QByteArray& data)
 {
     for (auto byte : data)
     {
-        acia()->receiveByte(static_cast<uint8_t>(byte));
+        QMetaObject::invokeMethod(acia(), "receiveByte", Q_ARG(quint8, byte));
     }
 }
 

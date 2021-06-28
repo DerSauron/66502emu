@@ -14,6 +14,7 @@
 #include "MainWindow.h"
 #include "board/Board.h"
 #include <QApplication>
+#include <QThread>
 
 int main(int argc, char *argv[])
 {
@@ -24,10 +25,23 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    Board board;
-    MainWindow mainWindow(&board);
+    QThread boardThread;
+    boardThread.start();
 
-    mainWindow.show();
+    Board* board = new Board();
+    board->moveToThread(&boardThread);
 
-    return QApplication::exec();
+    MainWindow* mainWindow = new MainWindow(board);
+    mainWindow->show();
+
+    int returnCode = QApplication::exec();
+
+    delete mainWindow;
+
+    board->deleteLater();
+
+    boardThread.quit();
+    boardThread.wait();
+
+    return returnCode;
 }
