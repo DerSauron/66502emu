@@ -97,6 +97,8 @@ add_library(6502emu STATIC
     AboutDialog.cpp
     AboutDialog.h
     AboutDialog.ui
+    BoardExecutor.cpp
+    BoardExecutor.h
     BoardLoader.cpp
     BoardLoader.h
     DeviceConfigModel.cpp

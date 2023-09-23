@@ -11,6 +11,7 @@
  * along with 6502emu. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "BoardExecutor.h"
 #include "MainWindow.h"
 #include "board/Board.h"
 #include <QApplication>
@@ -25,23 +26,17 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    QThread boardThread;
-    boardThread.start();
+    Board board{};
 
-    Board* board = new Board();
-    board->moveToThread(&boardThread);
+    BoardExecutor boardExecutor{&board};
+    boardExecutor.start();
 
-    MainWindow* mainWindow = new MainWindow(board);
-    mainWindow->show();
+    MainWindow mainWindow{&board};
+    mainWindow.show();
 
     int returnCode = QApplication::exec();
 
-    delete mainWindow;
-
-    board->deleteLater();
-
-    boardThread.quit();
-    boardThread.wait();
+    boardExecutor.shutdown();
 
     return returnCode;
 }
