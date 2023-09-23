@@ -13,15 +13,27 @@
 
 #pragma once
 
+#include <QObject>
+
 class Board;
 class QIODevice;
 
-class BoardLoader
+class BoardLoader : public QObject
 {
+    Q_OBJECT
+
 public:
-    static bool load(QIODevice* input, Board* board);
-    static bool validate(Board* board);
+    BoardLoader(QIODevice* input, QObject* parent = nullptr);
+
+    bool load(Board* board);
+
+signals:
+    void loadingFinished(bool result);
+
+private slots:
+    void loadImpl(Board* board);
+    bool validate(Board* board);
 
 private:
-    BoardLoader() = delete;
+    QIODevice* input_;
 };

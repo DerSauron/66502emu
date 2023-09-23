@@ -13,7 +13,6 @@
 
 #include "Board.h"
 
-#include "BoardLoader.h"
 #include "Bus.h"
 #include "Clock.h"
 #include "CPU.h"
@@ -47,35 +46,6 @@ Board::Board(QObject* parent) :
 
 Board::~Board()
 {
-}
-
-void Board::load(const QString& fileName)
-{
-    if (QThread::currentThread() == thread())
-        loadImpl(fileName);
-    QMetaObject::invokeMethod(this, "loadImpl", Q_ARG(QString, fileName));
-}
-
-void Board::loadImpl(const QString& fileName)
-{
-    QFile file(fileName);
-    if (!file.open(QFile::ReadOnly))
-    {
-        emit loadingFinished(false);
-        return;
-    }
-
-    clearDevices();
-
-    if (!BoardLoader::load(&file, this))
-    {
-        emit loadingFinished(false);
-        return;
-    }
-
-    BoardLoader::validate(this);
-
-    emit loadingFinished(true);
 }
 
 void Board::setRwLine(WireState rwLine)

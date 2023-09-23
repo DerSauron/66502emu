@@ -32,8 +32,6 @@ public:
     explicit Board(QObject* parent = nullptr);
     ~Board() override;
 
-    void load(const QString& fileName);
-
     Bus* addressBus() const { return addressBus_; }
     Bus* dataBus() const { return dataBus_; }
     CPU* cpu() const { return cpu_; }
@@ -71,11 +69,9 @@ public:
     void clearDevices();
 
 signals:
-    void loadingFinished(bool result);
     void signalChanged();
 
 private slots:
-    void loadImpl(const QString& fileName);
     void onClockCycleChanged();
 
 private:

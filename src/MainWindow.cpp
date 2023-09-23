@@ -15,6 +15,7 @@
 #include "ui_MainWindow.h"
 
 #include "AboutDialog.h"
+#include "BoardLoader.h"
 #include "UserState.h"
 #include "board/Board.h"
 #include "board/Clock.h"
@@ -108,7 +109,6 @@ void MainWindow::setup()
     connect(ui->stepInstructionButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepInstruction);
     connect(ui->stepSubroutineButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepSubroutine);
 
-    connect(board_, &Board::loadingFinished, this, &MainWindow::onBoardLoadingFinished);
     connect(board_->clock(), &Clock::runningChanged, this, &MainWindow::onClockRunningChanged);
     connect(board_->clock(), &Clock::statsUpdatedClockCycles, this, &MainWindow::onStatsUpdatedClockCycles);
 
@@ -194,6 +194,9 @@ void MainWindow::onBoardLoadingFinished(bool result)
         return;
     }
 
+    if (auto* s = qobject_cast<BoardLoader*>(sender()))
+        s->deleteLater();
+
     QString stateFileName = loadedFile_ + QLatin1String(".state");
     userState_->setFileName(stateFileName);
 
@@ -201,7 +204,6 @@ void MainWindow::onBoardLoadingFinished(bool result)
     s.setValue(kSettingsLastLoadedBoardFileName, loadedFile_);
 
     handleBoardLoaded();
-
 }
 
 void MainWindow::createBoardMenu()
@@ -310,7 +312,19 @@ void MainWindow::loadBoard(const QString& fileName)
     destroyAllViews();
 
     loadedFile_ = fileName;
-    board_->load(fileName);
+
+    auto* file = new QFile{fileName};
+    if (!file->open(QFile::ReadOnly))
+    {
+        qWarning() << "Cloud not open file" << fileName;
+        onBoardLoadingFinished(false);
+        return;
+    }
+
+    auto* loader = new BoardLoader{file, this};
+    connect(loader, &BoardLoader::loadingFinished, this, &MainWindow::onBoardLoadingFinished);
+
+    loader->load(board_);
 }
 
 void MainWindow::onClockRunningChanged()

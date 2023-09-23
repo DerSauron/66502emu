@@ -23,6 +23,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <optional>
 
 namespace {
 
@@ -333,24 +334,60 @@ bool validateOverlapping(Board* board)
 
 } // namespace
 
-bool BoardLoader::load(QIODevice* input, Board* board)
+
+BoardLoader::BoardLoader(QIODevice* input, QObject* parent) :
+    QObject{parent},
+    input_{input}
 {
-    auto doc = openJsonDocument(input);
-    if (doc.isNull() || !doc.isObject())
-        return false;
+    input_->setParent(this);
+}
 
-    if (!createBusses(board, doc.object()))
-        return false;
+bool BoardLoader::load(Board* board)
+{
+    return QMetaObject::invokeMethod(this, "loadImpl", Q_ARG(Board*, board));
+}
 
-    if (!createDevices(board, doc.object()))
-        return false;
+void BoardLoader::loadImpl(Board* board)
+{
+    bool result = false;
 
-    return true;
+    board->clearDevices();
+
+    auto doc = openJsonDocument(input_);
+    if (!doc.isNull() && doc.isObject())
+    {
+        if (createBusses(board, doc.object()))
+        {
+            if (createDevices(board, doc.object()))
+            {
+                if (validate(board))
+                {
+                    result = true;
+                }
+                else
+                {
+                    qWarning() << "Board addresses overlap";
+                }
+            }
+            else
+            {
+                qWarning() << "Could not create devices";
+            }
+        }
+        else
+        {
+            qWarning() << "Could not create system busses";
+        }
+    }
+    else
+    {
+        qWarning() << "File is no valid json document";
+    }
+
+    emit loadingFinished(result);
 }
 
 bool BoardLoader::validate(Board* board)
 {
-    if (!validateOverlapping(board))
-        return false;
-    return true;
+    return validateOverlapping(board);
 }
