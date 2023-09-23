@@ -5,7 +5,11 @@ include_directories(
 
 macro(simple_test name)
     add_executable(test_${name} test_${name}.cpp)
-    target_link_libraries(test_${name} PRIVATE Qt5::Test 6502emu)
+    target_link_libraries(test_${name} PRIVATE
+        project_config
+        6502emu
+        Qt5::Test
+    )
     source_group("" FILES test_${name}.cpp)
     add_test(test_${name} test_${name})
 endmacro()

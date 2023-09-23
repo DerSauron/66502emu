@@ -123,9 +123,8 @@ add_library(6502emu STATIC
     icons.qrc
 )
 
-target_compile_definitions(6502emu PRIVATE
-    QT_NO_CAST_FROM_ASCII
-    QT_NO_CAST_TO_ASCII
+target_link_libraries(6502emu PRIVATE
+    project_config
 )
 
 target_link_libraries(6502emu PUBLIC
@@ -146,6 +145,7 @@ target_sources(6502emu_app PRIVATE
 )
 
 target_link_libraries(6502emu_app PRIVATE
+    project_config
     6502emu
 )
 
