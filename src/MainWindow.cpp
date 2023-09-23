@@ -82,6 +82,7 @@ MainWindow::MainWindow(Board* board, QWidget* parent) :
 {
     ui->setupUi(this);
     setup();
+    adjustSize();
 }
 
 MainWindow::~MainWindow()
