@@ -21,7 +21,6 @@
 #include "board/Clock.h"
 #include "board/Debugger.h"
 #include "board/Device.h"
-#include "management/BoardManagerDialog.h"
 #include "views/DeviceView.h"
 #include "views/DisassemblerView.h"
 #include <QCloseEvent>
@@ -435,11 +434,6 @@ bool MainWindow::warnOpenBoard()
 
 void MainWindow::onActionManageBoardTriggered()
 {
-    BoardManagerDialog dlg{board_};
-    if (dlg.exec() == QDialog::Accepted)
-    {
-        saveBoard();
-    }
 }
 
 void MainWindow::onActionNewBoardTriggered()
