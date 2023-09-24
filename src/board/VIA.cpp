@@ -59,6 +59,16 @@ uint64_t VIA::mapPortTag(const QString& portTagName) const
         return Device::mapPortTag(portTagName);
 }
 
+QString VIA::mapPortTagName(uint64_t portTag) const
+{
+    if (portTag == Tags::PA)
+        return "PA"_lat1;
+    else if (portTag == Tags::PB)
+        return "PB"_lat1;
+    else
+        return Device::mapPortTagName(portTag);
+}
+
 void VIA::deviceClockEdge(StateEdge edge)
 {
     if (isLow(board()->resetLine()))

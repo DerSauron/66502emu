@@ -53,9 +53,10 @@ public:
     WireState syncLine() const { return syncLine_; }
     void setSyncLine(WireState syncLine);
 
-    QList<Device*> devices() const;
-    Device* device(const QString& name);
-    Bus* bus(const QString& name);
+    const QList<Device*> devices() const;
+    Device* device(const QString& name) const;
+    const QList<Bus*> busses() const;
+    Bus* bus(const QString& name) const;
 
     Device* findDevice(uint16_t address);
     template<typename T>

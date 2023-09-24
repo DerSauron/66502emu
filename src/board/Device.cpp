@@ -32,11 +32,20 @@ Device::~Device()
 {
 }
 
+const QVector<BusConnection>& Device::busConnections() const
+{
+    return busConnections_;
+}
+
+QString Device::portTagName(const BusConnection& busConnection) const
+{
+    return mapPortTagName(busConnection.portTag());
+}
+
 void Device::addBusConnection(const QString& portTagName, uint64_t portMask, Bus* bus, uint64_t busMask)
 {
     const uint64_t portTag = mapPortTag(portTagName);
     busConnections_.append(BusConnection{portTag, portMask, bus, busMask});
-
 }
 
 //void Device::setName(const QString& name)

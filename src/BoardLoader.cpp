@@ -16,6 +16,7 @@
 #include "board/ACIA.h"
 #include "board/Board.h"
 #include "board/Bus.h"
+#include "board/BusConnection.h"
 #include "board/LCD.h"
 #include "board/Memory.h"
 #include "board/VIA.h"
@@ -75,6 +76,12 @@ std::optional<T> extractNumber(const QJsonValue& value)
     return {};
 }
 
+template<typename T>
+inline QJsonValue toJsonValue(T&& val)
+{
+    return QJsonValue::fromVariant(QVariant::fromValue(std::forward<T>(val)));
+}
+
 QJsonDocument openJsonDocument(QIODevice* input)
 {
     QByteArray jsonData = input->readAll();
@@ -95,6 +102,18 @@ QJsonDocument openJsonDocument(QIODevice* input)
     return doc;
 }
 
+bool saveJsonDocument(QIODevice* output, const QJsonDocument& doc)
+{
+    auto rawData = doc.toJson(QJsonDocument::Indented);
+    auto bytesWritten = output->write(rawData);
+    if (bytesWritten != rawData.size())
+    {
+        qWarning() << "Failed to save to output";
+        return false;
+    }
+    return true;
+}
+
 bool createBus(Board* board, const QJsonObject& busDef)
 {
     static int busAutoNameIndex{0};
@@ -102,6 +121,10 @@ bool createBus(Board* board, const QJsonObject& busDef)
     QString busName = busDef.value(QStringLiteral("name")).toString();
     if (busName.isEmpty())
         busName = QStringLiteral("Bus-%1").arg(busAutoNameIndex++);
+
+    if (busName == QLatin1String("ADDRESS") ||
+            busName == QLatin1String("DATA"))
+        return true;
 
     auto width = extractNumber<uint8_t>(busDef.value(QStringLiteral("width")));
 
@@ -116,6 +139,16 @@ bool createBus(Board* board, const QJsonObject& busDef)
 
     // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
     return true;
+}
+
+QJsonObject saveBus(const Bus* bus)
+{
+    QJsonObject busObj;
+
+    busObj.insert(QStringLiteral("name"), bus->name());
+    busObj.insert(QStringLiteral("width"), toJsonValue(static_cast<int>(bus->width())));
+
+    return busObj;
 }
 
 bool createBusses(Board* board, const QJsonObject& doc)
@@ -142,6 +175,18 @@ bool createBusses(Board* board, const QJsonObject& doc)
     return true;
 }
 
+void saveBusses(QJsonObject& doc, const Board* board)
+{
+    QJsonArray busList;
+
+    for (const auto& bus : board->busses())
+    {
+        busList << saveBus(bus);
+    }
+
+    doc.insert(QLatin1String("busses"), busList);
+}
+
 bool createBusConnection(Device* device, Board* board, const QJsonObject& connDef)
 {
     QString busName = connDef.value(QLatin1String("bus")).toString();
@@ -164,6 +209,18 @@ bool createBusConnection(Device* device, Board* board, const QJsonObject& connDe
 
     device->addBusConnection(portName, portMask.value(), bus, busMask.value());
     return true;
+}
+
+QJsonObject saveBusConnection(const Device* device, const BusConnection& busConnection)
+{
+    QJsonObject conObj;
+
+    conObj.insert(QLatin1String("bus"), toJsonValue(busConnection.bus()->name()));
+    conObj.insert(QLatin1String("bus_mask"), toJsonValue(busConnection.busMask()));
+    conObj.insert(QLatin1String("port"), toJsonValue(device->portTagName(busConnection)));
+    conObj.insert(QLatin1String("port_mask"), toJsonValue(busConnection.portMask()));
+
+    return conObj;
 }
 
 bool createBusConnections(Device* device, Board* board, const QJsonObject& deviceDef)
@@ -193,9 +250,25 @@ bool createBusConnections(Device* device, Board* board, const QJsonObject& devic
     return true;
 }
 
+void saveBusConnections(QJsonObject& doc, const Device* device)
+{
+    QJsonArray busList;
+
+    for (const auto& con : device->busConnections())
+    {
+        busList << saveBusConnection(device, con);
+    }
+
+    doc.insert(QLatin1String("connections"), busList);
+}
+
 LCD* newLCD(const QString& name, Board* board, const QJsonObject& deviceDef)
 {
     return new LCD(name, board);
+}
+
+void saveLCD(const LCD* lcd, QJsonObject& obj)
+{
 }
 
 Memory* newMemory(const QString& name, Board* board, const QJsonObject& deviceDef)
@@ -219,14 +292,43 @@ Memory* newMemory(const QString& name, Board* board, const QJsonObject& deviceDe
     return new Memory(type, static_cast<uint32_t>(size.value()), name, board);
 }
 
+void saveMemory(const Memory* memory, QJsonObject& obj)
+{
+    obj.insert(QLatin1String("size"), toJsonValue(memory->size()));
+
+    QString type;
+    switch (memory->type())
+    {
+        using enum Memory::Type;
+        case ROM:
+            type = QLatin1String("rom");
+            break;
+        case RAM:
+            type = QLatin1String("ram");
+            break;
+        case FLASH:
+            type = QLatin1String("flash");
+            break;
+    }
+    obj.insert(QLatin1String("memory_type"), type);
+}
+
 VIA* newVIA(const QString& name, Board* board, const QJsonObject& deviceDef)
 {
     return new VIA(name, board);
 }
 
+void saveVIA(const VIA* via, QJsonObject& obj)
+{
+}
+
 ACIA* newACIA(const QString& name, Board* board, const QJsonObject& deviceDef)
 {
     return new ACIA(name, board);
+}
+
+void saveACIA(const ACIA* acia, QJsonObject& obj)
+{
 }
 
 bool createDevice(Board* board, const QJsonObject& deviceDef)
@@ -282,6 +384,41 @@ bool createDevice(Board* board, const QJsonObject& deviceDef)
     return true;
 }
 
+QJsonObject saveDevice(const Device* device)
+{
+    QJsonObject devObj;
+
+    devObj.insert(QLatin1String("name"), toJsonValue(device->name()));
+    devObj.insert(QLatin1String("address"), toJsonValue(device->mapAddressStart()));
+
+    QString type;
+
+    if (const auto* lcd = qobject_cast<const LCD*>(device))
+    {
+        type = QLatin1String("lcd");
+        saveLCD(lcd, devObj);
+    }
+    else if (const auto* memory = qobject_cast<const Memory*>(device))
+    {
+        type = QLatin1String("memory");
+        saveMemory(memory, devObj);
+    }
+    else if (const auto* via = qobject_cast<const VIA*>(device))
+    {
+        type = QLatin1String("via");
+        saveVIA(via, devObj);
+    }
+    else if (const auto* acia = qobject_cast<const ACIA*>(device))
+    {
+        type = QLatin1String("acia");
+        saveACIA(acia, devObj);
+    }
+
+    saveBusConnections(devObj, device);
+
+    return devObj;
+}
+
 bool createDevices(Board* board, const QJsonObject& doc)
 {
     auto devListIt = doc.find(QLatin1String("devices"));
@@ -304,6 +441,18 @@ bool createDevices(Board* board, const QJsonObject& doc)
     }
 
     return true;
+}
+
+void saveDevices(QJsonObject& doc, const Board* board)
+{
+    QJsonArray deviceList;
+
+    for (const auto& device : board->devices())
+    {
+        deviceList << saveDevice(device);
+    }
+
+    doc.insert(QLatin1String("devices"), deviceList);
 }
 
 bool validateOverlapping(Board* board)
@@ -335,16 +484,21 @@ bool validateOverlapping(Board* board)
 } // namespace
 
 
-BoardLoader::BoardLoader(QIODevice* input, QObject* parent) :
+BoardLoader::BoardLoader(QIODevice* io, QObject* parent) :
     QObject{parent},
-    input_{input}
+    io_{io}
 {
-    input_->setParent(this);
+    io_->setParent(this);
 }
 
 bool BoardLoader::load(Board* board)
 {
     return QMetaObject::invokeMethod(this, "loadImpl", Q_ARG(Board*, board));
+}
+
+bool BoardLoader::save(Board* board)
+{
+    return QMetaObject::invokeMethod(this, "saveImpl", Q_ARG(Board*, board));
 }
 
 void BoardLoader::loadImpl(Board* board)
@@ -353,7 +507,7 @@ void BoardLoader::loadImpl(Board* board)
 
     board->clearDevices();
 
-    auto doc = openJsonDocument(input_);
+    auto doc = openJsonDocument(io_);
     if (!doc.isNull() && doc.isObject())
     {
         if (createBusses(board, doc.object()))
@@ -385,6 +539,18 @@ void BoardLoader::loadImpl(Board* board)
     }
 
     emit loadingFinished(result);
+}
+
+void BoardLoader::saveImpl(Board* board)
+{
+    QJsonObject doc;
+
+    saveBusses(doc, board);
+    saveDevices(doc, board);
+
+    auto result = saveJsonDocument(io_, QJsonDocument{doc});
+
+    emit savingFinished(result);
 }
 
 bool BoardLoader::validate(Board* board)

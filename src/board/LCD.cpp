@@ -72,6 +72,20 @@ uint64_t LCD::mapPortTag(const QString& portTagName) const
         return Device::mapPortTag(portTagName);
 }
 
+QString LCD::mapPortTagName(uint64_t portTag) const
+{
+    if (portTag == Tags::DATA)
+        return QLatin1String{"DATA"};
+    else if (portTag == Tags::RS)
+        return QLatin1String{"RS"};
+    else if (portTag == Tags::RW)
+        return QLatin1String{"RW"};
+    else if (portTag == Tags::EN)
+        return QLatin1String{"EN"};
+    else
+        return Device::mapPortTagName(portTag);
+}
+
 void LCD::deviceClockEdge(StateEdge edge)
 {
     // interact on every edge

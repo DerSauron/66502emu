@@ -55,6 +55,7 @@ signals:
 
 protected:
     uint64_t mapPortTag(const QString& portTagName) const override;
+    QString mapPortTagName(uint64_t portTag) const override;
     // update the hd44780u with the system clock to keep state when stepping
     void deviceClockEdge(StateEdge edge) override;
 

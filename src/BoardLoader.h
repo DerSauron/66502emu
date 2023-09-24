@@ -23,17 +23,20 @@ class BoardLoader : public QObject
     Q_OBJECT
 
 public:
-    BoardLoader(QIODevice* input, QObject* parent = nullptr);
+    BoardLoader(QIODevice* io, QObject* parent = nullptr);
 
     bool load(Board* board);
+    bool save(Board* board);
 
 signals:
     void loadingFinished(bool result);
+    void savingFinished(bool result);
 
 private slots:
     void loadImpl(Board* board);
+    void saveImpl(Board* board);
     bool validate(Board* board);
 
 private:
-    QIODevice* input_;
+    QIODevice* io_;
 };

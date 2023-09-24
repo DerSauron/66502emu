@@ -197,9 +197,14 @@ void MainWindow::onBoardLoadingFinished(bool result)
     if (!result)
     {
         loadedFile_ = QString{};
+
+        loadedBoardChanged();
+
         QMessageBox::warning(this, tr("Could not load file"), tr("Board file could not be loaded"));
         return;
     }
+
+    loadedBoardChanged();
 
     if (auto* s = qobject_cast<BoardLoader*>(sender()))
         s->deleteLater();
@@ -213,12 +218,24 @@ void MainWindow::onBoardLoadingFinished(bool result)
     handleBoardLoaded();
 }
 
+void MainWindow::onBoardSavingFinished(bool result)
+{
+    // TODO implement
+}
+
 void MainWindow::createBoardMenu()
 {
     ui->actionDisassemblyLog->setEnabled(false);
     ui->actionDisassemblyLog->setData(
                 QVariant::fromValue(DisassemblerViewFactory::create(tr("Disassembly log"))));
     connect(ui->actionDisassemblyLog, &QAction::triggered, this, &MainWindow::onBoardViewAction);
+}
+
+void MainWindow::loadedBoardChanged()
+{
+    bool loaded = !loadedFile_.isEmpty();
+
+    ui->actionManageBoard->setEnabled(loaded);
 }
 
 QAction* MainWindow::createDeviceViewAction(int index, Device* device, const ViewFactoryPointer& factory)
@@ -334,6 +351,25 @@ void MainWindow::loadBoard(const QString& fileName)
     loader->load(board_);
 }
 
+void MainWindow::saveBoard()
+{
+    if (loadedFile_.isEmpty())
+        return;
+
+    auto* file = new QFile{loadedFile_};
+    if (!file->open(QFile::WriteOnly))
+    {
+        qWarning() << "Cloud not open file" << loadedFile_;
+        onBoardLoadingFinished(false);
+        return;
+    }
+
+    auto* loader = new BoardLoader{file, this};
+    connect(loader, &BoardLoader::savingFinished, this, &MainWindow::onBoardSavingFinished);
+
+    loader->save(board_);
+}
+
 void MainWindow::onClockRunningChanged()
 {
     ui->stepInstructionButton->setEnabled(!board_->clock()->isRunning());
@@ -383,7 +419,17 @@ void MainWindow::foreachView(const std::function<void(QAction*, ViewFactory*)>& 
     }
 }
 
+bool MainWindow::warnOpenBoard()
 {
+    if (loadedFile_.isEmpty())
+        return false;
+
+    int result = QMessageBox::warning(this, tr("Board loaded"),
+                                      tr("Close current board?"),
+                                      QMessageBox::Yes | QMessageBox::No,
+                                      QMessageBox::No);
+
+     return result != QMessageBox::Yes;
 }
 
 void MainWindow::onActionManageBoardTriggered()
@@ -397,6 +443,9 @@ void MainWindow::onActionManageBoardTriggered()
 
 void MainWindow::onActionNewBoardTriggered()
 {
+    if (warnOpenBoard())
+        return;
+
     QSettings s;
     QString lastDirectoryAccessed = s.value(kSettingsLastAccesesdFilePath).toString();
 
@@ -436,6 +485,9 @@ void MainWindow::onActionNewBoardTriggered()
 
 void MainWindow::onActionOpenBoardTriggered()
 {
+    if (warnOpenBoard())
+        return;
+
     QSettings s;
     QString lastDirectoryAccessed = s.value(kSettingsLastAccesesdFilePath).toString();
 

@@ -88,17 +88,22 @@ void Board::setSyncLine(WireState syncLine)
     emit signalChanged();
 }
 
-QList<Device*> Board::devices() const
+const QList<Device*> Board::devices() const
 {
     return findChildren<Device*>(QString(), Qt::FindDirectChildrenOnly);
 }
 
-Device* Board::device(const QString& name)
+Device* Board::device(const QString& name) const
 {
     return findChild<Device*>(name, Qt::FindDirectChildrenOnly);
 }
 
-Bus* Board::bus(const QString& name)
+const QList<Bus*> Board::busses() const
+{
+    return findChildren<Bus*>(QString(), Qt::FindDirectChildrenOnly);
+}
+
+Bus* Board::bus(const QString& name) const
 {
     return findChild<Bus*>(name, Qt::FindDirectChildrenOnly);
 }

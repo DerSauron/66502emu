@@ -44,6 +44,7 @@ protected:
 
 private slots:
     void onBoardLoadingFinished(bool result);
+    void onBoardSavingFinished(bool result);
     void onCloseView();
     void onClockRunningChanged();
     void onBoardViewAction();
@@ -61,15 +62,17 @@ private:
     void saveWindowState();
     void saveViewsVisibleState();
     void createBoardMenu();
+    void loadedBoardChanged();
     QAction* createDeviceViewAction(int index, Device* device, const ViewFactoryPointer& factory);
     void rebuildBoardMenuActions();
     void showEnabledViews();
     void showView(ViewFactory* factory);
     void hideView(ViewFactory* factory);
     void loadBoard(const QString& fileName);
-    void saveBoard(const QString& fileName);
+    void saveBoard();
     void handleBoardLoaded();
     void foreachView(const std::function<void(QAction*, ViewFactory*)>& callback);
+    bool warnOpenBoard();
 
 private:
     Ui::MainWindow* ui;
