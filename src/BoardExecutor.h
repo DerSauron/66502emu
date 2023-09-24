@@ -22,10 +22,8 @@ class BoardExecutor : public QObject
 {
     Q_OBJECT
 public:
-    explicit BoardExecutor(Board* board, QObject* parent = nullptr);
-
-    void start();
-    void shutdown();
+    BoardExecutor(Board* board, QObject* parent = nullptr);
+    ~BoardExecutor();
 
 private:
     Board* board_;

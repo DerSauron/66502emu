@@ -26,17 +26,12 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    Board board{};
+    auto* board = new Board{};
 
-    BoardExecutor boardExecutor{&board};
-    boardExecutor.start();
+    BoardExecutor boardExecutor{board};
 
-    MainWindow mainWindow{&board};
+    MainWindow mainWindow{board};
     mainWindow.show();
 
-    int returnCode = QApplication::exec();
-
-    boardExecutor.shutdown();
-
-    return returnCode;
+    return QApplication::exec();
 }
