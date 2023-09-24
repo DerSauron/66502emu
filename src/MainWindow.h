@@ -48,11 +48,11 @@ private slots:
     void onClockRunningChanged();
     void onBoardViewAction();
     void onStatsUpdatedClockCycles(uint32_t clockCycles);
-    void on_actionManageDevices_triggered();
-    void on_actionQuit_triggered();
-    void on_actionNewBoard_triggered();
-    void on_actionOpenBoard_triggered();
-    void on_actionAbout_triggered();
+    void onActionManageBoardTriggered();
+    void onActionNewBoardTriggered();
+    void onActionOpenBoardTriggered();
+    void onActionAboutTriggered();
+    void onActionQuitTriggered();
 
 private:
     void setup();
