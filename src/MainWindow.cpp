@@ -477,6 +477,7 @@ void MainWindow::onActionNewBoardTriggered()
         return;
     }
     file.write("{}");
+    file.close();
 
     QFileInfo fi(fileName);
     s.setValue(kSettingsLastAccesesdFilePath, fi.absolutePath());
