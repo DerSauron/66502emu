@@ -340,12 +340,12 @@
     </message>
     <message>
         <location filename="MainWindow.ui" line="312"/>
-        <source>&amp;Manage Devices</source>
+        <source>&amp;Manage Board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="315"/>
-        <source>Add/remove devices or change their config</source>
+        <source>Add/remove devices and busses or change their config</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -369,123 +369,133 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="337"/>
+        <location filename="MainWindow.ui" line="334"/>
         <source>&amp;New Board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="340"/>
+        <location filename="MainWindow.ui" line="337"/>
         <source>Create new Board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="343"/>
+        <location filename="MainWindow.ui" line="340"/>
         <source>Ctrl+N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="348"/>
+        <location filename="MainWindow.ui" line="345"/>
         <source>&amp;Open Board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="351"/>
+        <location filename="MainWindow.ui" line="348"/>
         <source>Open existing board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="354"/>
+        <location filename="MainWindow.ui" line="351"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="362"/>
+        <location filename="MainWindow.ui" line="359"/>
         <source>No devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="370"/>
+        <location filename="MainWindow.ui" line="367"/>
         <source>&amp;Disassembly log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="373"/>
+        <location filename="MainWindow.ui" line="370"/>
         <source>Alt+-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="378"/>
+        <location filename="MainWindow.ui" line="375"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="193"/>
+        <location filename="MainWindow.cpp" line="204"/>
         <source>Could not load file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="193"/>
+        <location filename="MainWindow.cpp" line="204"/>
         <source>Board file could not be loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="211"/>
+        <location filename="MainWindow.cpp" line="231"/>
         <source>Disassembly log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="221"/>
+        <location filename="MainWindow.cpp" line="248"/>
         <source>&amp;%1 %2 (%3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="222"/>
+        <location filename="MainWindow.cpp" line="249"/>
         <source>Alt+%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="337"/>
+        <location filename="MainWindow.cpp" line="395"/>
         <source>Running at %1Hz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="347"/>
+        <location filename="MainWindow.cpp" line="405"/>
         <source>6502 emulator - %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="380"/>
+        <location filename="MainWindow.cpp" line="428"/>
+        <source>Board loaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="429"/>
+        <source>Close current board?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="453"/>
         <source>Select file for new board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="381"/>
-        <location filename="MainWindow.cpp" line="420"/>
+        <location filename="MainWindow.cpp" line="454"/>
+        <location filename="MainWindow.cpp" line="497"/>
         <source>Board files (*.board)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="391"/>
+        <location filename="MainWindow.cpp" line="464"/>
         <source>File exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="392"/>
+        <location filename="MainWindow.cpp" line="465"/>
         <source>Do you want to override the existing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="402"/>
+        <location filename="MainWindow.cpp" line="475"/>
         <source>Could not open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="403"/>
+        <location filename="MainWindow.cpp" line="476"/>
         <source>The selected file coult no be open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="419"/>
+        <location filename="MainWindow.cpp" line="496"/>
         <source>Select board file</source>
         <translation type="unfinished"></translation>
     </message>
