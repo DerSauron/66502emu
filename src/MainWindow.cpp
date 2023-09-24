@@ -36,7 +36,7 @@ const QString kSettingsLastAccesesdFilePath = QStringLiteral("LastAccesesdFilePa
 const QString kSettingsLastLoadedBoardFileName = QStringLiteral("LastLoadedBoardFileName");
 const QString kSettingsGeometry = QStringLiteral("MainWindow/Geometry");
 const QString kSesstionsState = QStringLiteral("MainWindow/State");
-const QList<QString> Units = {QStringLiteral(""), // clazy:exclude=non-pod-global-static
+const QList<QString> Units = {QLatin1String(""), // clazy:exclude=non-pod-global-static
                               QStringLiteral("k"),
                               QStringLiteral("M"),
                               QStringLiteral("G"),
