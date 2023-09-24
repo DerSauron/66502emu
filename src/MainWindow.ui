@@ -278,7 +278,7 @@
     <property name="title">
      <string>&amp;Board</string>
     </property>
-    <addaction name="actionManageDevices"/>
+    <addaction name="actionManageBoard"/>
     <addaction name="separator"/>
     <addaction name="actionDisassemblyLog"/>
     <addaction name="separator"/>
@@ -304,15 +304,15 @@
    <addaction name="menu_About"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionManageDevices">
+  <action name="actionManageBoard">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>&amp;Manage Devices</string>
+    <string>&amp;Manage Board</string>
    </property>
    <property name="toolTip">
-    <string>Add/remove devices or change their config</string>
+    <string>Add/remove devices and busses or change their config</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
@@ -330,9 +330,6 @@
    </property>
   </action>
   <action name="actionNewBoard">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="text">
     <string>&amp;New Board</string>
    </property>
