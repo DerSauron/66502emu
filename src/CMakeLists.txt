@@ -172,7 +172,7 @@ qt5_create_translation(
 add_executable(exe "")
 
 target_sources(exe PRIVATE
-    main.cpp
+    Main.cpp
 )
 
 target_link_libraries(exe PRIVATE
