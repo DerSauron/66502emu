@@ -38,19 +38,19 @@ void ACIAView::setup()
     ui->rxFlag->setEnableColor(BitsView::EnabledColor::Red);
 
 
-    ui->statusRegister->setName(tr("STAT"));
+    ui->statusRegister->setName(QLatin1String("STAT"));
     ui->statusRegister->setBitCount(8);
     ui->statusRegister->setBitNames({QStringLiteral("PE"), QStringLiteral("FE"), QStringLiteral("OVR"),
                                      QStringLiteral("RDF"), QStringLiteral("TRE"), QStringLiteral("DCD"),
                                      QStringLiteral("DSR"), QStringLiteral("IRQ")});
 
-    ui->commandRegister->setName(tr("CMD"));
+    ui->commandRegister->setName(QLatin1String("CMD"));
     ui->commandRegister->setBitCount(8);
     ui->commandRegister->setBitNames({QStringLiteral("DTR"), QStringLiteral("IRD"), QStringLiteral("TI0"),
                                       QStringLiteral("TI1"), QStringLiteral("REM"), QStringLiteral("PME"),
                                       QStringLiteral("PM0"), QStringLiteral("PM1")});
 
-    ui->controlRegister->setName(tr("CTRL"));
+    ui->controlRegister->setName(QLatin1String("CTRL"));
     ui->controlRegister->setBitCount(8);
     ui->controlRegister->setBitNames({QStringLiteral("BD0"), QStringLiteral("BD1"), QStringLiteral("BD2"),
                                       QStringLiteral("BD3"), QStringLiteral("RCS"), QStringLiteral("WL0"),

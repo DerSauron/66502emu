@@ -15,7 +15,7 @@
       </font>
      </property>
      <property name="text">
-      <string>0x00</string>
+      <string notr="true">0x00</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>

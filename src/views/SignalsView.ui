@@ -20,7 +20,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;R/&lt;span style=&quot;text-decoration: overline;&quot;&gt;W&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;R/&lt;span style=&quot;text-decoration: overline;&quot;&gt;W&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -46,7 +46,7 @@
       <string notr="true">text-decoration: overline;</string>
      </property>
      <property name="text">
-      <string>IRQ</string>
+      <string notr="true">IRQ</string>
      </property>
     </widget>
    </item>
@@ -72,7 +72,7 @@
       <string notr="true">text-decoration: overline;</string>
      </property>
      <property name="text">
-      <string>NMI</string>
+      <string notr="true">NMI</string>
      </property>
     </widget>
    </item>
@@ -95,7 +95,7 @@
       </font>
      </property>
      <property name="text">
-      <string>SYNC</string>
+      <string notr="true">SYNC</string>
      </property>
     </widget>
    </item>
@@ -121,7 +121,7 @@
       <string notr="true">text-decoration: overline;</string>
      </property>
      <property name="text">
-      <string>RES</string>
+      <string notr="true">RES</string>
      </property>
     </widget>
    </item>
@@ -187,7 +187,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../icons.qrc"/>
   <include location="../icons.qrc"/>
  </resources>
  <connections/>

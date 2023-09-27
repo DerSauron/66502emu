@@ -125,7 +125,7 @@
          </font>
         </property>
         <property name="text">
-         <string>PC: 0000</string>
+         <string notr="true">PC: 0000</string>
         </property>
        </widget>
       </item>
@@ -138,7 +138,7 @@
          </font>
         </property>
         <property name="text">
-         <string>IR: 0000</string>
+         <string notr="true">IR: 0000</string>
         </property>
        </widget>
       </item>

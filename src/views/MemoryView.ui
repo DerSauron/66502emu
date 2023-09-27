@@ -72,7 +72,7 @@
         </font>
        </property>
        <property name="text">
-        <string>CS</string>
+        <string notr="true">CS</string>
        </property>
       </widget>
      </item>
@@ -182,7 +182,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../icons.qrc"/>
   <include location="../icons.qrc"/>
  </resources>
  <connections/>

@@ -29,7 +29,7 @@
       </font>
      </property>
      <property name="text">
-      <string>R</string>
+      <string notr="true">R</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -61,7 +61,7 @@
       </font>
      </property>
      <property name="text">
-      <string>00</string>
+      <string notr="true">00</string>
      </property>
     </widget>
    </item>
