@@ -22,8 +22,6 @@
 #include "board/Clock.h"
 #include "board/Debugger.h"
 #include "board/Device.h"
-#include "views/DeviceView.h"
-#include "views/DisassemblerView.h"
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QLabel>

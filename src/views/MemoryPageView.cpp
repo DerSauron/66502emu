@@ -125,7 +125,7 @@ void MemoryPageView::paintEvent(QPaintEvent* event)
 
     p.fillRect(posBarPos, 0, posBarWidth, charHeight_, posBarBrush);
 
-    uint16_t address = addressOffset_ + page_ * 0x100;
+    auto address = static_cast<uint16_t>(addressOffset_ + page_ * 0x100);
     p.drawText(0, charAscent_,
                QStringLiteral("Address: %2 - %3")
                .arg(address, 4, 16, QLatin1Char('0'))
@@ -135,8 +135,8 @@ void MemoryPageView::paintEvent(QPaintEvent* event)
     {
         for (int x = 0; x < 0x10; ++x)
         {
-            uint16_t byte = static_cast<uint16_t>(y * 0x10 + x);
-            uint16_t addr = page_ * 0x100 + byte;
+            auto byte = static_cast<uint16_t>(y * 0x10 + x);
+            auto addr = static_cast<uint16_t>(page_ * 0x100 + byte);
 
             int rowPos = y * charHeight_;
 

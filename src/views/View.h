@@ -25,6 +25,7 @@ public:
     View(const QString& name, MainWindow* mainWindow);
     View(const QString& name, MainWindow* mainWindow, QWidget* parent);
     ~View() override;
+
     virtual void initialize();
 
     MainWindow* mainWindow() const { return mainWindow_; }
