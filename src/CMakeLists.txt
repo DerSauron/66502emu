@@ -1,4 +1,30 @@
-add_library(6502emu STATIC
+add_library(ext STATIC "")
+
+target_sources(ext PRIVATE
+    impl/hd44780u.cpp
+    impl/hd44780u.h
+    impl/hd44780u_data.cpp
+    impl/hd44780u_data.h
+    impl/m6502.cpp
+    impl/m6502.h
+    impl/m6522.cpp
+    impl/m6522.h
+)
+
+target_link_libraries(ext PRIVATE
+    qt5_config
+)
+
+target_link_libraries(ext PUBLIC
+    Qt5::Core
+)
+
+# #########################################################
+# #########################################################
+
+add_library(app STATIC "")
+
+target_sources(app PRIVATE
     board/ACIA.cpp
     board/ACIA.h
     board/Board.cpp
@@ -28,14 +54,6 @@ add_library(6502emu STATIC
     codeeditor/Highlighter.h
     codeeditor/LineNumberArea.cpp
     codeeditor/LineNumberArea.h
-    impl/hd44780u.cpp
-    impl/hd44780u.h
-    impl/hd44780u_data.cpp
-    impl/hd44780u_data.h
-    impl/m6502.cpp
-    impl/m6502.h
-    impl/m6522.cpp
-    impl/m6522.h
     utils/ArrayView.cpp
     utils/ArrayView.h
     utils/BitManipulations.cpp
@@ -125,11 +143,14 @@ add_library(6502emu STATIC
     icons.qrc
 )
 
-target_link_libraries(6502emu PRIVATE
+target_link_libraries(app PRIVATE
     project_config
+    qt5_config
 )
 
-target_link_libraries(6502emu PUBLIC
+target_link_libraries(app PUBLIC
+    ext
+    Qt5::Core
     Qt5::Widgets
 )
 
@@ -137,30 +158,39 @@ set(TS_FILES
     6502emu_en.ts
     6502emu_de.ts
 )
-target_sources(6502emu PRIVATE ${TS_FILES})
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+target_sources(app PRIVATE ${TS_FILES})
+qt5_create_translation(
+    QM_FILES
+    ${CMAKE_SOURCE_DIR}/src
+    ${TS_FILES}
+    OPTIONS -no-obsolete
+)
 
-add_executable(6502emu_app "")
+# #########################################################
+# #########################################################
 
-target_sources(6502emu_app PRIVATE
+add_executable(exe "")
+
+target_sources(exe PRIVATE
     main.cpp
 )
 
-target_link_libraries(6502emu_app PRIVATE
+target_link_libraries(exe PRIVATE
     project_config
-    6502emu
+    qt5_config
+    app
 )
 
-set_target_properties(6502emu_app PROPERTIES
+set_target_properties(exe PROPERTIES
     OUTPUT_NAME "6502emu"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist"
 )
 
-set_target_properties(6502emu_app PROPERTIES
+set_target_properties(exe PROPERTIES
     WIN32_EXECUTABLE true
 )
 
-target_sources(6502emu_app PRIVATE
+target_sources(exe PRIVATE
     6502emu.rc
 )
