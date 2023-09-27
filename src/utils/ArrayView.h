@@ -21,17 +21,20 @@ public:
     class Iterator
     {
     public:
-        Iterator(const uint8_t* p) : p{p} {}
+        Iterator(const uint8_t* p) : p_{p} {}
+        ~Iterator() = default;
 
         Iterator(const Iterator&) = default;
         Iterator& operator=(const Iterator&) = default;
+        Iterator(Iterator&&) = default;
+        Iterator& operator=(Iterator&&) = default;
 
-        const uint8_t& operator*() { return *p; }
-        bool operator!=(const Iterator& rhs) const { return p != rhs.p; }
-        void operator++() { ++p; }
+        const uint8_t& operator*() { return *p_; }
+        bool operator!=(const Iterator& rhs) const { return p_ != rhs.p_; }
+        void operator++() { ++p_; }
 
     private:
-          const uint8_t* p;
+          const uint8_t* p_;
     };
 
 public:

@@ -37,7 +37,7 @@ enum Command : uint8_t
     ParityMode_NI = 0x00,
 };
 
-constexpr int BaudTimeMap[] = {
+constexpr std::array BaudTimeMap = {
     9,
     20000,
     13333,
@@ -185,17 +185,17 @@ void ACIA::populateState()
 {
     Register rs = static_cast<Register>(board()->addressBus()->typedData<uint8_t>() & 0x03);
 
-    uint8_t data;
+    uint8_t data{};
     switch (rs)
     {
         case Register::Data:
             data = receiveData_;
-            statusRegister_ &= ~(ParityError | FramingError | OverrunError | ReceiverFull);
+            statusRegister_ &= static_cast<uint8_t>(~(ParityError | FramingError | OverrunError | ReceiverFull));
             emit registerChanged();
             break;
         case Register::Status:
             data = statusRegister_;
-            statusRegister_ &= ~(IRQ);
+            statusRegister_ &= static_cast<uint8_t>(~(IRQ));
             emit registerChanged();
             break;
         case Register::Command:
@@ -227,7 +227,7 @@ void ACIA::startReceive()
 
 int ACIA::baudDelay()
 {
-    return BaudTimeMap[baudRate()] * baudDelayFactor_;
+    return BaudTimeMap.at(baudRate()) * baudDelayFactor_;
 }
 
 void ACIA::transmitDelayTimeout()

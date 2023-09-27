@@ -40,7 +40,7 @@ void Bus::setBit(uint8_t bit, WireState state)
 
 void Bus::setData(uint64_t data)
 {
-    uint64_t widthMask = (1 << width_) - 1;
+    auto widthMask = static_cast<uint64_t>((1 << width_) - 1);
     uint64_t newData = data & widthMask;
 
     if (newData == data_)
@@ -53,7 +53,7 @@ void Bus::setData(uint64_t data)
 
 void Bus::setMaskedData(uint64_t data, uint64_t mask)
 {
-    uint64_t widthMask = (1 << width_) - 1;
+    auto widthMask = static_cast<uint64_t>((1 << width_) - 1);
     uint64_t newData = ((data_ & ~mask) | (data & mask)) & widthMask;
 
     if (newData == data_)

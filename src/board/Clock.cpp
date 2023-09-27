@@ -40,7 +40,7 @@ Clock::~Clock()
 {
 }
 
-void Clock::setPeriod(quint64 period)
+void Clock::setPeriod(int64_t period)
 {
     if (period == period_)
         return;
@@ -55,7 +55,7 @@ void Clock::setPeriod(quint64 period)
     else
     {
         busyWaitTimeout_ = 0;
-        timer_->setInterval(period_ / 2000);
+        timer_->setInterval(static_cast<int>(period_ / 2000));
     }
 }
 
@@ -91,7 +91,7 @@ void Clock::triggerEdge(StateEdge edge)
     if (isRunning())
         return;
 
-    bool extraTick;
+    bool extraTick{};
 
     switch (edge)
     {

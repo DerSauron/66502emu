@@ -56,7 +56,7 @@ signals:
     void receivingChanged();
 
 public slots:
-    void receiveByte(quint8 byte);
+    void receiveByte(uint8_t byte);
 
 protected:
     uint16_t calcMapAddressEnd() const override;
