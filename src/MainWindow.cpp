@@ -74,9 +74,9 @@ DeviceViewFactoryPointer extractDeviceViewFactory(QAction* action)
 }
 
 MainWindow::MainWindow(Board* board, QWidget* parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    userState_(new UserState()),
+    QMainWindow{parent},
+    ui{new Ui::MainWindow{}},
+    userState_{new UserState{}},
     board_{board}
 {
     ui->setupUi(this);

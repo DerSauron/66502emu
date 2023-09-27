@@ -83,4 +83,6 @@ private:
     Board* board_;
     QScopedPointer<BoardFile> boardFile_;
     QLabel* statusMessage_{};
+
+    Q_DISABLE_COPY_MOVE(MainWindow)
 };
