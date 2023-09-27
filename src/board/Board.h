@@ -53,10 +53,11 @@ public:
     WireState syncLine() const { return syncLine_; }
     void setSyncLine(WireState syncLine);
 
-    const QList<Device*> devices() const;
-    Device* device(const QString& name) const;
-    const QList<Bus*> busses() const;
-    Bus* bus(const QString& name) const;
+    const QVector<Device*>& devices() const;
+    //Device* device(const QString& name) const;
+
+    const QVector<Bus*>& busses() const;
+    //Bus* bus(const QString& name) const;
 
     Device* findDevice(uint16_t address);
     template<typename T>
@@ -67,10 +68,12 @@ public:
             return nullptr;
         return qobject_cast<T*>(dev);
     }
-    void clearDevices();
+
+    void reset(QVector<Device*> devices, QVector<Bus*> busses);
 
 signals:
     void signalChanged();
+    void resetted();
 
 private slots:
     void onClockCycleChanged();
@@ -78,6 +81,8 @@ private slots:
 private:
     Bus* addressBus_;
     Bus* dataBus_;
+    QVector<Bus*> busses_;
+    QVector<Device*> devices_;
     WireState resetLine_;
     WireState rwLine_;
     WireState irqLine_;

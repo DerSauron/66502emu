@@ -16,6 +16,7 @@
 
 #include "AboutDialog.h"
 #include "BoardLoader.h"
+#include "BoardFile.h"
 #include "UserState.h"
 #include "board/Board.h"
 #include "board/Clock.h"
@@ -119,6 +120,8 @@ void MainWindow::setup()
     connect(board_->clock(), &Clock::runningChanged, this, &MainWindow::onClockRunningChanged);
     connect(board_->clock(), &Clock::statsUpdatedClockCycles, this, &MainWindow::onStatsUpdatedClockCycles);
 
+    connect(board_, &Board::resetted, this, &MainWindow::onBoardResetted);
+
     ui->centralwidget->setEnabled(false);
 
     createBoardMenu();
@@ -192,15 +195,11 @@ void MainWindow::closeEvent(QCloseEvent* event)
     QMainWindow::closeEvent(event);
 }
 
-void MainWindow::onBoardLoadingFinished(bool result)
+void MainWindow::handleBoardLoadingFinished(bool result)
 {
     if (!result)
     {
-        loadedFile_ = QString{};
-
-        loadedBoardChanged();
-
-        QMessageBox::warning(this, tr("Could not load file"), tr("Board file could not be loaded"));
+        loadingBoardFailed();
         return;
     }
 
@@ -209,18 +208,25 @@ void MainWindow::onBoardLoadingFinished(bool result)
     if (auto* s = qobject_cast<BoardLoader*>(sender()))
         s->deleteLater();
 
-    QString stateFileName = loadedFile_ + QLatin1String(".state");
+    QString stateFileName = boardFile_->fileName() + QLatin1String(".state");
     userState_->setFileName(stateFileName);
 
     QSettings s;
-    s.setValue(kSettingsLastLoadedBoardFileName, loadedFile_);
-
-    handleBoardLoaded();
+    s.setValue(kSettingsLastLoadedBoardFileName, boardFile_->fileName());
 }
 
-void MainWindow::onBoardSavingFinished(bool result)
+void MainWindow::handleBoardSavingFinished(bool result)
 {
     // TODO implement
+}
+
+void MainWindow::loadingBoardFailed()
+{
+    boardFile_.reset();
+
+    loadedBoardChanged();
+
+    QMessageBox::warning(this, tr("Could not load file"), tr("Board file could not be loaded"));
 }
 
 void MainWindow::createBoardMenu()
@@ -233,9 +239,18 @@ void MainWindow::createBoardMenu()
 
 void MainWindow::loadedBoardChanged()
 {
-    bool loaded = !loadedFile_.isEmpty();
+    bool loaded = !!boardFile_;
 
     ui->actionManageBoard->setEnabled(loaded);
+
+    QString fileName = tr("<unloaded>");
+    if (loaded)
+    {
+        QFileInfo fi(boardFile_->fileName());
+        fileName = fi.completeBaseName();
+    }
+
+    setWindowTitle(tr("6502 emulator - %1").arg(fileName));
 }
 
 QAction* MainWindow::createDeviceViewAction(int index, Device* device, const ViewFactoryPointer& factory)
@@ -254,43 +269,28 @@ QAction* MainWindow::createDeviceViewAction(int index, Device* device, const Vie
 
 void MainWindow::rebuildBoardMenuActions()
 {
-    const QList<Device*> devices{board_->devices()};
+    const QVector<Device*> devices{board_->devices()};
     const QList<QAction*> actions = ui->menuBoard->actions();
 
-    QHash<Device*, ViewFactoryPointer> factoryMap;
     for (auto action : actions)
     {
         auto factory = extractDeviceViewFactory(action);
         if (!factory)
             continue;
-        factoryMap.insert(factory->device(), factory);
-        action->deleteLater();
+        if (factory->view())
+            factory->destroyView(this);
+        delete action;
     }
 
     int i = 1;
     for (const auto device : devices)
     {
-        ViewFactoryPointer viewFactory;
-        if (auto pos = factoryMap.find(device); pos != factoryMap.end())
-        {
-            viewFactory = pos.value();
-            factoryMap.erase(pos);
-        }
-        else
-        {
-            viewFactory = DeviceViewFactory::create(device);
-        }
+        auto viewFactory = DeviceViewFactory::create(device);
 
         auto action = createDeviceViewAction(i, device, viewFactory);
         auto show = userState_->viewVisible(viewFactory->viewName(), true);
         action->setChecked(show);
         i++;
-    }
-
-    for (auto& factory : factoryMap)
-    {
-        if (factory->view())
-            factory->destroyView(this);
     }
 
     {
@@ -335,38 +335,51 @@ void MainWindow::loadBoard(const QString& fileName)
     saveViewsVisibleState();
     destroyAllViews();
 
-    loadedFile_ = fileName;
+    boardFile_.reset(new BoardFile{fileName});
 
-    auto* file = new QFile{fileName};
-    if (!file->open(QFile::ReadOnly))
-    {
-        qWarning() << "Cloud not open file" << fileName;
-        onBoardLoadingFinished(false);
+    connect(boardFile_.get(), &BoardFile::loaded, this, [this](bool result) {
+        if (!result)
+        {
+            loadingBoardFailed();
+            return;
+        }
+        reloadBoard();
+    });
+
+    connect(boardFile_.get(), &BoardFile::saved, this, [this](bool result) {
+        handleBoardSavingFinished(result);
+    });
+
+    boardFile_->load();
+}
+
+void MainWindow::reloadBoard()
+{
+    if (!boardFile_)
         return;
-    }
 
-    auto* loader = new BoardLoader{file, this};
-    connect(loader, &BoardLoader::loadingFinished, this, &MainWindow::onBoardLoadingFinished);
+    auto loader = new BoardLoader{boardFile_->boardInfo(), this};
+
+    connect(loader, &BoardLoader::loaded, this, [this, loader](bool result) {
+        handleBoardLoadingFinished(result);
+        loader->deleteLater();
+    });
 
     loader->load(board_);
 }
 
 void MainWindow::saveBoard()
 {
-    if (loadedFile_.isEmpty())
+    if (!boardFile_)
         return;
 
-    auto* file = new QFile{loadedFile_};
-    if (!file->open(QFile::WriteOnly))
-    {
-        qWarning() << "Cloud not open file" << loadedFile_;
-        onBoardLoadingFinished(false);
-        return;
-    }
-
-    auto* loader = new BoardLoader{file, this};
-    connect(loader, &BoardLoader::savingFinished, this, &MainWindow::onBoardSavingFinished);
-
+    auto loader = new BoardLoader{boardFile_->boardInfo(), this};
+    connect(loader, &BoardLoader::saved, this, [this, loader] (bool result) {
+        if (!result)
+            return;
+        boardFile_->save();
+        loader->deleteLater();
+    });
     loader->save(board_);
 }
 
@@ -389,22 +402,19 @@ void MainWindow::onBoardViewAction()
         hideView(viewFactory.get());
 }
 
-void MainWindow::onStatsUpdatedClockCycles(uint32_t clockCycles)
-{
-    const QString message = tr("Running at %1Hz").arg(humanReadable(clockCycles));
-    statusMessage_->setText(message);
-}
-
-void MainWindow::handleBoardLoaded()
+void MainWindow::onBoardResetted()
 {
     rebuildBoardMenuActions();
     showEnabledViews();
 
-    QFileInfo fi(loadedFile_);
-    setWindowTitle(tr("6502 emulator - %1").arg(fi.completeBaseName()));
-
     ui->actionDisassemblyLog->setEnabled(true);
     ui->centralwidget->setEnabled(true);
+}
+
+void MainWindow::onStatsUpdatedClockCycles(uint32_t clockCycles)
+{
+    const QString message = tr("Running at %1Hz").arg(humanReadable(clockCycles));
+    statusMessage_->setText(message);
 }
 
 void MainWindow::foreachView(const std::function<void(QAction*, ViewFactory*)>& callback)
@@ -421,7 +431,7 @@ void MainWindow::foreachView(const std::function<void(QAction*, ViewFactory*)>& 
 
 bool MainWindow::warnOpenBoard()
 {
-    if (loadedFile_.isEmpty())
+    if (!boardFile_)
         return false;
 
     int result = QMessageBox::warning(this, tr("Board loaded"),

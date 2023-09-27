@@ -23,6 +23,8 @@ class MainWindow;
 class ViewFactory
 {
 public:
+    virtual ~ViewFactory() = default;
+
     const QString& viewName() { return viewName_; }
     View* view() const { return view_; }
 
@@ -48,6 +50,7 @@ protected:
     QString viewName_;
     View* view_{};
 };
+
 using ViewFactoryPointer = QSharedPointer<ViewFactory>;
 Q_DECLARE_METATYPE(ViewFactoryPointer)
 
@@ -77,6 +80,7 @@ protected:
 
     Device* device_{};
 };
+
 using DeviceViewFactoryPointer = QSharedPointer<DeviceViewFactory>;
 Q_DECLARE_METATYPE(DeviceViewFactoryPointer)
 
@@ -101,5 +105,6 @@ private:
         return view;
     }
 };
+
 using DisassemblerViewFactoryPointer = QSharedPointer<DisassemblerViewFactory>;
 Q_DECLARE_METATYPE(DisassemblerViewFactoryPointer)

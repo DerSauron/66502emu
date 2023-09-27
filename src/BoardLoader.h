@@ -13,30 +13,30 @@
 
 #pragma once
 
+#include <BoardFile.h>
 #include <QObject>
 
 class Board;
-class QIODevice;
 
 class BoardLoader : public QObject
 {
     Q_OBJECT
 
 public:
-    BoardLoader(QIODevice* io, QObject* parent = nullptr);
+    BoardLoader(BoardInfo& boardInfo, QObject* parent = nullptr);
 
-    bool load(Board* board);
-    bool save(Board* board);
+    void load(Board* board);
+    void save(const Board* board);
 
 signals:
-    void loadingFinished(bool result);
-    void savingFinished(bool result);
+    void loaded(bool result);
+    void saved(bool result);
 
-private slots:
-    void loadImpl(Board* board);
-    void saveImpl(Board* board);
+private:
+    bool loadImpl(const BoardInfo& boardInfo, Board* board);
+    bool saveImpl(BoardInfo& boardInfo, const Board* board);
     bool validate(Board* board);
 
 private:
-    QIODevice* io_;
+    BoardInfo& boardInfo_;
 };

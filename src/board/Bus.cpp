@@ -16,7 +16,7 @@
 #include "Board.h"
 
 Bus::Bus(const QString& name, uint8_t width, Board* board) :
-    QObject{board},
+    QObject{nullptr},
     width_{width},
     data_{}
 {

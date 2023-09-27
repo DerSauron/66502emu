@@ -31,6 +31,7 @@ public:
     ~VIA() override;
 
     void setPinOffset(uint8_t offset);
+    bool isUseNmi() const { return useNmi_; };
     void setUseNmi(bool useNmi) { useNmi_ = useNmi; };
 
     uint8_t pa() const;

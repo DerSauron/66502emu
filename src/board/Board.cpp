@@ -18,7 +18,6 @@
 #include "CPU.h"
 #include "Debugger.h"
 #include "Device.h"
-#include "UserState.h"
 #include <QChildEvent>
 #include <QFile>
 #include <QTimer>
@@ -32,6 +31,8 @@ Board::Board(QObject* parent) :
     QObject{parent},
     addressBus_{new Bus{QStringLiteral("ADDRESS"), CPU::ADDRESS_BUS_WIDTH, this}},
     dataBus_{new Bus{QStringLiteral("DATA"), CPU::DATA_BUS_WIDTH, this}},
+    busses_{},
+    devices_{},
     resetLine_{WireState::High},
     rwLine_{WireState::Low},
     irqLine_{WireState::High},
@@ -88,30 +89,39 @@ void Board::setSyncLine(WireState syncLine)
     emit signalChanged();
 }
 
-const QList<Device*> Board::devices() const
+const QVector<Device*>& Board::devices() const
 {
-    return findChildren<Device*>(QString(), Qt::FindDirectChildrenOnly);
+    return devices_;
 }
 
-Device* Board::device(const QString& name) const
+//Device* Board::device(const QString& name) const
+//{
+//    auto pos = std::find_if(devices_.begin(), devices_.end(), [&name](const auto& device) {
+//        return device->name() == name;
+//    });
+//    if (pos == devices_.end())
+//        return {};
+//    return *pos;
+//}
+
+const QVector<Bus*>& Board::busses() const
 {
-    return findChild<Device*>(name, Qt::FindDirectChildrenOnly);
+    return busses_;
 }
 
-const QList<Bus*> Board::busses() const
-{
-    return findChildren<Bus*>(QString(), Qt::FindDirectChildrenOnly);
-}
-
-Bus* Board::bus(const QString& name) const
-{
-    return findChild<Bus*>(name, Qt::FindDirectChildrenOnly);
-}
+//Bus* Board::bus(const QString& name) const
+//{
+//    auto pos = std::find_if(busses_.begin(), busses_.end(), [&name](const auto& bus) {
+//        return bus->name() == name;
+//    });
+//    if (pos == busses_.end())
+//        return {};
+//    return *pos;
+//}
 
 Device* Board::findDevice(uint16_t address)
 {
-    const QList<Device*> _devices = devices();
-    for (auto& device : _devices)
+    for (auto& device : qAsConst(devices_))
     {
         if (address >= device->mapAddressStart() && address <= device->mapAddressEnd())
             return device;
@@ -119,13 +129,29 @@ Device* Board::findDevice(uint16_t address)
     return nullptr;
 }
 
-void Board::clearDevices()
+void Board::reset(QVector<Device*> devices, QVector<Bus*> busses)
 {
-    const QList<Device*> _devices = devices();
-    for (auto device : _devices)
+    for (auto& d : devices)
     {
-        delete device;
+        d->moveToThread(thread());
+        d->setParent(this);
     }
+
+    for (auto& b : busses)
+    {
+        b->moveToThread(thread());
+        b->setParent(this);
+    }
+
+    QMetaObject::invokeMethod(this, [this, devices, busses]() {
+        qDeleteAll(devices_);
+        devices_ = devices;
+
+        qDeleteAll(busses_);
+        busses_ = busses;
+
+        emit resetted();
+    });
 }
 
 void Board::onClockCycleChanged()
@@ -148,8 +174,7 @@ void Board::onClockCycleChanged()
     setIrqLine(WireState::High);
     setNmiLine(WireState::High);
 
-    const QList<Device*> _devices = devices();
-    for (auto device : _devices)
+    for (auto device : qAsConst(devices_))
     {
         device->clockEdge(edge);
     }

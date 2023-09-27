@@ -19,6 +19,7 @@ target_compile_features(project_config INTERFACE
 )
 
 include(LoadQt5)
+include(LoadGlaze)
 
 add_subdirectory(src)
 add_subdirectory(tests)

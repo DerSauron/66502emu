@@ -17,6 +17,7 @@
 #include <QMainWindow>
 
 class Board;
+class BoardFile;
 class Device;
 class View;
 class UserState;
@@ -43,11 +44,10 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
-    void onBoardLoadingFinished(bool result);
-    void onBoardSavingFinished(bool result);
     void onCloseView();
     void onClockRunningChanged();
     void onBoardViewAction();
+    void onBoardResetted();
     void onStatsUpdatedClockCycles(uint32_t clockCycles);
     void onActionManageBoardTriggered();
     void onActionNewBoardTriggered();
@@ -69,15 +69,18 @@ private:
     void showView(ViewFactory* factory);
     void hideView(ViewFactory* factory);
     void loadBoard(const QString& fileName);
+    void reloadBoard();
     void saveBoard();
-    void handleBoardLoaded();
     void foreachView(const std::function<void(QAction*, ViewFactory*)>& callback);
     bool warnOpenBoard();
+    void handleBoardLoadingFinished(bool result);
+    void handleBoardSavingFinished(bool result);
+    void loadingBoardFailed();
 
 private:
     Ui::MainWindow* ui;
     QScopedPointer<UserState> userState_;
     Board* board_;
-    QString loadedFile_;
-    QLabel* statusMessage_;
+    QScopedPointer<BoardFile> boardFile_;
+    QLabel* statusMessage_{};
 };

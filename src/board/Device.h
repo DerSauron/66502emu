@@ -28,7 +28,7 @@ class Device : public QObject
 
 public:
     Device(const QString& name, Board* board);
-    virtual ~Device();
+    ~Device() override;
 
     QString name() const { return objectName(); }
     Board* board() const { return board_; }

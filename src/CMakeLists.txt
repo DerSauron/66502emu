@@ -117,6 +117,8 @@ target_sources(app PRIVATE
     AboutDialog.ui
     BoardExecutor.cpp
     BoardExecutor.h
+    BoardFile.cpp
+    BoardFile.h
     BoardLoader.cpp
     BoardLoader.h
     DeviceConfigModel.cpp
@@ -152,6 +154,7 @@ target_link_libraries(app PUBLIC
     ext
     Qt5::Core
     Qt5::Widgets
+    glaze::glaze
 )
 
 set(TS_FILES
