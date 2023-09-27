@@ -11,7 +11,7 @@
  * along with 6502emu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "utils/BitManipulations.h"
+#include "utils/Bits.h"
 
 #include <QtTest>
 
