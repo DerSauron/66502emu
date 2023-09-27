@@ -54,12 +54,9 @@ target_sources(app PRIVATE
     codeeditor/Highlighter.h
     codeeditor/LineNumberArea.cpp
     codeeditor/LineNumberArea.h
-    utils/ArrayView.cpp
     utils/ArrayView.h
-    utils/BitManipulations.cpp
-    utils/BitManipulations.h
-    utils/Strings.cpp
-    utils/Strings.h
+    utils/Bits.h
+    utils/Maths.h
     views/ACIAView.cpp
     views/ACIAView.h
     views/ACIAView.ui

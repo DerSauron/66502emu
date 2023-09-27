@@ -17,8 +17,7 @@
 #include "Bus.h"
 #include "BusConnection.h"
 #include "impl/m6522.h"
-#include "utils/BitManipulations.h"
-#include "utils/Strings.h"
+#include "utils/Bits.h"
 
 namespace {
 
@@ -27,7 +26,6 @@ enum Tags
     PA,
     PB
 };
-
 
 } // namespace
 
@@ -51,9 +49,9 @@ VIA::~VIA()
 
 uint64_t VIA::mapPortTag(const QString& portTagName) const
 {
-    if (portTagName == "PA"_lat1)
+    if (portTagName == QLatin1String("PA"))
         return Tags::PA;
-    else if (portTagName == "PB"_lat1)
+    else if (portTagName == QLatin1String("PB"))
         return Tags::PB;
     else
         return Device::mapPortTag(portTagName);
@@ -62,9 +60,9 @@ uint64_t VIA::mapPortTag(const QString& portTagName) const
 QString VIA::mapPortTagName(uint64_t portTag) const
 {
     if (portTag == Tags::PA)
-        return "PA"_lat1;
+        return QLatin1String("PA");
     else if (portTag == Tags::PB)
-        return "PB"_lat1;
+        return QLatin1String("PB");
     else
         return Device::mapPortTagName(portTag);
 }

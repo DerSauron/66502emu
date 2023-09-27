@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include "utils/BitManipulations.h"
+#include "utils/Bits.h"
 #include <QScopedPointer>
 #include <array>
 #include <cinttypes>

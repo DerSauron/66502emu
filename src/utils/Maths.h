@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Daniel Volk <mail@volkarts.com>
+ * Copyright (C) 2023 Daniel Volk <mail@volkarts.com>
  *
  * This file is part of 6502emu - 6502 cycle accurate emulator gui.
  *
@@ -11,4 +11,12 @@
  * along with 6502emu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ArrayView.h"
+#pragma once
+
+#include <concepts>
+
+template<std::unsigned_integral T>
+bool inline isPowerOfTwo(T value)
+{
+    return (value != 0) && (value & (value - 1)) == 0;
+}
