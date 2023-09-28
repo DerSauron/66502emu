@@ -166,7 +166,7 @@ uint8_t VIA::pcr() const
     return chip_->pcr;
 }
 
-uint16_t VIA::calcMapAddressEnd() const
+int32_t VIA::calcMapAddressEnd() const
 {
     return mapAddressStart_ + 0xF;
 }

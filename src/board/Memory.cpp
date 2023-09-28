@@ -22,10 +22,10 @@ namespace {
 
 } // namespace
 
-Memory::Memory(Type type, uint32_t size, const QString& name, Board* board) :
+Memory::Memory(Type type, int32_t size, const QString& name, Board* board) :
     Device{name, board},
     type_{type},
-    data_(static_cast<int>(size)),
+    data_(size),
     lastAccessAddress_{0},
     lastAccessWasWrite_{false}
 {
@@ -40,17 +40,17 @@ void Memory::setup()
 {
 }
 
-void Memory::setData(uint32_t index, const ArrayView& data)
+void Memory::setData(int32_t index, const ArrayView& data)
 {
     for (int i = 0; i < data.size(); i++)
     {
-        data_[static_cast<int>(index) + i] = data[i];
+        data_[index + i] = data[i];
     }
 }
 
-uint16_t Memory::calcMapAddressEnd() const
+int32_t Memory::calcMapAddressEnd() const
 {
-    return static_cast<uint16_t>((mapAddressStart() - 1) + data_.size());
+    return (mapAddressStart() - 1) + data_.size();
 }
 
 void Memory::deviceClockEdge(StateEdge edge)
@@ -62,7 +62,7 @@ void Memory::deviceClockEdge(StateEdge edge)
     {
         Board* brd = board();
 
-        uint16_t addr = brd->addressBus()->typedData<uint16_t>() - mapAddressStart();
+        int32_t addr = brd->addressBus()->typedData<int32_t>() - mapAddressStart();
 
         bool wasAccessed = false;
         if (isHigh(brd->rwLine()))

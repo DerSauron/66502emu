@@ -27,15 +27,15 @@ public:
     void setProgram(Program* program);
 
 signals:
-    void addBreakpoint(int address);
-    void removeBreakpoint(int address);
-    void breakpointChanged(int line);
+    void addBreakpoint(int32_t address);
+    void removeBreakpoint(int32_t address);
+    void breakpointChanged(int32_t line);
 
 private slots:
     void onClockRunningChanged();
     void onNewInstructionStart();
     void onDebuggerFailStateChanged();
-    void onLineNumberDoubleClicked(int line);
+    void onLineNumberDoubleClicked(int32_t line);
     void on_startStopButton_clicked();
 
 private:
@@ -48,8 +48,8 @@ private:
 private:
     void setup();
     void handleProgramChange();
-    int findLineForAddress(uint16_t address);
-    void highlightCurrentLine(uint16_t address);
+    int findLineForAddress(int32_t address);
+    void highlightCurrentLine(int32_t address);
     void setProgramText();
     void buildAddressIndex();
     Labels scanLabels();
@@ -59,6 +59,6 @@ private:
 private:
     Ui::SourcesView* ui;
     Program* program_;
-    QMap<int, int> addressMap_;
+    QMap<int32_t, int32_t> addressMap_;
     bool clockRunning_;
 };

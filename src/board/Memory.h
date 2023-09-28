@@ -31,33 +31,33 @@ public:
     };
 
 public:
-    Memory(Type type, uint32_t size, const QString& name, Board* board);
+    Memory(Type type, int32_t size, const QString& name, Board* board);
     ~Memory() override;
 
     bool isWriteable() const { return type_ == Type::RAM || type_ == Type::FLASH; }
     bool isPersistant() const { return type_ == Type::ROM || type_ == Type::FLASH; }
 
-    uint16_t lastAccessAddress() const { return lastAccessAddress_; }
+    int32_t lastAccessAddress() const { return lastAccessAddress_; }
     bool lastAccessWasWrite() const { return lastAccessWasWrite_; }
 
     Type type() const { return type_; }
-    uint32_t size() const { return static_cast<uint32_t>(data_.size()); }
+    int32_t size() const { return data_.size(); }
     QVector<uint8_t>& data() { return data_; };
-    void setData(uint32_t index, const ArrayView& data);
+    void setData(int32_t index, const ArrayView& data);
 
-    uint8_t byte(uint16_t address) const { return data_[address]; }
+    uint8_t byte(int32_t address) const { return data_[address]; }
 
 signals:
     void accessed();
 
 protected:
     void setup();
-    uint16_t calcMapAddressEnd() const override;
+    int32_t calcMapAddressEnd() const override;
     void deviceClockEdge(StateEdge edge) override;
 
 private:
     Type type_;
     QVector<uint8_t> data_;
-    uint16_t lastAccessAddress_;
+    int32_t lastAccessAddress_;
     bool lastAccessWasWrite_;
 };

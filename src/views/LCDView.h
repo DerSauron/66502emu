@@ -41,7 +41,7 @@ private slots:
     void onLCDDisplayChanged();
 
 private:
-    QPoint panelPos(uint16_t address) const;
+    QPoint panelPos(int32_t address) const;
     void setup();
     void redrawCharacters();
 

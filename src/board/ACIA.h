@@ -59,7 +59,7 @@ public slots:
     void receiveByte(uint8_t byte);
 
 protected:
-    uint16_t calcMapAddressEnd() const override;
+    int32_t calcMapAddressEnd() const override;
     void deviceClockEdge(StateEdge edge) override;
 
 private:

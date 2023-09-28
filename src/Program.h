@@ -16,8 +16,8 @@ public:
     class SourceLine
     {
     public:
-        int line;
-        int address;
+        int32_t line;
+        int32_t address;
         QChar type;
         QString text;
     };

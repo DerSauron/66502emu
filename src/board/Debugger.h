@@ -30,9 +30,9 @@ public:
     bool isFailState() const { return failState_; }
 
     uint8_t lastInstruction() const { return lastInstruction_; }
-    uint16_t lastInstructionStart() const { return lastInstructionStart_; }
+    int32_t lastInstructionStart() const { return lastInstructionStart_; }
     uint8_t currentInstruction() const { return currentInstruction_; }
-    uint16_t currentInstructionStart() const { return currentInstructionStart_; }
+    int32_t currentInstructionStart() const { return currentInstructionStart_; }
 
     bool breakpointMatches(int address) const;
 
@@ -46,14 +46,14 @@ public slots:
     void stepInstruction();
     void stepSubroutine();
 
-    void addBreakpoint(int address);
-    void removeBreakpoint(int address);
+    void addBreakpoint(int32_t address);
+    void removeBreakpoint(int32_t address);
 
 private:
     void reset();
-    void updateInstructionState(uint16_t address);
+    void updateInstructionState(int32_t address);
     void updateCallStack();
-    void stopAtBreakpoint(uint16_t address);
+    void stopAtBreakpoint(int32_t address);
     void stopAfterInstruction();
     void stopAfterSubroutine();
     void handleNewInstructionStart();
@@ -74,11 +74,11 @@ private:
     uint8_t rtsOpcode_{};
     bool failState_{false};
     uint8_t lastInstruction_{};
-    uint16_t lastInstructionStart_{};
+    int32_t lastInstructionStart_{};
     uint8_t currentInstruction_{};
-    uint16_t currentInstructionStart_{};
+    int32_t currentInstructionStart_{};
     SteppingMode steppingMode_{SteppingMode::None};
-    QSet<int> breakpoints_;
-    QVector<int> callStack_;
+    QSet<int32_t> breakpoints_;
+    QVector<int32_t> callStack_;
     int steppingSubroutineCallStackStart_{};
 };

@@ -46,14 +46,14 @@ struct DeviceCommonInfo
 {
     DeviceType type{};
     QString name{};
-    uint16_t address{};
+    int32_t address{};
     QVector<BusConnectionInfo> connections;
 };
 
 struct MemoryInfo : DeviceCommonInfo
 {
     Memory::Type memoryType{};
-    uint32_t memorySize{};
+    int32_t memorySize{};
 };
 
 struct ViaInfo : DeviceCommonInfo

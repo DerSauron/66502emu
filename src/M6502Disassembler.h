@@ -44,16 +44,16 @@ enum class AddressingMode
 
 struct Instruction
 {
-    uint16_t position;
+    int32_t position;
     QString instruction;
     uint8_t cycles;
     uint8_t length{0};
-    uint8_t bytes[3];
+    std::array<uint8_t, 3> bytes;
     QString comment;
 };
 
-QList<Instruction> disassemble(Memory* memory, uint16_t start = 0, uint16_t end = std::numeric_limits<uint16_t>::max());
-QList<Instruction> disassembleCount(Memory* memory, uint16_t count, uint16_t start = 0);
+QList<Instruction> disassemble(Memory* memory, int32_t start = 0, int32_t end = std::numeric_limits<uint16_t>::max());
+QList<Instruction> disassembleCount(Memory* memory, int32_t count, int32_t start = 0);
 QList<QString> mnemonicList();
 uint8_t searchOpcode(const QString& mnemonic, AddressingMode addressingMode);
 

@@ -64,7 +64,7 @@ void SourcesView::handleProgramChange()
     setHighlighterRules();
 }
 
-int SourcesView::findLineForAddress(uint16_t address)
+int SourcesView::findLineForAddress(int32_t address)
 {
     auto pos = addressMap_.find(address);
     if (pos == addressMap_.end())
@@ -72,7 +72,7 @@ int SourcesView::findLineForAddress(uint16_t address)
     return pos.value();
 }
 
-void SourcesView::highlightCurrentLine(uint16_t address)
+void SourcesView::highlightCurrentLine(int32_t address)
 {
     auto line = findLineForAddress(address);
     ui->codeView->highlightCurrentAddressLine(line);
@@ -152,7 +152,7 @@ void SourcesView::onNewInstructionStart()
 {
     if (!clockRunning_)
     {
-        uint16_t address = mainWindow()->board()->addressBus()->typedData<uint16_t>();
+        int32_t address = mainWindow()->board()->addressBus()->typedData<int32_t>();
         highlightCurrentLine(address);
     }
 }

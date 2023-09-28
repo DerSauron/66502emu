@@ -28,14 +28,14 @@ public:
     explicit Clock(QObject* parent = nullptr);
     ~Clock() override;
 
-    int64_t period() const { return period_; }
+    int32_t period() const { return period_; }
 
     bool isRunning() const;
 
     WireState state() const { return state_; }
 
 public slots:
-    void setPeriod(int64_t period);
+    void setPeriod(int32_t period);
     void start();
     void stop();
     void triggerEdge(StateEdge edge);
@@ -43,14 +43,14 @@ public slots:
 signals:
     void runningChanged();
     void clockCycleChanged();
-    void statsUpdatedClockCycles(quint32 clockCycles);
+    void statsUpdatedClockCycles(int32_t clockCycles);
 
 private slots:
     void tick();
     void collectStats();
 
 private:
-    int64_t period_;
+    int32_t period_;
     QElapsedTimer busyWaiter_;
     int64_t busyWaitTimeout_;
     QTimer* timer_;
@@ -58,7 +58,7 @@ private:
     QAtomicInt shouldStop_;
 
     QTimer* statsTimer_;
-    uint32_t statsCycleCounter_;
+    int32_t statsCycleCounter_;
 
     Q_DISABLE_COPY_MOVE(Clock)
 };

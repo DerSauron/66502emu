@@ -46,9 +46,9 @@ private slots:
 
 private:
     void setup();
-    void showAddress(Memory* memory, uint16_t address);
-    void showCurrent(uint16_t baseAddress, const M6502::Instruction& instruction);
-    void showLookAheads(uint16_t baseAddress, const QList<M6502::Instruction>& instructions);
+    void showAddress(Memory* memory, int32_t address);
+    void showCurrent(int32_t baseAddress, const M6502::Instruction& instruction);
+    void showLookAheads(int32_t baseAddress, const QList<M6502::Instruction>& instructions);
     bool isScrollEnd() const;
     void doScrollEnd();
 
@@ -61,6 +61,6 @@ private:
 
 private:
     Ui::DisassemblerView* ui;
-    int instructionsLookAhead_;
-    int currentIndex_;
+    int32_t instructionsLookAhead_;
+    int32_t currentIndex_;
 };

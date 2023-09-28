@@ -25,7 +25,7 @@
 
 namespace {
 
-QString toString(uint16_t baseAddress, const M6502::Instruction& instruction)
+QString toString(int32_t baseAddress, const M6502::Instruction& instruction)
 {
     QString bytes;
     for (uint8_t i = 0; i < instruction.length; i++)
@@ -106,13 +106,13 @@ void DisassemblerView::on_toolButton_triggered(QAction* action)
     currentIndex_ = 0;
 }
 
-void DisassemblerView::showAddress(Memory* memory, uint16_t address)
+void DisassemblerView::showAddress(Memory* memory, int32_t address)
 {
     bool wasScrollEnd = isScrollEnd();
 
-    const uint16_t baseAddress = memory->mapAddressStart();
+    const int32_t baseAddress = memory->mapAddressStart();
     const auto instructions = M6502::disassembleCount(memory,
-                                                      static_cast<uint16_t>(instructionsLookAhead_ + 1),
+                                                      instructionsLookAhead_ + 1,
                                                       address - baseAddress);
 
     if (!instructions.isEmpty())
@@ -124,7 +124,7 @@ void DisassemblerView::showAddress(Memory* memory, uint16_t address)
         doScrollEnd();
 }
 
-void DisassemblerView::showCurrent(uint16_t baseAddress, const M6502::Instruction& instruction)
+void DisassemblerView::showCurrent(int32_t baseAddress, const M6502::Instruction& instruction)
 {
     if (currentIndex_ < ui->disassembly->count())
     {
@@ -141,7 +141,7 @@ void DisassemblerView::showCurrent(uint16_t baseAddress, const M6502::Instructio
     ui->disassembly->insertItem(currentIndex_, item);
 }
 
-void DisassemblerView::showLookAheads(uint16_t baseAddress, const QList<M6502::Instruction>& instructions)
+void DisassemblerView::showLookAheads(int32_t baseAddress, const QList<M6502::Instruction>& instructions)
 {
     int row = currentIndex_ + 1;
     for (int i = 1; i < instructions.length(); i++, row++)

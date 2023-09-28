@@ -59,9 +59,9 @@ public:
     const QVector<Bus*>& busses() const;
     //Bus* bus(const QString& name) const;
 
-    Device* findDevice(uint16_t address);
+    Device* findDevice(int32_t address);
     template<typename T>
-    T* findDevice(uint16_t address)
+    T* findDevice(int32_t address)
     {
         auto* dev = findDevice(address);
         if (!dev)

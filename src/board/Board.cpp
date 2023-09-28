@@ -119,7 +119,7 @@ const QVector<Bus*>& Board::busses() const
 //    return *pos;
 //}
 
-Device* Board::findDevice(uint16_t address)
+Device* Board::findDevice(int32_t address)
 {
     for (auto& device : qAsConst(devices_))
     {

@@ -62,7 +62,7 @@ void MemoryPageView::setMemory(Memory* memory)
     update();
 }
 
-void MemoryPageView::setAddressOffset(uint16_t addressOffset)
+void MemoryPageView::setAddressOffset(int32_t addressOffset)
 {
     if (addressOffset == addressOffset_)
         return;
@@ -73,7 +73,7 @@ void MemoryPageView::setAddressOffset(uint16_t addressOffset)
     update();
 }
 
-void MemoryPageView::setPage(uint8_t page)
+void MemoryPageView::setPage(int32_t page)
 {
     if (page == page_)
         return;
@@ -85,7 +85,7 @@ void MemoryPageView::setPage(uint8_t page)
     update();
 }
 
-void MemoryPageView::highlight(uint8_t byte, bool write)
+void MemoryPageView::highlight(int32_t byte, bool write)
 {
     if (byte == highLightByte_ && write == highlightWrite_)
         return;
@@ -120,12 +120,12 @@ void MemoryPageView::paintEvent(QPaintEvent* event)
     if (!memory_)
         return;
 
-    int posBarWidth = qMax(5, clientSize.width() / (static_cast<int>(memory_->size()) / 256));
-    int posBarPos = posBarWidth * page_;
+    int32_t posBarWidth = qMax(5, clientSize.width() / (memory_->size() / 256));
+    int32_t posBarPos = posBarWidth * page_;
 
     p.fillRect(posBarPos, 0, posBarWidth, charHeight_, posBarBrush);
 
-    auto address = static_cast<uint16_t>(addressOffset_ + page_ * 0x100);
+    auto address = addressOffset_ + page_ * 0x100;
     p.drawText(0, charAscent_,
                QStringLiteral("Address: %2 - %3")
                .arg(address, 4, 16, QLatin1Char('0'))
@@ -135,8 +135,8 @@ void MemoryPageView::paintEvent(QPaintEvent* event)
     {
         for (int x = 0; x < 0x10; ++x)
         {
-            auto byte = static_cast<uint16_t>(y * 0x10 + x);
-            auto addr = static_cast<uint16_t>(page_ * 0x100 + byte);
+            auto byte = y * 0x10 + x;
+            auto addr = page_ * 0x100 + byte;
 
             int rowPos = y * charHeight_;
 

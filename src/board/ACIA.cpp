@@ -110,7 +110,7 @@ void ACIA::receiveByte(uint8_t byte)
     emit receivingChanged();
 }
 
-uint16_t ACIA::calcMapAddressEnd() const
+int32_t ACIA::calcMapAddressEnd() const
 {
     return mapAddressStart_ + 0x03;
 }

@@ -20,7 +20,7 @@
 
 namespace {
 
-QVector<uint64_t> Periods{ // clazy:exclude=non-pod-global-static
+const QVector<int32_t> Periods{ // clazy:exclude=non-pod-global-static}
     4000000,
     2000000,
     1000000,
@@ -30,15 +30,16 @@ QVector<uint64_t> Periods{ // clazy:exclude=non-pod-global-static
     10000,
     1000,
     100,
-    0
+    0,
 };
 
-int findPeriodIndex(uint64_t period)
+int findPeriodIndex(int32_t period)
 {
-    for (int i = 0; i < Periods.size(); i++)
+    for (int i = 0; const auto& p : Periods)
     {
-        if (Periods[i] <= period)
+        if (p <= period)
             return i;
+        ++i;
     }
     return 2;
 }
@@ -115,7 +116,9 @@ void ClockView::on_singleStepButton_released()
 
 void ClockView::on_frequency_currentIndexChanged(int index)
 {
-    if (clock_)
-        QMetaObject::invokeMethod(clock_, "setPeriod", Q_ARG(quint64, Periods[ui->frequency->currentIndex()]));
+    if (!clock_)
+        return;
+
+    QMetaObject::invokeMethod(clock_, "setPeriod", Q_ARG(int32_t, Periods[ui->frequency->currentIndex()]));
 }
 

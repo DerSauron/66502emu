@@ -40,7 +40,7 @@ Debugger::~Debugger()
 {
 }
 
-bool Debugger::breakpointMatches(int address) const
+bool Debugger::breakpointMatches(int32_t address) const
 {
     const auto pos = breakpoints_.find(address);
     return pos != breakpoints_.end();
@@ -66,13 +66,13 @@ void Debugger::stepSubroutine()
     }
 }
 
-void Debugger::addBreakpoint(int address)
+void Debugger::addBreakpoint(int32_t address)
 {
     Q_ASSERT(QThread::currentThread() == thread());
     breakpoints_.insert(address);
 }
 
-void Debugger::removeBreakpoint(int address)
+void Debugger::removeBreakpoint(int32_t address)
 {
     Q_ASSERT(QThread::currentThread() == thread());
     breakpoints_.remove(address);
@@ -93,7 +93,7 @@ void Debugger::reset()
     steppingSubroutineCallStackStart_ = 0;
 }
 
-void Debugger::updateInstructionState(uint16_t address)
+void Debugger::updateInstructionState(int32_t address)
 {
     lastInstruction_ = currentInstruction_;
     lastInstructionStart_ = currentInstructionStart_;
@@ -119,7 +119,7 @@ void Debugger::updateCallStack()
     }
 }
 
-void Debugger::stopAtBreakpoint(uint16_t address)
+void Debugger::stopAtBreakpoint(int32_t address)
 {
     if (breakpointMatches(address))
     {

@@ -33,9 +33,9 @@ public:
     QString name() const { return objectName(); }
     Board* board() const { return board_; }
 
-    void setMapAddressStart(uint16_t address) { mapAddressStart_ = address; }
-    uint16_t mapAddressStart() const { return mapAddressStart_; }
-    uint16_t mapAddressEnd() const { return calcMapAddressEnd(); }
+    void setMapAddressStart(int32_t address) { mapAddressStart_ = address; }
+    int32_t mapAddressStart() const { return mapAddressStart_; }
+    int32_t mapAddressEnd() const { return calcMapAddressEnd(); }
 
     const QVector<BusConnection>& busConnections() const;
     QString portTagName(const BusConnection& busConnection) const;
@@ -51,12 +51,12 @@ signals:
 protected:
     virtual uint64_t mapPortTag(const QString& portTagName) const { return std::numeric_limits<uint64_t>::max(); }
     virtual QString mapPortTagName(uint64_t portTag) const { return {}; }
-    virtual uint16_t calcMapAddressEnd() const { return mapAddressStart_ - 1; }
+    virtual int32_t calcMapAddressEnd() const { return mapAddressStart_ - 1; }
     virtual void deviceClockEdge(StateEdge edge) {}
 
 protected:
     Board* board_;
-    uint16_t mapAddressStart_;
+    int32_t mapAddressStart_;
     bool chipWasSelected_;
     bool chipSelected_;
     QVector<BusConnection> busConnections_;

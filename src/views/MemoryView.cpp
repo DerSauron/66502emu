@@ -82,7 +82,7 @@ void MemoryView::setup()
     ui->chipSelected->setBitCount(1);
 
     ui->page->setValue(0);
-    ui->page->setMaximum(static_cast<int>(memory()->size() / 256 - 1));
+    ui->page->setMaximum(memory()->size() / 256 - 1);
     ui->memoryPage->setMemory(memory());
     ui->memoryPage->setAddressOffset(memory()->mapAddressStart());
     ui->memoryPage->setPage(0);
@@ -115,11 +115,11 @@ void MemoryView::maybeShowSources()
 
 void MemoryView::onMemoryAccessed()
 {
-    uint16_t address = memory()->lastAccessAddress();
+    int32_t address = memory()->lastAccessAddress();
     bool write = memory()->lastAccessWasWrite();
 
-    uint16_t startAddress = address & 0xFF00;
-    uint8_t page = startAddress >> 8;
+    int32_t startAddress = address & 0xFF00;
+    int32_t page = startAddress >> 8;
 
     if (ui->followButton->isChecked())
     {
@@ -228,7 +228,7 @@ void MemoryView::loadProgram(const QString& fileName)
     if (program_.isNull())
         return;
 
-    for (int i = 0; i < qMin(program_.binaryData().size(), static_cast<int>(memory()->size())); ++i)
+    for (int i = 0; i < qMin(program_.binaryData().size(), memory()->size()); ++i)
     {
         memory()->data()[i] = static_cast<uint8_t>(program_.binaryData()[i]);
     }

@@ -40,7 +40,7 @@ Clock::~Clock()
 {
 }
 
-void Clock::setPeriod(int64_t period)
+void Clock::setPeriod(int32_t period)
 {
     if (period == period_)
         return;
@@ -55,7 +55,7 @@ void Clock::setPeriod(int64_t period)
     else
     {
         busyWaitTimeout_ = 0;
-        timer_->setInterval(static_cast<int>(period_ / 2000));
+        timer_->setInterval(period_ / 2000);
     }
 }
 
@@ -115,7 +115,7 @@ void Clock::tick()
 {
     if (isRunning() && busyWaitTimeout_ > 0)
     {
-        while (busyWaiter_.nsecsElapsed() / 1000 <= busyWaitTimeout_);
+        while (busyWaiter_.nsecsElapsed() / int64_t{1000} <= busyWaitTimeout_);
         busyWaiter_.start();
     }
 

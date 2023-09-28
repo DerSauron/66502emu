@@ -30,13 +30,13 @@ public:
     Memory*  memory() { return memory_; }
     void setMemory(Memory* memory);
 
-    uint16_t addressOffset() const { return addressOffset_; }
-    void setAddressOffset(uint16_t addressOffset);
+    int32_t addressOffset() const { return addressOffset_; }
+    void setAddressOffset(int32_t addressOffset);
 
-    uint8_t page() const { return page_; }
-    void setPage(uint8_t page);
+    int32_t page() const { return page_; }
+    void setPage(int32_t page);
 
-    void highlight(uint8_t byte, bool write);
+    void highlight(int32_t byte, bool write);
     void resetHighlight();
 
 signals:
@@ -47,12 +47,12 @@ protected:
 private:
     QFont font_;
     Memory* memory_;
-    uint8_t page_;
-    uint16_t addressOffset_;
+    int32_t page_;
+    int32_t addressOffset_;
     int charWidth_;
     int charHeight_;
     int charAscent_;
-    uint16_t highLightByte_;
+    int32_t highLightByte_;
     bool highlightWrite_;
 };
 

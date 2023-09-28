@@ -91,7 +91,7 @@ void LCDView::onLCDDisplayChanged()
     ui->lcdPanel->setDisplayOn(lcd()->isDisplayOn());
 }
 
-QPoint LCDView::panelPos(uint16_t address) const
+QPoint LCDView::panelPos(int32_t address) const
 {
     const int y = address / lcd()->bufferWidth();
     const int x = address - (y * lcd()->bufferWidth()) - panelShift_;

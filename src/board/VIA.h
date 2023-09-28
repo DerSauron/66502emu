@@ -63,7 +63,7 @@ signals:
 protected:
     uint64_t mapPortTag(const QString& portTagName) const override;
     QString mapPortTagName(uint64_t portTag) const override;
-    uint16_t calcMapAddressEnd() const override;
+    int32_t calcMapAddressEnd() const override;
     void deviceClockEdge(StateEdge edge) override;
 
 private:

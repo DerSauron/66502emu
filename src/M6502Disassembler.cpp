@@ -34,7 +34,7 @@ struct Opcode
     const char* mnemonic;       // Index in the name table
     AddressingMode addressing;              // Addressing mode
     uint8_t cycles;             // Number of cycles
-    uint8_t cycles_exceptions;  // Mask of cycle-counting exceptions
+    uint8_t cyclesExceptions;  // Mask of cycle-counting exceptions
 };
 
 class OpCodes
@@ -276,7 +276,7 @@ Q_GLOBAL_STATIC(OpCodes, opCodes);
 
 struct Operand
 {
-    uint16_t value;
+    int32_t value;
     uint8_t length;
 };
 
@@ -292,12 +292,12 @@ struct InstructionBuilder
 
     InstructionBuilder& operand(const char* templ, const Operand& operand)
     {
-        uint32_t opValue = operand.value;
+        int32_t opValue = operand.value;
         instruction.instruction += QLatin1Char(' ') +
-                QString(QLatin1String(templ)).arg(opValue, static_cast<int>(operand.length * 2), 16, QLatin1Char('0'));
+                QString(QLatin1String(templ)).arg(opValue, operand.length * 2, 16, QLatin1Char('0'));
         for (uint8_t i = 0; i < operand.length; i++)
         {
-            instruction.bytes[instruction.length++] = opValue & 0xFF;
+            instruction.bytes.at(instruction.length++) = static_cast<uint8_t>(opValue & 0xFF);
             opValue >>= 8;
         }
         return *this;
@@ -312,7 +312,7 @@ struct InstructionBuilder
     operator Instruction() const { return instruction; }
 };
 
-inline InstructionBuilder instruction(uint16_t& pc, const Opcode* opcode)
+inline InstructionBuilder instruction(int32_t& pc, const Opcode* opcode)
 {
     InstructionBuilder builder;
     builder.instruction.position = pc++;
@@ -329,19 +329,19 @@ inline InstructionBuilder instruction(uint16_t& pc, const Opcode* opcode)
     return builder;
 }
 
-inline Operand byteOperand(const Memory* mem, uint16_t& pc)
+inline Operand byteOperand(const Memory* mem, int32_t& pc)
 {
     return {mem->byte(pc++), 1};
 }
 
-inline Operand wordOperand(const Memory* mem, uint16_t& pc)
+inline Operand wordOperand(const Memory* mem, int32_t& pc)
 {
-    auto operand = static_cast<uint16_t>(mem->byte(pc++));
-    operand += (static_cast<uint16_t>(mem->byte(pc++)) << 8);
+    auto operand = static_cast<int32_t>(mem->byte(pc++));
+    operand += (static_cast<int32_t>(mem->byte(pc++)) << 8);
     return {operand, 2};
 }
 
-Instruction decodeInstruction(const Memory* memory, uint16_t& pc)
+Instruction decodeInstruction(const Memory* memory, int32_t& pc)
 {
     uint8_t byte = memory->byte(pc);
 
@@ -387,11 +387,11 @@ Instruction decodeInstruction(const Memory* memory, uint16_t& pc)
             case AddressingMode::RELAT:
             {
                 auto operand = byteOperand(memory, pc);
-                uint16_t addr = pc + 1;
-                if (operand.value & 0x80U)
-                    addr -= ((~operand.value & 0x7FU) + 1);
+                int32_t addr = pc + 1;
+                if (operand.value & 0x80)
+                    addr -= ((~operand.value & 0x7F) + 1);
                 else
-                    addr += operand.value & 0x7FU;
+                    addr += operand.value & 0x7F;
 
                 return instruction(pc, op).operand("$%1", Operand{addr, 2});
             }
@@ -410,10 +410,10 @@ Instruction decodeInstruction(const Memory* memory, uint16_t& pc)
 
 } // namespace
 
-QList<Instruction> disassemble(Memory* memory, uint16_t start, uint16_t end)
+QList<Instruction> disassemble(Memory* memory, int32_t start, int32_t end)
 {
     QList<Instruction> instructions;
-    uint16_t pc = start;
+    int32_t pc = start;
     while (pc < end)
     {
         instructions << decodeInstruction(memory, pc);
@@ -421,10 +421,10 @@ QList<Instruction> disassemble(Memory* memory, uint16_t start, uint16_t end)
     return instructions;
 }
 
-QList<Instruction> disassembleCount(Memory* memory, uint16_t count, uint16_t start)
+QList<Instruction> disassembleCount(Memory* memory, int32_t count, int32_t start)
 {
     QList<Instruction> instructions;
-    uint16_t pc = start;
+    int32_t pc = start;
     for (uint16_t i = 0; i < count && pc < memory->size() - 3; i++)
     {
         instructions << decodeInstruction(memory, pc);
