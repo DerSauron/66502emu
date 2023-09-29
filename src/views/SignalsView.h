@@ -27,7 +27,7 @@ class SignalsView : public QWidget
 
 public:
     explicit SignalsView(QWidget *parent = nullptr);
-    ~SignalsView();
+    ~SignalsView() override;
 
     void setBoard(Board* board);
 
@@ -42,5 +42,7 @@ private:
 private:
     Ui::SignalsView *ui;
     Board* board_;
+
+    Q_DISABLE_COPY_MOVE(SignalsView)
 };
 

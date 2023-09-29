@@ -64,9 +64,9 @@ inline constexpr uint8_t baudRateConfig(uint8_t reg)
 } // namespace
 
 ACIA::ACIA(const QString& name, Board* board) :
-    Device(name, board),
-    transmitDelay_(new QTimer(this)),
-    receiveDelay_(new QTimer(this))
+    Device{name, board},
+    transmitDelay_{new QTimer{this}},
+    receiveDelay_{new QTimer{this}}
 {
     receiveBuffer_.reserve(1024);
 

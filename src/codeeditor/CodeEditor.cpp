@@ -22,8 +22,8 @@ const QColor CurrentCursorLineColor = QColor(Qt::blue).lighter(160); // clazy:ex
 } // namespace
 
 CodeEditor::CodeEditor(QWidget* parent) :
-    QPlainTextEdit(parent),
-    lineNumberArea_(new LineNumberArea(this))
+    QPlainTextEdit{parent},
+    lineNumberArea_{new LineNumberArea{this}}
 {
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);

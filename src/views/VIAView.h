@@ -26,7 +26,7 @@ class VIAView : public DeviceView
 
 public:
     VIAView(VIA* via, MainWindow* parent);
-    ~VIAView();
+    ~VIAView() override;
 
     VIA* via() const { return static_cast<VIA*>(device()); }
 
@@ -46,5 +46,7 @@ private:
     void setup();
 
 private:
-    Ui::VIAView *ui;
+    Ui::VIAView* ui;
+
+    Q_DISABLE_COPY_MOVE(VIAView)
 };

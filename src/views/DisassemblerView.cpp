@@ -50,8 +50,8 @@ const QBrush DisassemblerView::highlightColor(QColor(128, 128, 255));
 const QBrush DisassemblerView::dimmColor(QColor(200, 200, 200));
 
 DisassemblerView::DisassemblerView(const QString& name, MainWindow* mainWindow) :
-    View(name, mainWindow),
-    ui(new Ui::DisassemblerView()),
+    View{name, mainWindow},
+    ui{new Ui::DisassemblerView{())}},
     instructionsLookAhead_{5},
     currentIndex_{0}
 {
@@ -146,7 +146,7 @@ void DisassemblerView::showLookAheads(int32_t baseAddress, const QList<M6502::In
     int row = currentIndex_ + 1;
     for (int i = 1; i < instructions.length(); i++, row++)
     {
-        QListWidgetItem* item;
+        QListWidgetItem* item{};
         if (row >= ui->disassembly->count())
         {
             item = new QListWidgetItem(ui->disassembly);

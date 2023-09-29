@@ -46,4 +46,6 @@ private:
     QFileSystemWatcher* fileSystemWatcher_;
     QTimer* rearmTimer_;
     int rearmFailedCounter_;
+
+    Q_DISABLE_COPY_MOVE(ProgramFileWatcher)
 };

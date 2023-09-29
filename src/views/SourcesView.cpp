@@ -21,8 +21,8 @@
 #include <QTextCursor>
 
 SourcesView::SourcesView(const QString& name, Program* program, MainWindow* mainWindow, QWidget* parent) :
-    View(name, mainWindow, parent),
-    ui(new Ui::SourcesView),
+    View{name, mainWindow, parent},
+    ui{new Ui::SourcesView{}},
     program_{},
     clockRunning_{}
 {

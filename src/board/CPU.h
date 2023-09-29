@@ -34,7 +34,7 @@ public:
 
 public:
     explicit CPU(Board* board);
-    ~CPU();
+    ~CPU() override;
 
     void clockEdge(StateEdge edge);
 
@@ -59,4 +59,6 @@ private:
     Board* board_;
     m6502_t* chip_;
     uint64_t pinState_;
+
+    Q_DISABLE_COPY_MOVE(CPU)
 };

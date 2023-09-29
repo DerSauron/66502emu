@@ -19,7 +19,7 @@
 
 CPUView::CPUView(QWidget* parent) :
     QWidget{parent},
-    ui{new Ui::CPUView},
+    ui{new Ui::CPUView{}},
     cpu_{}
 {
     ui->setupUi(this);

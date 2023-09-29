@@ -44,4 +44,6 @@ private:
 private:
     MainWindow* mainWindow_;
     QString name_;
+
+    Q_DISABLE_COPY_MOVE(View)
 };

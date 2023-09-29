@@ -63,4 +63,6 @@ private:
     Ui::DisassemblerView* ui;
     int32_t instructionsLookAhead_;
     int32_t currentIndex_;
+
+    Q_DISABLE_COPY_MOVE(DisassemblerView)
 };

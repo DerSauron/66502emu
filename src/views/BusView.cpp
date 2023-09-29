@@ -18,8 +18,8 @@
 #include "board/Bus.h"
 
 BusView::BusView(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::BusView),
+    QWidget{parent},
+    ui{new Ui::BusView{}},
     bus_{}
 {
     ui->setupUi(this);

@@ -93,4 +93,6 @@ private:
     Clock* clock_;
 
     Debugger* debugger_;
+
+    Q_DISABLE_COPY_MOVE(Board)
 };

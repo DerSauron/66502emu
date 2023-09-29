@@ -30,8 +30,6 @@ public:
     explicit LCDView(LCD* lcd, MainWindow* parent);
     ~LCDView() override;
 
-    LCD* lcd() const { return static_cast<LCD*>(device()); }
-
 private slots:
     void onLCDCharaterChanged(uint8_t address);
     void onLCDBusyChanged();
@@ -47,5 +45,8 @@ private:
 
 private:
     Ui::LCDView* ui;
+    LCD* lcd_;
     uint8_t panelShift_;
+
+    Q_DISABLE_COPY_MOVE(LCDView)
 };

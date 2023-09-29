@@ -69,4 +69,6 @@ private:
     uint16_t pins_;
     uint16_t cursorPos_;
     bool cursorOn_;
+
+    Q_DISABLE_COPY_MOVE(LCD)
 };

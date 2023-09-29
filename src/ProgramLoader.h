@@ -17,11 +17,13 @@ class ProgramLoader : public QObject
 
 public:
     ProgramLoader(QObject* parent = nullptr);
-    virtual ~ProgramLoader();
+    ~ProgramLoader() override;
 
     Program loadProgram(const QString& fileName);
 
 private:
     Program loadBinary(const QString& fileName);
     Program loadListing(const QString& fileName);
+
+    Q_DISABLE_COPY_MOVE(ProgramLoader)
 };

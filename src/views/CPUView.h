@@ -44,5 +44,7 @@ private:
 private:
     Ui::CPUView* ui;
     CPU* cpu_;
+
+    Q_DISABLE_COPY_MOVE(CPUView)
 };
 

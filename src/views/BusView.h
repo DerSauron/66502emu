@@ -27,7 +27,7 @@ class BusView : public QWidget
 
 public:
     explicit BusView(QWidget *parent = nullptr);
-    ~BusView();
+    ~BusView() override;
 
     void setBus(Bus* bus);
 
@@ -40,5 +40,7 @@ private:
 private:
     Ui::BusView *ui;
     Bus* bus_;
+
+    Q_DISABLE_COPY_MOVE(BusView)
 };
 

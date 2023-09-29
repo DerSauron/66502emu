@@ -171,7 +171,7 @@ private:
 } //namespace
 
 ProgramLoader::ProgramLoader(QObject* parent) :
-    QObject(parent)
+    QObject{parent}
 {
 }
 

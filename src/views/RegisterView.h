@@ -25,7 +25,7 @@ class RegisterView : public QWidget
 
 public:
     explicit RegisterView(QWidget *parent = nullptr);
-    ~RegisterView();
+    ~RegisterView() override;
 
     void setName(const QString& name);
     void setBitCount(uint8_t bitCount);
@@ -42,6 +42,8 @@ signals:
 private:
     Ui::RegisterView* ui;
     uint8_t bitCount_;
+
+    Q_DISABLE_COPY_MOVE(RegisterView)
 };
 
 template<typename... T>

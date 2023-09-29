@@ -15,8 +15,8 @@
 #include "ui_RegisterView.h"
 
 RegisterView::RegisterView(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::RegisterView),
+    QWidget{parent},
+    ui{new Ui::RegisterView{}},
     bitCount_{0}
 {
     ui->setupUi(this);

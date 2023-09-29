@@ -20,7 +20,7 @@
 
 Device::Device(const QString& name, Board* board) :
     QObject{nullptr},
-    board_(board),
+    board_{board},
     mapAddressStart_{std::numeric_limits<uint16_t>::max()},
     chipWasSelected_{},
     chipSelected_{}

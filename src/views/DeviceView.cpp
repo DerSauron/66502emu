@@ -18,7 +18,7 @@
 
 DeviceView::DeviceView(Device* device, MainWindow* parent) :
     View{device->name(), parent},
-    device_(device)
+    device_{device}
 {
 }
 

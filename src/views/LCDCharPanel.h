@@ -54,4 +54,6 @@ private:
     QVector<uint8_t> data_;
     QPoint cursorPos_;
     bool displayOn_;
+
+    Q_DISABLE_COPY_MOVE(LCDCharPanel)
 };

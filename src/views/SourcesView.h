@@ -22,7 +22,7 @@ class SourcesView : public View
 
 public:
     SourcesView(const QString& name, Program* program, MainWindow* mainWindow, QWidget* parent);
-    ~SourcesView();
+    ~SourcesView() override;
 
     void setProgram(Program* program);
 
@@ -61,4 +61,6 @@ private:
     Program* program_;
     QMap<int32_t, int32_t> addressMap_;
     bool clockRunning_;
+
+    Q_DISABLE_COPY_MOVE(SourcesView)
 };

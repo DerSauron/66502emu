@@ -25,7 +25,7 @@ class HotkeyDialog : public QDialog
 
 public:
     explicit HotkeyDialog(int bit, int keyCode, QWidget *parent = nullptr);
-    ~HotkeyDialog();
+    ~HotkeyDialog() override;
 
     int bit() const { return bit_; }
     int keyCode() const { return keyCode_; }
@@ -43,4 +43,6 @@ private:
     Ui::HotkeyDialog *ui;
     int bit_;
     int keyCode_;
+
+    Q_DISABLE_COPY_MOVE(HotkeyDialog)
 };

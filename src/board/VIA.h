@@ -84,4 +84,6 @@ private:
     uint16_t previouseIFRState_;
     uint8_t rsPinOffset_;
     bool useNmi_;
+
+    Q_DISABLE_COPY_MOVE(VIA)
 };

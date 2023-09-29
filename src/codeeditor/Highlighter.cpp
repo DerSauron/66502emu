@@ -10,7 +10,7 @@
 namespace ce {
 
 Highlighter::Highlighter(QTextDocument* parent) :
-    QSyntaxHighlighter(parent)
+    QSyntaxHighlighter{parent}
 {
 }
 

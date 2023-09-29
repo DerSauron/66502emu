@@ -19,8 +19,8 @@
 #include "BitsView.h"
 
 SignalsView::SignalsView(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::SignalsView),
+    QWidget{parent},
+    ui{new Ui::SignalsView{}},
     board_{}
 {
     ui->setupUi(this);

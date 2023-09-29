@@ -81,4 +81,6 @@ private:
     QSet<int32_t> breakpoints_;
     QVector<int32_t> callStack_;
     int steppingSubroutineCallStackStart_{};
+
+    Q_DISABLE_COPY_MOVE(Debugger)
 };

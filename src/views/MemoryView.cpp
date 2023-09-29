@@ -38,7 +38,8 @@ const QString kAutoReload = QStringLiteral("auto_reload");
 
 MemoryView::MemoryView(Memory* memory, MainWindow* parent) :
     DeviceView{memory, parent},
-    ui(new Ui::MemoryView),
+    ui{new Ui::MemoryView{}},
+    memory_{memory},
     pageAutomaticallyChanged_{},
     sourcesView_{nullptr},
     fileSystemWatcher_(new ProgramFileWatcher(this)),
@@ -50,7 +51,7 @@ MemoryView::MemoryView(Memory* memory, MainWindow* parent) :
 
 MemoryView::~MemoryView()
 {
-    if (memory()->isPersistant())
+    if (memory_->isPersistant())
     {
         rememberProgram();
         rememberShowSources();
@@ -70,7 +71,7 @@ void MemoryView::initialize()
 
     ui->autoReloadMode->setCurrentIndex(mainWindow()->userState()->viewValue(name(), kAutoReload).toInt());
 
-    if (memory()->isPersistant())
+    if (memory_->isPersistant())
     {
         maybeLoadProgram();
         maybeShowSources();
@@ -82,13 +83,13 @@ void MemoryView::setup()
     ui->chipSelected->setBitCount(1);
 
     ui->page->setValue(0);
-    ui->page->setMaximum(memory()->size() / 256 - 1);
-    ui->memoryPage->setMemory(memory());
-    ui->memoryPage->setAddressOffset(memory()->mapAddressStart());
+    ui->page->setMaximum(memory_->size() / 256 - 1);
+    ui->memoryPage->setMemory(memory_);
+    ui->memoryPage->setAddressOffset(memory_->mapAddressStart());
     ui->memoryPage->setPage(0);
 
-    LooseSignal::connect(memory(), &Memory::accessed, this, &MemoryView::onMemoryAccessed);
-    LooseSignal::connect(memory(), &Memory::selectedChanged, this, &MemoryView::onMemorySelectedChanged);
+    LooseSignal::connect(memory_, &Memory::accessed, this, &MemoryView::onMemoryAccessed);
+    LooseSignal::connect(memory_, &Memory::selectedChanged, this, &MemoryView::onMemorySelectedChanged);
 
     connect(fileSystemWatcher_, &ProgramFileWatcher::programFileChanged, this, &MemoryView::onProgramFileChanged);
 }
@@ -115,8 +116,8 @@ void MemoryView::maybeShowSources()
 
 void MemoryView::onMemoryAccessed()
 {
-    int32_t address = memory()->lastAccessAddress();
-    bool write = memory()->lastAccessWasWrite();
+    int32_t address = memory_->lastAccessAddress();
+    bool write = memory_->lastAccessWasWrite();
 
     int32_t startAddress = address & 0xFF00;
     int32_t page = startAddress >> 8;
@@ -137,9 +138,9 @@ void MemoryView::onMemoryAccessed()
 
 void MemoryView::onMemorySelectedChanged()
 {
-    ui->chipSelected->setValue(memory()->isSelected());
+    ui->chipSelected->setValue(memory_->isSelected());
 
-    if (!memory()->isSelected())
+    if (!memory_->isSelected())
     {
         ui->memoryPage->resetHighlight();
     }
@@ -228,9 +229,9 @@ void MemoryView::loadProgram(const QString& fileName)
     if (program_.isNull())
         return;
 
-    for (int i = 0; i < qMin(program_.binaryData().size(), memory()->size()); ++i)
+    for (int i = 0; i < qMin(program_.binaryData().size(), memory_->size()); ++i)
     {
-        memory()->data()[i] = static_cast<uint8_t>(program_.binaryData()[i]);
+        memory_->data()[i] = static_cast<uint8_t>(program_.binaryData()[i]);
     }
 
     ui->showSourcesButton->setEnabled(program_.hasSources());

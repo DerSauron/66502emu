@@ -31,6 +31,8 @@ protected:
 
 private:
     CodeEditor* codeEditor_;
+
+    Q_DISABLE_COPY_MOVE(LineNumberArea)
 };
 
 } // namespace ce

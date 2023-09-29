@@ -85,4 +85,6 @@ private:
     uint8_t transmitData_{};
     uint8_t receiveData_{};
     uint8_t statusRegister_{TransmitterEmpty};
+
+    Q_DISABLE_COPY_MOVE(ACIA)
 };

@@ -60,5 +60,7 @@ protected:
     bool chipWasSelected_;
     bool chipSelected_;
     QVector<BusConnection> busConnections_;
+
+    Q_DISABLE_COPY_MOVE(Device)
 };
 

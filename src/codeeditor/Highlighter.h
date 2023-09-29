@@ -45,6 +45,8 @@ private:
     QList<Rule> rules_;
     QList<QString> numberModifiers_;
     QList<QString> lineCommentStarts_;
+
+    Q_DISABLE_COPY_MOVE(Highlighter)
 };
 
 } // namespace ce

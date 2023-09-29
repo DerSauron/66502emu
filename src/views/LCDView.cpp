@@ -19,8 +19,9 @@
 #include <QTimer>
 
 LCDView::LCDView(LCD* lcd, MainWindow* parent) :
-    DeviceView(lcd, parent),
-    ui(new Ui::LCDView),
+    DeviceView{lcd, parent},
+    ui{new Ui::LCDView{}},
+    lcd_{lcd},
     panelShift_{0}
 {
     ui->setupUi(this);
@@ -37,12 +38,12 @@ void LCDView::setup()
     ui->busyFlag->setBitCount(1);
     ui->busyFlag->setEnableColor(BitsView::EnabledColor::Red);
 
-    connect(lcd(), &LCD::characterChanged, this, &LCDView::onLCDCharaterChanged); // this must run in sync
-    LooseSignal::connect(lcd(), &LCD::busyChanged, this, &LCDView::onLCDBusyChanged);
-    LooseSignal::connect(lcd(), &LCD::cursorPosChanged, this, &LCDView::onLCDCursorPosChanged);
-    LooseSignal::connect(lcd(), &LCD::cursorChanged, this, &LCDView::onLCDCursorChanged);
-    LooseSignal::connect(lcd(), &LCD::displayShiftChanged, this, &LCDView::onLCDDisplayShiftChanged);
-    LooseSignal::connect(lcd(), &LCD::displayChanged, this, &LCDView::onLCDDisplayChanged);
+    connect(lcd_, &LCD::characterChanged, this, &LCDView::onLCDCharaterChanged); // this must run in sync
+    LooseSignal::connect(lcd_, &LCD::busyChanged, this, &LCDView::onLCDBusyChanged);
+    LooseSignal::connect(lcd_, &LCD::cursorPosChanged, this, &LCDView::onLCDCursorPosChanged);
+    LooseSignal::connect(lcd_, &LCD::cursorChanged, this, &LCDView::onLCDCursorChanged);
+    LooseSignal::connect(lcd_, &LCD::displayShiftChanged, this, &LCDView::onLCDDisplayShiftChanged);
+    LooseSignal::connect(lcd_, &LCD::displayChanged, this, &LCDView::onLCDDisplayChanged);
 }
 
 void LCDView::redrawCharacters()
@@ -51,8 +52,8 @@ void LCDView::redrawCharacters()
     {
         for (int x = 0; x < LCDCharPanel::width(); x++)
         {
-            const uint8_t address = static_cast<uint8_t>(y * lcd()->bufferWidth() + x + panelShift_);
-            ui->lcdPanel->setCharacterData(QPoint(x, y), lcd()->charMatrix(address));
+            const uint8_t address = static_cast<uint8_t>(y * lcd_->bufferWidth() + x + panelShift_);
+            ui->lcdPanel->setCharacterData(QPoint(x, y), lcd_->charMatrix(address));
         }
     }
 }
@@ -62,38 +63,38 @@ void LCDView::onLCDCharaterChanged(uint8_t address)
     auto pos = panelPos(address);
     if (LCDCharPanel::outOfView(pos))
         return;
-    ui->lcdPanel->setCharacterData(pos, lcd()->charMatrix(address));
+    ui->lcdPanel->setCharacterData(pos, lcd_->charMatrix(address));
 }
 
 void LCDView::onLCDBusyChanged()
 {
-    ui->busyFlag->setValue(lcd()->isBusy() ? 1 : 0);
+    ui->busyFlag->setValue(lcd_->isBusy() ? 1 : 0);
 }
 
 void LCDView::onLCDCursorPosChanged()
 {
-    ui->lcdPanel->setCursorPos(panelPos(lcd()->cursorPos()));
+    ui->lcdPanel->setCursorPos(panelPos(lcd_->cursorPos()));
 }
 
 void LCDView::onLCDCursorChanged()
 {
-    ui->lcdPanel->setCursorOn(lcd()->isCursorOn());
+    ui->lcdPanel->setCursorOn(lcd_->isCursorOn());
 }
 
 void LCDView::onLCDDisplayShiftChanged()
 {
-    panelShift_ = lcd()->displayShift();
+    panelShift_ = lcd_->displayShift();
     redrawCharacters();
 }
 
 void LCDView::onLCDDisplayChanged()
 {
-    ui->lcdPanel->setDisplayOn(lcd()->isDisplayOn());
+    ui->lcdPanel->setDisplayOn(lcd_->isDisplayOn());
 }
 
 QPoint LCDView::panelPos(int32_t address) const
 {
-    const int y = address / lcd()->bufferWidth();
-    const int x = address - (y * lcd()->bufferWidth()) - panelShift_;
+    const int y = address / lcd_->bufferWidth();
+    const int x = address - (y * lcd_->bufferWidth()) - panelShift_;
     return QPoint(x, y);
 }

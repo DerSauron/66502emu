@@ -30,4 +30,6 @@ public:
 
 private:
     Device* device_;
+
+    Q_DISABLE_COPY_MOVE(DeviceView)
 };

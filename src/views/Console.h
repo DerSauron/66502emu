@@ -44,4 +44,6 @@ private:
 
 private:
     bool localEcho_{false};
+
+    Q_DISABLE_COPY_MOVE(Console)
 };

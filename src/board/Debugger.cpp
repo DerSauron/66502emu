@@ -23,8 +23,8 @@
 #include <QDebug>
 
 Debugger::Debugger(Board* board) :
-    QObject(board),
-    board_(board)
+    QObject{board},
+    board_{board}
 {
     brkOpcode_ = M6502::searchOpcode(QStringLiteral("brk"), M6502::AddressingMode::IMPLI);
     Q_ASSERT(brkOpcode_ != 0xEA);

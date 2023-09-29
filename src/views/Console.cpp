@@ -17,7 +17,7 @@
 #include <QScrollBar>
 
 Console::Console(QWidget* parent) :
-    QPlainTextEdit(parent)
+    QPlainTextEdit{parent}
 {
     setup();
 }

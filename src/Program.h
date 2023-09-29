@@ -29,6 +29,9 @@ public:
     Program(const Program& other);
     Program& operator=(const Program& other);
 
+    Program(Program&&) = default;
+    Program& operator=(Program&&) = default;
+
     bool isNull() const;
     bool hasSources() const;
 
@@ -44,10 +47,16 @@ private:
     public:
         Data() {}
         Data(const Data& other) : QSharedData(other) {}
-        virtual ~Data() {}
+        Data(Data&& other) = default;
+        ~Data() = default;
 
         QByteArray binrayData;
         QList<SourceLine> sourceLines;
+
+    private:
+        Data& operator=(const Data&) = delete;
+        Data& operator=(Data&&) = delete;
     };
+
     QSharedDataPointer<Data> d;
 };

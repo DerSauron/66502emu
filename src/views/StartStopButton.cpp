@@ -14,7 +14,7 @@
 #include "StartStopButton.h"
 
 StartStopButton::StartStopButton(QWidget* parent) :
-    QPushButton(parent)
+    QPushButton{parent}
 {
 }
 

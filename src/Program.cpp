@@ -10,7 +10,7 @@
 #include <QDebug>
 
 Program::Program() :
-    d(new Data())
+    d{new Data{}}
 {
 }
 

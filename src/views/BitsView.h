@@ -78,4 +78,6 @@ private:
     EnabledColor enabledColor_;
     bool hotkeysEnabled_;
     QHash<int, int> keyMap_;
+
+    Q_DISABLE_COPY_MOVE(BitsView)
 };

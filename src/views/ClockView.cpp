@@ -48,7 +48,7 @@ int findPeriodIndex(int32_t period)
 
 ClockView::ClockView(QWidget* parent) :
     QWidget{parent},
-    ui{new Ui::ClockView},
+    ui{new Ui::ClockView{}},
     clock_{}
 {
     ui->setupUi(this);

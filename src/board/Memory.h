@@ -60,4 +60,6 @@ private:
     QVector<uint8_t> data_;
     int32_t lastAccessAddress_;
     bool lastAccessWasWrite_;
+
+    Q_DISABLE_COPY_MOVE(Memory)
 };

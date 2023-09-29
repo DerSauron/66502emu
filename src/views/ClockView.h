@@ -46,4 +46,6 @@ private:
 private:
     Ui::ClockView* ui;
     Clock* clock_;
+
+    Q_DISABLE_COPY_MOVE(ClockView)
 };

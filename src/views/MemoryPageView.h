@@ -54,5 +54,7 @@ private:
     int charAscent_;
     int32_t highLightByte_;
     bool highlightWrite_;
+
+    Q_DISABLE_COPY_MOVE(MemoryPageView)
 };
 

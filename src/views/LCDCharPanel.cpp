@@ -65,8 +65,8 @@ bool LCDCharPanel::outOfView(const QPoint& panelPos)
 }
 
 LCDCharPanel::LCDCharPanel(QWidget *parent) :
-    QWidget(parent),
-    data_(DisplayWidth * DisplayHeight * CharHeight),
+    QWidget{parent},
+    data_{DisplayWidth * DisplayHeight * CharHeight},
     displayOn_{true}
 {
 }

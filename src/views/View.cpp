@@ -18,14 +18,14 @@
 #include <QCloseEvent>
 
 View::View(const QString& name, MainWindow* mainWindow) :
-    View(name, mainWindow, mainWindow)
+    View{name, mainWindow, mainWindow}
 {
 }
 
 View::View(const QString& name, MainWindow* mainWindow, QWidget* parent) :
-    QDialog(parent),
-    mainWindow_(mainWindow),
-    name_(name)
+    QDialog{parent},
+    mainWindow_{mainWindow},
+    name_{name}
 {
 }
 

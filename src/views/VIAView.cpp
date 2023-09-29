@@ -47,7 +47,7 @@ QStringList ierStates(uint64_t ier)
 
 VIAView::VIAView(VIA* via, MainWindow* parent) :
     DeviceView{via, parent},
-    ui(new Ui::VIAView)
+    ui{new Ui::VIAView{}}
 {
     ui->setupUi(this);
     setup();

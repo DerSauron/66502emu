@@ -35,8 +35,8 @@ enum Tags
 } // namespace
 
 LCD::LCD(const QString& name, Board* board) :
-    Device(name, board),
-    chip_(new hd44780u()),
+    Device{name, board},
+    chip_{new hd44780u{}},
     pins_{},
     cursorPos_{},
     cursorOn_{true}

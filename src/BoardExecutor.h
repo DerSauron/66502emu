@@ -21,12 +21,15 @@ class QThread;
 class BoardExecutor : public QObject
 {
     Q_OBJECT
+
 public:
     BoardExecutor(Board* board, QObject* parent = nullptr);
-    ~BoardExecutor();
+    ~BoardExecutor() override;
 
 private:
     Board* board_;
     QThread* boardThread_;
+
+    Q_DISABLE_COPY_MOVE(BoardExecutor)
 };
 

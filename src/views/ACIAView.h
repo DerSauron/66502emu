@@ -28,8 +28,6 @@ public:
     ACIAView(ACIA* acia, MainWindow* parent);
     ~ACIAView() override;
 
-    ACIA* acia() const { return static_cast<ACIA*>(device()); }
-
 private:
     void setup();
 
@@ -43,4 +41,7 @@ private slots:
 
 private:
     Ui::ACIAView* ui;
+    ACIA* acia_;
+
+    Q_DISABLE_COPY_MOVE(ACIAView)
 };

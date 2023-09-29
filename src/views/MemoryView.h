@@ -32,8 +32,6 @@ public:
     explicit MemoryView(Memory* memory, MainWindow* parent);
     ~MemoryView() override;
 
-    Memory* memory() const { return static_cast<Memory*>(device()); }
-
     void initialize() override;
 
 private slots:
@@ -59,10 +57,13 @@ private:
 
 private:
     Ui::MemoryView* ui;
+    Memory* memory_;
     bool pageAutomaticallyChanged_;
     QString programFileName_;
     Program program_;
     SourcesView* sourcesView_;
     ProgramFileWatcher* fileSystemWatcher_;
     bool reloadInProgress_;
+
+    Q_DISABLE_COPY_MOVE(MemoryView)
 };

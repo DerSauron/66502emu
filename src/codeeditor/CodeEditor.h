@@ -56,6 +56,8 @@ private:
     QSet<int> breakpoints_;
     QPixmap breakpointIcon_;
     QPixmap arrowRightIcon_;
+
+    Q_DISABLE_COPY_MOVE(CodeEditor)
 };
 
 } // namespace ce

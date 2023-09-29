@@ -13,8 +13,8 @@
 
 #include "DeviceConfigModel.h"
 
-DeviceConfigModel::DeviceConfigModel(QObject *parent)
-    : QAbstractItemModel(parent)
+DeviceConfigModel::DeviceConfigModel(QObject* parent) :
+    QAbstractItemModel{parent}
 {
 }
 

@@ -18,9 +18,9 @@
 #include <QTimer>
 
 ProgramFileWatcher::ProgramFileWatcher(QObject *parent) :
-    QObject(parent),
-    fileSystemWatcher_{new QFileSystemWatcher(this)},
-    rearmTimer_{new QTimer(this)},
+    QObject{parent},
+    fileSystemWatcher_{new QFileSystemWatcher{this}},
+    rearmTimer_{new QTimer{this}},
     rearmFailedCounter_{0}
 {
     connect(fileSystemWatcher_, &QFileSystemWatcher::fileChanged, this, &ProgramFileWatcher::onFileChanged);

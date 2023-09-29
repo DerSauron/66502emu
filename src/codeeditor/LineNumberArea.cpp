@@ -12,8 +12,8 @@
 namespace ce {
 
 LineNumberArea::LineNumberArea(CodeEditor* codeEditor) :
-    QWidget(codeEditor),
-    codeEditor_(codeEditor)
+    QWidget{codeEditor},
+    codeEditor_{codeEditor}
 {
 }
 

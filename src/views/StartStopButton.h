@@ -25,4 +25,7 @@ public:
 
     void showStartMode();
     void showStopMode();
+
+private:
+    Q_DISABLE_COPY_MOVE(StartStopButton)
 };
