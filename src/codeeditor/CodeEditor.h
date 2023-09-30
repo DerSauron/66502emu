@@ -20,14 +20,14 @@ class CodeEditor : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    CodeEditor(QWidget* parent = nullptr);
+    CodeEditor(QWidget* parent = {});
     ~CodeEditor() override;
 
     Highlighter* highlighter() const { return highlighter_; }
 
     void lineNumberAreaDoubleClickEvent(QMouseEvent* event);
     void lineNumberAreaWheelEvent(QWheelEvent* event);
-    void lineNumberAreaPaintEvent(QPaintEvent *event);
+    void lineNumberAreaPaintEvent(QPaintEvent* event);
     int lineNumberAreaWidth();
 
     void setDocument(QTextDocument* document);
@@ -42,7 +42,7 @@ signals:
     void lineNumberDoubleClicked(int line);
 
 protected:
-    void resizeEvent(QResizeEvent *event) override;
+    void resizeEvent(QResizeEvent* event) override;
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);

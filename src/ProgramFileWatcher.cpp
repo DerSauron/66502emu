@@ -17,7 +17,7 @@
 #include <QFileSystemWatcher>
 #include <QTimer>
 
-ProgramFileWatcher::ProgramFileWatcher(QObject *parent) :
+ProgramFileWatcher::ProgramFileWatcher(QObject* parent) :
     QObject{parent},
     fileSystemWatcher_{new QFileSystemWatcher{this}},
     rearmTimer_{new QTimer{this}},

@@ -27,7 +27,7 @@ class ClockView : public QWidget
     Q_OBJECT
 
 public:
-    explicit ClockView(QWidget* parent = nullptr);
+    explicit ClockView(QWidget* parent = {});
     ~ClockView() override;
 
     void setClock(Clock* clock);

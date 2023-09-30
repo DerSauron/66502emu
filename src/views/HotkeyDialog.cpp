@@ -17,7 +17,7 @@
 #include <KeySequence.h>
 #include <QKeyEvent>
 
-HotkeyDialog::HotkeyDialog(int bit, int keyCode, QWidget *parent) :
+HotkeyDialog::HotkeyDialog(int bit, int keyCode, QWidget* parent) :
     QDialog{parent},
     ui{new Ui::HotkeyDialog{}},
     bit_{bit},

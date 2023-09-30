@@ -32,7 +32,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(Board* board, QWidget* parent = nullptr);
+    MainWindow(Board* board, QWidget* parent = {});
     ~MainWindow() override;
 
     UserState* userState() const { return userState_.get(); }

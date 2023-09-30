@@ -27,7 +27,7 @@ public:
     static bool outOfView(const QPoint& panelPos);
 
 public:
-    explicit LCDCharPanel(QWidget *parent = nullptr);
+    explicit LCDCharPanel(QWidget* parent = {});
     ~LCDCharPanel() override;
 
     QSize sizeHint() const override;

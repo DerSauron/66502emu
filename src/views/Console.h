@@ -20,7 +20,7 @@ class Console : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    explicit Console(QWidget* parent = nullptr);
+    explicit Console(QWidget* parent = {});
     ~Console() override;
 
 public:

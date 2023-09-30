@@ -16,6 +16,7 @@ class CodeEditor;
 class LineNumberArea : public QWidget
 {
     Q_OBJECT
+
 public:
     LineNumberArea(CodeEditor* codeEditor = nullptr);
     ~LineNumberArea() override;

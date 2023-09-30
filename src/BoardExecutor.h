@@ -23,7 +23,7 @@ class BoardExecutor : public QObject
     Q_OBJECT
 
 public:
-    BoardExecutor(Board* board, QObject* parent = nullptr);
+    BoardExecutor(Board* board, QObject* parent = {});
     ~BoardExecutor() override;
 
 private:

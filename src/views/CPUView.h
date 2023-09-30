@@ -26,7 +26,7 @@ class CPUView : public QWidget
     Q_OBJECT
 
 public:
-    explicit CPUView(QWidget* parent = nullptr);
+    explicit CPUView(QWidget* parent = {});
     ~CPUView() override;
 
     void setCPU(CPU* cpu);

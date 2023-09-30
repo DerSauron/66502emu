@@ -16,7 +16,6 @@
 #include "Board.h"
 #include "Bus.h"
 #include "BusConnection.h"
-#include "CPU.h"
 
 Device::Device(const QString& name, Board* board) :
     QObject{nullptr},

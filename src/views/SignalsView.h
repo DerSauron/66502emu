@@ -26,7 +26,7 @@ class SignalsView : public QWidget
     Q_OBJECT
 
 public:
-    explicit SignalsView(QWidget *parent = nullptr);
+    explicit SignalsView(QWidget* parent = {});
     ~SignalsView() override;
 
     void setBoard(Board* board);

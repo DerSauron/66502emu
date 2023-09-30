@@ -28,7 +28,7 @@ public:
     };
 
 public:
-    BitsView(QWidget* parent = nullptr);
+    BitsView(QWidget* parent = {});
     ~BitsView() override;
 
     void setBitCount(uint8_t bitCount);
@@ -52,7 +52,7 @@ signals:
 protected:
     bool eventFilter(QObject* object, QEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
-    void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 private slots:
     void onShowContextMenu(const QPoint& pos);

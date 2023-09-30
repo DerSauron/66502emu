@@ -122,6 +122,7 @@ target_sources(app PRIVATE
     DeviceConfigModel.h
     DeviceViewCreator.cpp
     DeviceViewCreator.h
+    icons.qrc
     KeySequence.cpp
     KeySequence.h
     LooseSignal.cpp
@@ -139,7 +140,6 @@ target_sources(app PRIVATE
     ProgramLoader.h
     UserState.cpp
     UserState.h
-    icons.qrc
 )
 
 target_link_libraries(app PRIVATE

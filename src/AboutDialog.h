@@ -24,14 +24,14 @@ class AboutDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AboutDialog(QWidget *parent = nullptr);
+    explicit AboutDialog(QWidget* parent = {});
     ~AboutDialog() override;
 
 private slots:
     void on_closeButton_clicked();
 
 private:
-    Ui::AboutDialog *ui;
+    Ui::AboutDialog* ui;
 
     Q_DISABLE_COPY_MOVE(AboutDialog)
 };

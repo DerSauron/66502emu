@@ -20,14 +20,15 @@ class Memory;
 class MemoryPageView : public QWidget
 {
     Q_OBJECT
+
 public:
-    MemoryPageView(QWidget *parent = nullptr);
+    MemoryPageView(QWidget* parent = {});
     ~MemoryPageView() override;
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
 
-    Memory*  memory() { return memory_; }
+    Memory* memory() { return memory_; }
     void setMemory(Memory* memory);
 
     int32_t addressOffset() const { return addressOffset_; }
@@ -42,7 +43,7 @@ public:
 signals:
 
 protected:
-    void paintEvent(QPaintEvent *event) override;
+    void paintEvent(QPaintEvent* event) override;
 
 private:
     QFont font_;

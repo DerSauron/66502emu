@@ -16,7 +16,7 @@ class ProgramLoader : public QObject
     Q_OBJECT
 
 public:
-    ProgramLoader(QObject* parent = nullptr);
+    ProgramLoader(QObject* parent = {});
     ~ProgramLoader() override;
 
     Program loadProgram(const QString& fileName);

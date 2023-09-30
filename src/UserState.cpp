@@ -37,14 +37,14 @@ void UserState::setFileName(const QString& fileName)
     loadFile();
 }
 
-void UserState::loadViewState(View *view)
+void UserState::loadViewState(View* view)
 {
     const QJsonValue geometryValue = viewValue(view->name(), kGeometry);
     const auto geometry = QByteArray::fromBase64(geometryValue.toString().toUtf8());
     view->restoreGeometry(geometry);
 }
 
-void UserState::saveViewState(View *view)
+void UserState::saveViewState(View* view)
 {
     const QByteArray geometry = view->saveGeometry();
     const QString geometryString = QString::fromUtf8(geometry.toBase64());

@@ -23,7 +23,7 @@ class BoardLoader : public QObject
     Q_OBJECT
 
 public:
-    BoardLoader(BoardInfo& boardInfo, QObject* parent = nullptr);
+    BoardLoader(BoardInfo& boardInfo, QObject* parent = {});
 
     void load(Board* board);
     void save(const Board* board);

@@ -17,7 +17,7 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter(QTextDocument* parent = nullptr);
+    Highlighter(QTextDocument* parent = {});
     virtual ~Highlighter() override;
 
     void setRules(const QList<QString>& keywords, const QList<QString>& spechialWords1,

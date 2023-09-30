@@ -14,7 +14,6 @@
 #pragma once
 
 #include "View.h"
-#include "board/WireState.h"
 
 class Board;
 class Memory;

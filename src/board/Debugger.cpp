@@ -16,7 +16,6 @@
 #include "Board.h"
 #include "Bus.h"
 #include "Clock.h"
-#include "CPU.h"
 #include "M6502Disassembler.h"
 #include <QThread>
 #include <QTimer>

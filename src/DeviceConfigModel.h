@@ -20,7 +20,7 @@ class DeviceConfigModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit DeviceConfigModel(QObject *parent = nullptr);
+    explicit DeviceConfigModel(QObject* parent = {});
 
     // Basic functionality:
     QModelIndex index(int row, int column,

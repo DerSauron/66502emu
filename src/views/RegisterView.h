@@ -24,7 +24,7 @@ class RegisterView : public QWidget
     Q_OBJECT
 
 public:
-    explicit RegisterView(QWidget *parent = nullptr);
+    explicit RegisterView(QWidget* parent = {});
     ~RegisterView() override;
 
     void setName(const QString& name);

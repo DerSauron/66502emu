@@ -13,10 +13,9 @@
 
 #include "Memory.h"
 
+#include "utils/ArrayView.h"
 #include "Board.h"
 #include "Bus.h"
-#include "UserState.h"
-#include "utils/ArrayView.h"
 
 namespace {
 

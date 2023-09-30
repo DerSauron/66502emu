@@ -29,7 +29,7 @@ class Board : public QObject
     Q_OBJECT
 
 public:
-    explicit Board(QObject* parent = nullptr);
+    explicit Board(QObject* parent = {});
     ~Board() override;
 
     Bus* addressBus() const { return addressBus_; }

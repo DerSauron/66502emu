@@ -20,7 +20,7 @@ class StartStopButton : public QPushButton
     Q_OBJECT
 
 public:
-    explicit StartStopButton(QWidget* parent = nullptr);
+    explicit StartStopButton(QWidget* parent = {});
     ~StartStopButton() override;
 
     void showStartMode();

@@ -22,7 +22,7 @@ constexpr int HEADLINE_MARGIN = 2;
 
 } // namespace
 
-MemoryPageView::MemoryPageView(QWidget *parent) :
+MemoryPageView::MemoryPageView(QWidget* parent) :
     QWidget{parent},
     font_{QStringLiteral("Monospaced"), 11},
     memory_{},

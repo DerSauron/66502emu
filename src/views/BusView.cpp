@@ -17,7 +17,7 @@
 #include "LooseSignal.h"
 #include "board/Bus.h"
 
-BusView::BusView(QWidget *parent) :
+BusView::BusView(QWidget* parent) :
     QWidget{parent},
     ui{new Ui::BusView{}},
     bus_{}

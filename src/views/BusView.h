@@ -26,7 +26,7 @@ class BusView : public QWidget
     Q_OBJECT
 
 public:
-    explicit BusView(QWidget *parent = nullptr);
+    explicit BusView(QWidget* parent = {});
     ~BusView() override;
 
     void setBus(Bus* bus);

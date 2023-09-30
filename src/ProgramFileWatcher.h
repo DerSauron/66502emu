@@ -22,8 +22,9 @@ class QTimer;
 class ProgramFileWatcher : public QObject
 {
     Q_OBJECT
+
 public:
-    ProgramFileWatcher(QObject *parent = nullptr);
+    ProgramFileWatcher(QObject* parent = {});
     ~ProgramFileWatcher() override;
 
     void setFileName(const QString& fileName);

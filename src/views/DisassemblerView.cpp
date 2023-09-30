@@ -51,7 +51,7 @@ const QBrush DisassemblerView::dimmColor(QColor(200, 200, 200));
 
 DisassemblerView::DisassemblerView(const QString& name, MainWindow* mainWindow) :
     View{name, mainWindow},
-    ui{new Ui::DisassemblerView{())}},
+    ui{new Ui::DisassemblerView{}},
     instructionsLookAhead_{5},
     currentIndex_{0}
 {

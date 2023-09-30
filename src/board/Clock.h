@@ -25,7 +25,7 @@ class Clock : public QObject
     Q_OBJECT
 
 public:
-    explicit Clock(QObject* parent = nullptr);
+    explicit Clock(QObject* parent = {});
     ~Clock() override;
 
     int32_t period() const { return period_; }

@@ -24,7 +24,7 @@ class HotkeyDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit HotkeyDialog(int bit, int keyCode, QWidget *parent = nullptr);
+    explicit HotkeyDialog(int bit, int keyCode, QWidget* parent = {});
     ~HotkeyDialog() override;
 
     int bit() const { return bit_; }
