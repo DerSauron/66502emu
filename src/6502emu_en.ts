@@ -29,21 +29,6 @@
         <source>RX:</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="views/ACIAView.cpp" line="41"/>
-        <source>STAT</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/ACIAView.cpp" line="47"/>
-        <source>CMD</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/ACIAView.cpp" line="53"/>
-        <source>CTRL</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>AboutDialog</name>
@@ -73,11 +58,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AboutDialog.ui" line="114"/>
-        <source>&lt;a href=&quot;https://github.com/DerSauron/6502emu&quot;&gt;https://github.com/DerSauron/6502emu&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="AboutDialog.ui" line="146"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
@@ -88,27 +68,6 @@
     <message>
         <location filename="views/BitsView.cpp" line="251"/>
         <source>Assign Hotkey</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>BusView</name>
-    <message>
-        <location filename="views/BusView.ui" line="18"/>
-        <source>0x00</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CPUView</name>
-    <message>
-        <location filename="views/CPUView.ui" line="128"/>
-        <source>PC: 0000</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/CPUView.ui" line="141"/>
-        <source>IR: 0000</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -419,83 +378,88 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="204"/>
+        <location filename="MainWindow.cpp" line="227"/>
         <source>Could not load file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="204"/>
+        <location filename="MainWindow.cpp" line="227"/>
         <source>Board file could not be loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="231"/>
+        <location filename="MainWindow.cpp" line="234"/>
         <source>Disassembly log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="248"/>
-        <source>&amp;%1 %2 (%3)</source>
+        <location filename="MainWindow.cpp" line="244"/>
+        <source>&lt;unloaded&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="249"/>
-        <source>Alt+%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MainWindow.cpp" line="395"/>
-        <source>Running at %1Hz</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MainWindow.cpp" line="405"/>
+        <location filename="MainWindow.cpp" line="251"/>
         <source>6502 emulator - %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="428"/>
+        <location filename="MainWindow.cpp" line="260"/>
+        <source>&amp;%1 %2 (%3)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="261"/>
+        <source>Alt+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="414"/>
+        <source>Running at %1Hz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="435"/>
         <source>Board loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="429"/>
+        <location filename="MainWindow.cpp" line="436"/>
         <source>Close current board?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="453"/>
+        <location filename="MainWindow.cpp" line="455"/>
         <source>Select file for new board</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="454"/>
-        <location filename="MainWindow.cpp" line="497"/>
+        <location filename="MainWindow.cpp" line="456"/>
+        <location filename="MainWindow.cpp" line="499"/>
         <source>Board files (*.board)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="464"/>
+        <location filename="MainWindow.cpp" line="466"/>
         <source>File exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="465"/>
+        <location filename="MainWindow.cpp" line="467"/>
         <source>Do you want to override the existing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="475"/>
+        <location filename="MainWindow.cpp" line="477"/>
         <source>Could not open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="476"/>
+        <location filename="MainWindow.cpp" line="478"/>
         <source>The selected file coult no be open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="496"/>
+        <location filename="MainWindow.cpp" line="498"/>
         <source>Select board file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -510,11 +474,6 @@
     <message>
         <location filename="views/MemoryView.ui" line="39"/>
         <source>Follow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/MemoryView.ui" line="75"/>
-        <source>CS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -543,56 +502,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.cpp" line="191"/>
+        <location filename="views/MemoryView.cpp" line="192"/>
         <source>Open Binary Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="views/MemoryView.cpp" line="193"/>
+        <location filename="views/MemoryView.cpp" line="194"/>
         <source>Listing files (*.lst);;Binary Image Files (*.img *.bin)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>RegisterView</name>
-    <message>
-        <location filename="views/RegisterView.ui" line="32"/>
-        <source>R</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/RegisterView.ui" line="64"/>
-        <source>00</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>SignalsView</name>
-    <message>
-        <location filename="views/SignalsView.ui" line="23"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;R/&lt;span style=&quot;text-decoration: overline;&quot;&gt;W&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/SignalsView.ui" line="49"/>
-        <source>IRQ</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/SignalsView.ui" line="75"/>
-        <source>NMI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/SignalsView.ui" line="98"/>
-        <source>SYNC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/SignalsView.ui" line="124"/>
-        <source>RES</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="views/SignalsView.ui" line="168"/>
         <source>Reset</source>
@@ -633,43 +554,8 @@
 <context>
     <name>VIAView</name>
     <message>
-        <location filename="views/VIAView.ui" line="38"/>
-        <source>CS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/VIAView.ui" line="59"/>
-        <source>PA</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/VIAView.ui" line="78"/>
-        <source>PB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="views/VIAView.ui" line="101"/>
         <source>Counters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/VIAView.ui" line="115"/>
-        <source>T1: 0000</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/VIAView.ui" line="127"/>
-        <source>L: 0000</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/VIAView.ui" line="144"/>
-        <source>T2: 0000</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="views/VIAView.ui" line="156"/>
-        <source>L:   00</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
