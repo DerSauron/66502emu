@@ -35,7 +35,7 @@ public:
     WireState state() const { return state_; }
 
 public slots:
-    void setPeriod(int32_t period);
+    void setPeriod(qint32 period);
     void start();
     void stop();
     void triggerEdge(StateEdge edge);
@@ -43,7 +43,7 @@ public slots:
 signals:
     void runningChanged();
     void clockCycleChanged();
-    void statsUpdatedClockCycles(int32_t clockCycles);
+    void statsUpdatedClockCycles(qint32 clockCycles);
 
 private slots:
     void tick();

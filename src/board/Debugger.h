@@ -46,8 +46,8 @@ public slots:
     void stepInstruction();
     void stepSubroutine();
 
-    void addBreakpoint(int32_t address);
-    void removeBreakpoint(int32_t address);
+    void addBreakpoint(qint32 address);
+    void removeBreakpoint(qint32 address);
 
 private:
     void reset();

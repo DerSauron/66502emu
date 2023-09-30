@@ -27,15 +27,15 @@ public:
     void setProgram(Program* program);
 
 signals:
-    void addBreakpoint(int32_t address);
-    void removeBreakpoint(int32_t address);
-    void breakpointChanged(int32_t line);
+    void addBreakpoint(qint32 address);
+    void removeBreakpoint(qint32 address);
+    void breakpointChanged(qint32 line);
 
 private slots:
     void onClockRunningChanged();
     void onNewInstructionStart();
     void onDebuggerFailStateChanged();
-    void onLineNumberDoubleClicked(int32_t line);
+    void onLineNumberDoubleClicked(qint32 line);
     void on_startStopButton_clicked();
 
 private:

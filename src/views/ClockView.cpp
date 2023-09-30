@@ -119,6 +119,6 @@ void ClockView::on_frequency_currentIndexChanged(int index)
     if (!clock_)
         return;
 
-    QMetaObject::invokeMethod(clock_, "setPeriod", Q_ARG(int32_t, Periods[ui->frequency->currentIndex()]));
+    QMetaObject::invokeMethod(clock_, "setPeriod", Q_ARG(qint32, Periods[ui->frequency->currentIndex()]));
 }
 
