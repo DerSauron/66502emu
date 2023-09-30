@@ -22,14 +22,13 @@ BoardExecutor::BoardExecutor(Board* board, QObject* parent) :
     boardThread_{new QThread{this}}
 {
     board->moveToThread(boardThread_);
+    connect(boardThread_, &QThread::finished, board_, [board]() { delete board; });
 
     boardThread_->start();
 }
 
 BoardExecutor::~BoardExecutor()
 {
-    connect(board_, &QObject::destroyed, boardThread_, &QThread::quit);
-
-    board_->deleteLater();
+    boardThread_->quit();
     boardThread_->wait();
 }
