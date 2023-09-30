@@ -111,7 +111,7 @@
        <item>
         <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>&lt;a href=&quot;https://github.com/volkarts-dev/6502emu&quot;&gt;https://github.com/volkarts-dev/6502emu&lt;/a&gt;</string>
+          <string notr="true">&lt;a href=&quot;https://github.com/volkarts-dev/6502emu&quot;&gt;https://github.com/volkarts-dev/6502emu&lt;/a&gt;</string>
          </property>
          <property name="openExternalLinks">
           <bool>true</bool>
