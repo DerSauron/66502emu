@@ -13,7 +13,6 @@
 
 #include "UserState.h"
 
-#include "board/Device.h"
 #include "views/View.h"
 #include <QFile>
 #include <QJsonDocument>
