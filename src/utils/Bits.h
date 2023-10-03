@@ -17,14 +17,14 @@
 #include <cinttypes>
 #include <type_traits>
 
-#define COUNT_ZERO_BITS(x) __builtin_ctz(x)
+#define COUNT_ZERO_BITS(x) __builtin_ctzl(static_cast<uint64_t>(x))
 
 template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 constexpr T extractBits(T value, T mask)
 {
     if (mask == 0)
         return T{};
-    const auto shift = COUNT_ZERO_BITS(mask);
+    const auto shift = static_cast<T>(COUNT_ZERO_BITS(mask));
     return (value & mask) >> shift;
 }
 

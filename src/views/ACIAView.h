@@ -33,7 +33,7 @@ private:
 
 private slots:
     void onChipSelectedChanged();
-    void onDataEntered(const QByteArray& data);
+    void onDataEntered(const QByteArray& inputData);
     void onSendByte(uint8_t byte);
     void onTransmittingChanged();
     void onReceivingChanged();

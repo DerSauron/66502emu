@@ -48,9 +48,9 @@ void Console::setLocalEcho(bool localEcho)
     localEcho_ = localEcho;
 }
 
-void Console::outputData(const QByteArray& data)
+void Console::outputData(const QByteArray& oData)
 {
-    insertPlainText(QString::fromLocal8Bit(data));
+    insertPlainText(QString::fromLocal8Bit(oData));
 
     QScrollBar* scrollBar = verticalScrollBar();
     scrollBar->setValue(scrollBar->maximum());

@@ -31,7 +31,7 @@ public:
 
         const uint8_t& operator*() { return *p_; }
         bool operator!=(const Iterator& rhs) const { return p_ != rhs.p_; }
-        void operator++() { ++p_; }
+        void operator++() { ++p_; } // NOLINT pointer arithmitic is desired here
 
     private:
           const uint8_t* p_;
@@ -51,11 +51,11 @@ public:
     {
     }
 
-    uint8_t operator[](int index) const { return data_[index]; }
+    uint8_t operator[](int index) const { return data_[index]; } // NOLINT pointer arithmitic is desired here
     int size() const { return size_; }
 
     Iterator begin() const { return Iterator{data_}; }
-    Iterator end() const { return Iterator{data_ + size_}; }
+    Iterator end() const { return Iterator{data_ + size_}; } // NOLINT pointer arithmitic is desired here
 
 private:
     const uint8_t* data_;

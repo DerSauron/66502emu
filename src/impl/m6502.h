@@ -332,11 +332,11 @@ uint8_t m6502_p(m6502_t* cpu);
 uint16_t m6502_pc(m6502_t* cpu);
 
 /* extract 16-bit address bus from 64-bit pins */
-#define M6502_GET_ADDR(p) ((uint16_t)(p&0xFFFFULL))
+#define M6502_GET_ADDR(p) (static_cast<uint16_t>(p&0xFFFFULL))
 /* merge 16-bit address bus value into 64-bit pins */
 #define M6502_SET_ADDR(p,a) {p=((p&~0xFFFFULL)|((a)&0xFFFFULL));}
 /* extract 8-bit data bus from 64-bit pins */
-#define M6502_GET_DATA(p) ((uint8_t)((p&0xFF0000ULL)>>16))
+#define M6502_GET_DATA(p) (static_cast<uint8_t>((p&0xFF0000ULL)>>16))
 /* merge 8-bit data bus value into 64-bit pins */
 #define M6502_SET_DATA(p,d) {p=(((p)&~0xFF0000ULL)|(((d)<<16)&0xFF0000ULL));}
 /* copy data bus value from other pin mask */

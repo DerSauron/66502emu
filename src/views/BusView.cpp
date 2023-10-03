@@ -50,7 +50,7 @@ void BusView::setBus(Bus* bus)
 }
 void BusView::onDataChanged()
 {
-    auto data = bus_->data();
-    ui->value->setText(QStringLiteral("%1").arg(data, bus_->width() / 8 * 2, 16, QLatin1Char('0')));
-    ui->bitsView->setValue(data);
+    auto busData = bus_->data();
+    ui->value->setText(QStringLiteral("%1").arg(busData, bus_->width() / 8 * 2, 16, QLatin1Char('0')));
+    ui->bitsView->setValue(busData);
 }

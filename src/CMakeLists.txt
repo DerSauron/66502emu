@@ -142,6 +142,8 @@ target_sources(app PRIVATE
     UserState.h
 )
 
+configure_mocs(app)
+
 target_link_libraries(app PRIVATE
     project_config
     qt5_config
@@ -174,6 +176,8 @@ add_executable(exe "")
 target_sources(exe PRIVATE
     Main.cpp
 )
+
+configure_mocs(exe)
 
 target_link_libraries(exe PRIVATE
     project_config

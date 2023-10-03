@@ -86,9 +86,9 @@ QSize LCDCharPanel::minimumSizeHint() const
     return sizeHint();
 }
 
-void LCDCharPanel::setCharacterData(const QPoint& pos, const ArrayView& data)
+void LCDCharPanel::setCharacterData(const QPoint& pos, const ArrayView& charData)
 {
-    updateCharacterData(pos, data);
+    updateCharacterData(pos, charData);
     repaint(charRect(pos));
 }
 
@@ -151,14 +151,14 @@ void LCDCharPanel::paintEvent(QPaintEvent* event)
     }
 }
 
-void LCDCharPanel::updateCharacterData(const QPoint& pos, const ArrayView& data)
+void LCDCharPanel::updateCharacterData(const QPoint& pos, const ArrayView& charData)
 {
     Q_ASSERT(pos.x() >= 0 && pos.x() < DisplayWidth);
     Q_ASSERT(pos.y() >= 0 && pos.y() < DisplayHeight);
-    Q_ASSERT(data.size() == CharHeight);
+    Q_ASSERT(charData.size() == CharHeight);
 
     int i = 0;
-    for (const auto& v : data)
+    for (const auto& v : charData)
     {
         data_[(pos.y() * DisplayWidth + pos.x()) * CharHeight + i] = v;
         i++;

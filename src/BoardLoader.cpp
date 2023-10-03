@@ -80,7 +80,7 @@ bool createBusConnections(Device* device, const DeviceInfo& deviceInfo, QVector<
 
         //Bus* bus = board->bus(conInfo.busName);
         auto bus = std::find_if(busses.begin(), busses.end(),
-                                [&conInfo](const auto& bus) { return bus->name() == conInfo.busName; });
+                                [&conInfo](const auto& b) { return b->name() == conInfo.busName; });
         if (bus == busses.end())
         {
             qWarning() << "No such bus" << conInfo.busName;

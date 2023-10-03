@@ -31,13 +31,13 @@ int KeySequence::toKeyCode(QKeyEvent* event)
     Qt::KeyboardModifiers modifiers = event->modifiers();
 
     if (modifiers & Qt::ShiftModifier)
-        keyCode += Qt::SHIFT;
+        keyCode += static_cast<int>(Qt::SHIFT);
     if (modifiers & Qt::ControlModifier)
-        keyCode += Qt::CTRL;
+        keyCode += static_cast<int>(Qt::CTRL);
     if (modifiers & Qt::AltModifier)
-        keyCode += Qt::ALT;
+        keyCode += static_cast<int>(Qt::ALT);
     if (modifiers & Qt::MetaModifier)
-        keyCode += Qt::META;
+        keyCode += static_cast<int>(Qt::META);
 
     return keyCode;
 }

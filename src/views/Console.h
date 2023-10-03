@@ -28,10 +28,10 @@ public:
     void setLocalEcho(bool localEcho);
 
 public slots:
-    void outputData(const QByteArray& data);
+    void outputData(const QByteArray& oData);
 
 signals:
-    void inputData(const QByteArray& data);
+    void inputData(const QByteArray& iData);
 
 protected:
     void keyPressEvent(QKeyEvent* event) override;
