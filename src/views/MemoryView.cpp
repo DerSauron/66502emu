@@ -82,11 +82,11 @@ void MemoryView::setup()
 {
     ui->chipSelected->setBitCount(1);
 
-    ui->page->setValue(0);
-    ui->page->setMaximum(memory_->size() / 256 - 1);
     ui->memoryPage->setMemory(memory_);
     ui->memoryPage->setAddressOffset(memory_->mapAddressStart());
     ui->memoryPage->setPage(0);
+    ui->page->setValue(0);
+    ui->page->setMaximum(qMax(0, memory_->size() / 256 - 1));
 
     LooseSignal::connect(memory_, &Memory::accessed, this, &MemoryView::onMemoryAccessed);
     LooseSignal::connect(memory_, &Memory::selectedChanged, this, &MemoryView::onMemorySelectedChanged);
