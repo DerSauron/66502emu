@@ -96,7 +96,7 @@ void ClockView::onClockCycleChanged()
     ui->clockState->setValue(toInt(clock_->state()));
 }
 
-void ClockView::on_startStopButton_clicked()
+void ClockView::onStartStopButtonClicked()
 {
     if (clock_->isRunning())
         clock_->stop();
@@ -104,17 +104,17 @@ void ClockView::on_startStopButton_clicked()
         clock_->start();
 }
 
-void ClockView::on_singleStepButton_pressed()
+void ClockView::onSingleStepButtonPressed()
 {
     clock_->triggerEdge(StateEdge::Falling);
 }
 
-void ClockView::on_singleStepButton_released()
+void ClockView::onSingleStepButtonReleased()
 {
     clock_->triggerEdge(StateEdge::Raising);
 }
 
-void ClockView::on_frequency_currentIndexChanged(int index)
+void ClockView::onFrequencyCurrentIndexChanged(int index)
 {
     if (!clock_)
         return;

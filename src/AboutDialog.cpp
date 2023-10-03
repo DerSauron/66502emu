@@ -27,7 +27,7 @@ AboutDialog::~AboutDialog()
     delete ui;
 }
 
-void AboutDialog::on_closeButton_clicked()
+void AboutDialog::onCloseButtonClicked()
 {
     close();
 }

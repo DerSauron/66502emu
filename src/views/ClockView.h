@@ -35,10 +35,10 @@ public:
 private slots:
     void onClockRunningChanged();
     void onClockCycleChanged();
-    void on_startStopButton_clicked();
-    void on_singleStepButton_pressed();
-    void on_singleStepButton_released();
-    void on_frequency_currentIndexChanged(int index);
+    void onStartStopButtonClicked();
+    void onSingleStepButtonPressed();
+    void onSingleStepButtonReleased();
+    void onFrequencyCurrentIndexChanged(int index);
 
 private:
     void setup();

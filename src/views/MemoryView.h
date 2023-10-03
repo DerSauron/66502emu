@@ -39,10 +39,10 @@ private slots:
     void onMemorySelectedChanged();
     void onSourcesViewClosingEvent();
     void onProgramFileChanged();
-    void on_loadButton_clicked();
-    void on_followButton_toggled(bool checked);
-    void on_page_valueChanged(int value);
-    void on_showSourcesButton_clicked();
+    void onLoadButtonClicked();
+    void onFollowButtonToggled(bool checked);
+    void onPageValueChanged(int value);
+    void onShowSourcesButtonClicked();
 
 private:
     void setup();

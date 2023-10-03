@@ -106,12 +106,6 @@ void MainWindow::setup()
     statusMessage_ = new QLabel(ui->statusBar);
     ui->statusBar->addPermanentWidget(statusMessage_);
 
-    connect(ui->actionManageBoard, &QAction::triggered, this, &MainWindow::onActionManageBoardTriggered);
-    connect(ui->actionNewBoard, &QAction::triggered, this, &MainWindow::onActionNewBoardTriggered);
-    connect(ui->actionOpenBoard, &QAction::triggered, this, &MainWindow::onActionOpenBoardTriggered);
-    connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::onActionAboutTriggered);
-    connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::onActionQuitTriggered);
-
     connect(ui->stepInstructionButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepInstruction);
     connect(ui->stepSubroutineButton, &QPushButton::clicked, board_->debugger(), &Debugger::stepSubroutine);
 

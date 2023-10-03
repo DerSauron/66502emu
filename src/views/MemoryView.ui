@@ -184,5 +184,76 @@
  <resources>
   <include location="../icons.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>loadButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MemoryView</receiver>
+   <slot>onLoadButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>48</x>
+     <y>65</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>followButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MemoryView</receiver>
+   <slot>onFollowButtonToggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>171</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>page</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MemoryView</receiver>
+   <slot>onPageValueChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>83</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showSourcesButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MemoryView</receiver>
+   <slot>onShowSourcesButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>153</x>
+     <y>65</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onLoadButtonClicked()</slot>
+  <slot>onFollowButtonToggled(bool)</slot>
+  <slot>onPageValueChanged(int)</slot>
+  <slot>onShowSourcesButtonClicked()</slot>
+ </slots>
 </ui>

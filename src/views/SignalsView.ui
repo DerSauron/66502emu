@@ -189,5 +189,25 @@
  <resources>
   <include location="../icons.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>resetButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SignalsView</receiver>
+   <slot>onResetButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>134</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>92</x>
+     <y>83</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onResetButtonClicked()</slot>
+ </slots>
 </ui>

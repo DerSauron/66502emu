@@ -178,12 +178,12 @@ void MemoryView::onProgramFileChanged()
     reloadInProgress_ = false;
 }
 
-void MemoryView::on_followButton_toggled(bool checked)
+void MemoryView::onFollowButtonToggled(bool checked)
 {
     // nothing to do
 }
 
-void MemoryView::on_loadButton_clicked()
+void MemoryView::onLoadButtonClicked()
 {
     QSettings s;
 
@@ -202,14 +202,14 @@ void MemoryView::on_loadButton_clicked()
     loadProgram(fileName);
 }
 
-void MemoryView::on_page_valueChanged(int value)
+void MemoryView::onPageValueChanged(int value)
 {
     ui->memoryPage->setPage(static_cast<uint8_t>(value));
     if (!pageAutomaticallyChanged_)
         ui->followButton->setChecked(false);
 }
 
-void MemoryView::on_showSourcesButton_clicked()
+void MemoryView::onShowSourcesButtonClicked()
 {
     if (ui->showSourcesButton->isChecked())
         showSources();

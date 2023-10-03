@@ -41,7 +41,7 @@ signals:
 private slots:
     void onClockRunningChanged();
     void onNewInstructionStart();
-    void on_toolButton_triggered(QAction* action);
+    void onClearButtonTriggered(QAction* action);
 
 private:
     void setup();

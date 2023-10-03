@@ -100,7 +100,7 @@ void DisassemblerView::onNewInstructionStart()
     showAddress(mem, address);
 }
 
-void DisassemblerView::on_toolButton_triggered(QAction* action)
+void DisassemblerView::onClearButtonTriggered(QAction* action)
 {
     ui->disassembly->clear();
     currentIndex_ = 0;
