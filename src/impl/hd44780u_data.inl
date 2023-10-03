@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Daniel Volk <mail@volkarts.com>
+ * Copyright (C) 2023 Daniel Volk <mail@volkarts.com>
  *
  * This file is part of 6502emu - 6502 cycle accurate emulator gui.
  *
@@ -11,9 +11,14 @@
  * along with 6502emu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "hd44780u_data.h"
+#pragma once
 
-CGROMType characterRom{
+#include <array>
+#include <cinttypes>
+
+using CGROMType = std::array<uint8_t, 256*8>;
+
+constexpr CGROMType characterRom{
     0x00, 0x08, 0x0c, 0x0e, 0x0f, 0x0e, 0x0c, 0x08,
     0x00, 0x02, 0x06, 0x0e, 0x1e, 0x0e, 0x06, 0x02,
     0x00, 0x09, 0x12, 0x1b, 0x00, 0x00, 0x00, 0x00,
