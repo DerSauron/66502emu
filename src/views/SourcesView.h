@@ -36,7 +36,7 @@ private slots:
     void onNewInstructionStart();
     void onDebuggerFailStateChanged();
     void onLineNumberDoubleClicked(qint32 line);
-    void on_startStopButton_clicked();
+    void onStartStopButtonClicked();
 
 private:
     struct Labels

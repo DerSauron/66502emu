@@ -13,13 +13,12 @@
 
 #include "hd44780u.h"
 
-#include "hd44780u_data.h"
 #include "utils/ArrayView.h"
 #include <QTimer>
 
-namespace {
+#include "hd44780u_data.inl"
 
-hd44780u::listener DummyListener; // clazy:exclude=non-pod-global-static
+namespace {
 
 bool enUp(uint16_t oldPins, uint16_t newPins)
 {
@@ -38,12 +37,12 @@ bool enDown(uint16_t oldPins, uint16_t newPins)
 }  // namespace
 
 hd44780u::hd44780u() :
-    listener_{&DummyListener},
-    blinker_(new QTimer())
+    listener_{},
+    blinker_{new QTimer{}}
 {
     blinker_->setSingleShot(false);
     blinker_->setInterval(600);
-    QTimer::connect(blinker_.get(), &QTimer::timeout, [this]() { onBlinkTick(); });
+    QTimer::connect(blinker_.get(), &QTimer::timeout, blinker_.get(), [this]() { onBlinkTick(); });
 
     std::fill(ddram_.begin(), ddram_.end(), 0x20);
     std::fill(cgram_.begin(), cgram_.end(), 0);
@@ -63,18 +62,18 @@ uint8_t hd44780u::cursorPos() const
 
 uint8_t hd44780u::charAt(uint8_t address) const
 {
-    return ddram_[address];
+    return ddram_.at(address);
 }
 
 ArrayView hd44780u::charMatrix(uint8_t address) const
 {
     uint8_t addrBase = charAt(address);
 
-    const uint8_t* ptr;
+    const uint8_t* ptr{};
     if (extractBits(addrBase, uint8_t{0xF0}) == 0)
     {
         uint8_t addr = static_cast<uint8_t>((addrBase & 0x7u) << 3u);
-        ptr = &cgram_[addr];
+        ptr = &cgram_.at(addr);
     }
     else
     {
@@ -94,7 +93,7 @@ uint16_t hd44780u::cycle(uint16_t pins)
     if (busy_)
     {
         busy_--;
-        if (!busy_)
+        if (!busy_ && listener_)
             listener_->onBusyChanged();
 
         if (rs != 0 || rw != 1)
@@ -127,7 +126,8 @@ uint16_t hd44780u::cycle(uint16_t pins)
                 setData(data);
 
             busy_ = busyDelay_;
-            listener_->onBusyChanged();
+            if (listener_)
+                listener_->onBusyChanged();
         }
     }
 
@@ -139,7 +139,8 @@ uint16_t hd44780u::cycle(uint16_t pins)
 void hd44780u::onBlinkTick()
 {
     cursorOn_ = !cursorOn_;
-    listener_->onCursorChanged();
+    if (listener_)
+        listener_->onCursorChanged();
 }
 
 void hd44780u::cursorControl()
@@ -161,7 +162,7 @@ void hd44780u::cursorControl()
         blinker_->stop();
     }
 
-    if (cursorWasOn != cursorOn_)
+    if (cursorWasOn != cursorOn_ && listener_)
         listener_->onCursorChanged();
 }
 
@@ -215,12 +216,13 @@ void hd44780u::setData(uint8_t data)
 {
     if (ramSelector_ == 0) // ddram
     {
-        ddram_[ramAddr_] = data;
-        listener_->onCharacterChanged(ramAddr_);
+        ddram_.at(ramAddr_) = data;
+        if (listener_)
+            listener_->onCharacterChanged(ramAddr_);
     }
     else // (ramSelector_ == 1) cgram
     {
-        cgram_[ramAddr_] = data;
+        cgram_.at(ramAddr_) = data;
         notifyChangedCharacters(ramAddr_);
     }
 
@@ -240,11 +242,11 @@ uint8_t hd44780u::data()
 
     if (ramSelector_ == 0) // ddram
     {
-        d = ddram_[ramAddr_];
+        d = ddram_.at(ramAddr_);
     }
     else // (ramSelector_ == 1) cgram
     {
-        d = cgram_[ramAddr_];
+        d = cgram_.at(ramAddr_);
     }
 
     moveCursor(increment_);
@@ -256,8 +258,9 @@ void hd44780u::clearInstruction()
 {
     for (size_t i = 0; i < ddram_.size(); i++)
     {
-        ddram_[i] = 0x20;
-        listener_->onCharacterChanged(static_cast<uint8_t>(i));
+        ddram_.at(i) = 0x20;
+        if (listener_)
+            listener_->onCharacterChanged(static_cast<uint8_t>(i));
     }
     increment_ = true;
     returnHomeInstruction();
@@ -267,7 +270,8 @@ void hd44780u::returnHomeInstruction()
 {
     setDDRAMAddrInstruction(0);
     shift_ = 0;
-    listener_->onShiftPosChanged();
+    if (listener_)
+        listener_->onShiftPosChanged();
 }
 
 void hd44780u::entryModeSetInstruction(uint8_t cmd)
@@ -282,7 +286,8 @@ void hd44780u::displayControlInstruction(uint8_t cmd)
     cursorEnabled_ = extractBits(cmd, uint8_t{0b10});
     cursorBlink_ = extractBits(cmd, uint8_t{0b1});
     cursorControl();
-    listener_->onDisplayChanged();
+    if (listener_)
+        listener_->onDisplayChanged();
 }
 
 void hd44780u::cursorInstruction(uint8_t cmd)
@@ -317,7 +322,8 @@ void hd44780u::setDDRAMAddrInstruction(uint8_t cmd)
     ramSelector_ = 0;
     ramAddr_ = cmd & 0b01111111;
     updateCursorPos();
-    listener_->onCursorPosChanged();
+    if (listener_)
+        listener_->onCursorPosChanged();
 }
 
 void hd44780u::updateCursorPos()
@@ -341,7 +347,8 @@ void hd44780u::moveDisplay(bool increment)
         else
             shift_--;
     }
-    listener_->onShiftPosChanged();
+    if (listener_)
+        listener_->onShiftPosChanged();
 }
 
 void hd44780u::moveCursor(bool increment)
@@ -362,7 +369,8 @@ void hd44780u::moveCursor(bool increment)
     }
     if (ramSelector_ == 0)
         updateCursorPos();
-    listener_->onCursorPosChanged();
+    if (listener_)
+        listener_->onCursorPosChanged();
 }
 
 void hd44780u::notifyChangedCharacters(uint8_t cgRamAddr)
@@ -370,7 +378,7 @@ void hd44780u::notifyChangedCharacters(uint8_t cgRamAddr)
     uint8_t cgRamChar = cgRamAddr >> 3u;
     for (size_t i = 0; i < ddram_.size(); i++)
     {
-        if (ddram_[i] == cgRamChar)
+        if (ddram_.at(i) == cgRamChar && listener_)
             listener_->onCharacterChanged(static_cast<uint8_t>(i));
     }
 }

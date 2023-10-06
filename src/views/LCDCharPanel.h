@@ -33,7 +33,7 @@ public:
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
 
-    void setCharacterData(const QPoint& pos, const ArrayView& data);
+    void setCharacterData(const QPoint& pos, const ArrayView& charData);
     void setCursorPos(const QPoint& cursorPos);
     void setCursorOn(bool cursorOn);
     void setDisplayOn(bool displayOn);
@@ -44,7 +44,7 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 private:
-    void updateCharacterData(const QPoint& pos, const ArrayView& data);
+    void updateCharacterData(const QPoint& pos, const ArrayView& charData);
 
     void clearBackground(QPainter& p, int startX, int startY, int endX, int endY);
     void renderCharMatrix(QPainter& p, int charX, int charY);

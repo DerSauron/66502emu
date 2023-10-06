@@ -34,7 +34,7 @@ protected:
     bool eventFilter(QObject* object, QEvent* event) override;
 
 private slots:
-    void on_clearButton_clicked();
+    void onClearButtonClicked();
 
 private:
     void setKeyCodeText();

@@ -56,7 +56,6 @@
  </widget>
  <resources>
   <include location="../icons.qrc"/>
-  <include location="../icons.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -91,5 +90,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>clearButton</sender>
+   <signal>clicked()</signal>
+   <receiver>HotkeyDialog</receiver>
+   <slot>onClearButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>218</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>133</x>
+     <y>43</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>onClearButtonClicked()</slot>
+ </slots>
 </ui>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>327</width>
+    <width>335</width>
     <height>46</height>
    </rect>
   </property>
@@ -120,7 +120,77 @@
  </customwidgets>
  <resources>
   <include location="../icons.qrc"/>
-  <include location="../icons.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>startStopButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ClockView</receiver>
+   <slot>onStartStopButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>47</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>167</x>
+     <y>22</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>singleStepButton</sender>
+   <signal>pressed()</signal>
+   <receiver>ClockView</receiver>
+   <slot>onSingleStepButtonPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>167</x>
+     <y>22</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>singleStepButton</sender>
+   <signal>released()</signal>
+   <receiver>ClockView</receiver>
+   <slot>onSingleStepButtonReleased()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>167</x>
+     <y>22</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>frequency</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ClockView</receiver>
+   <slot>onFrequencyCurrentIndexChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>143</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>167</x>
+     <y>22</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onStartStopButtonClicked()</slot>
+  <slot>onSingleStepButtonPressed()</slot>
+  <slot>onSingleStepButtonReleased()</slot>
+  <slot>onFrequencyCurrentIndexChanged(int)</slot>
+ </slots>
 </ui>

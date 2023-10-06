@@ -58,7 +58,7 @@ void SignalsView::onBoardSignalChanged()
     ui->syncLine->setValue(toInt(board_->syncLine()));
 }
 
-void SignalsView::on_resetButton_clicked()
+void SignalsView::onResetButtonClicked()
 {
     board_->setResetLine(WireState::Low);
 }

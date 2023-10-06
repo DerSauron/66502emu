@@ -198,7 +198,7 @@ void SourcesView::onLineNumberDoubleClicked(int line)
     }
 }
 
-void SourcesView::on_startStopButton_clicked()
+void SourcesView::onStartStopButtonClicked()
 {
     auto* clock = mainWindow()->board()->clock();
     if (clock->isRunning())

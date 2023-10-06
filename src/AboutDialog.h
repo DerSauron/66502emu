@@ -28,7 +28,7 @@ public:
     ~AboutDialog() override;
 
 private slots:
-    void on_closeButton_clicked();
+    void onCloseButtonClicked();
 
 private:
     Ui::AboutDialog* ui;

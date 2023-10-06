@@ -47,7 +47,7 @@ bool HotkeyDialog::eventFilter(QObject* object, QEvent* event)
     return QDialog::eventFilter(object, event);
 }
 
-void HotkeyDialog::on_clearButton_clicked()
+void HotkeyDialog::onClearButtonClicked()
 {
     keyCode_ = Qt::Key_unknown;
     setKeyCodeText();

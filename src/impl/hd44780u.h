@@ -28,7 +28,7 @@ public:
     class listener
     {
     public:
-        virtual ~listener() {}
+        virtual ~listener() = default;
 
         virtual void onCharacterChanged(uint8_t address) {}
         virtual void onBusyChanged() {}

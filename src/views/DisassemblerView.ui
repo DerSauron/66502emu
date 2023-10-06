@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QToolButton" name="toolButton">
+      <widget class="QToolButton" name="clearButton">
        <property name="text">
         <string>Clear</string>
        </property>
@@ -41,5 +41,25 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>clearButton</sender>
+   <signal>triggered(QAction*)</signal>
+   <receiver>DisassemblerView</receiver>
+   <slot>onClearButtonTriggered(QAction*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>296</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>165</x>
+     <y>101</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onClearButtonTriggered(QAction*)</slot>
+ </slots>
 </ui>

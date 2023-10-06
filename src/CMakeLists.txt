@@ -1,10 +1,9 @@
 add_library(ext STATIC "")
 
 target_sources(ext PRIVATE
+    impl/hd44780u_data.inl
     impl/hd44780u.cpp
     impl/hd44780u.h
-    impl/hd44780u_data.cpp
-    impl/hd44780u_data.h
     impl/m6502.cpp
     impl/m6502.h
     impl/m6522.cpp
@@ -142,6 +141,8 @@ target_sources(app PRIVATE
     UserState.h
 )
 
+configure_mocs(app)
+
 target_link_libraries(app PRIVATE
     project_config
     qt5_config
@@ -174,6 +175,8 @@ add_executable(exe "")
 target_sources(exe PRIVATE
     Main.cpp
 )
+
+configure_mocs(exe)
 
 target_link_libraries(exe PRIVATE
     project_config

@@ -33,8 +33,7 @@ public:
 
 private slots:
     void onBoardSignalChanged();
-
-    void on_resetButton_clicked();
+    void onResetButtonClicked();
 
 private:
     void setup();

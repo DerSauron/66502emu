@@ -45,7 +45,7 @@ private:
     class Data : public QSharedData
     {
     public:
-        Data() {}
+        Data() = default;
         Data(const Data& other) : QSharedData(other) {}
         Data(Data&& other) = default;
         ~Data() = default;

@@ -37,7 +37,7 @@ private slots:
         QCOMPARE(bus->data(), 0);
     }
 
-    void set_fiths_bit()
+    void set_fifths_bit()
     {
         bus->setBit(5, WireState::High);
         QCOMPARE(bus->bit(5), WireState::High);

@@ -120,7 +120,8 @@ void MemoryPageView::paintEvent(QPaintEvent* event)
     if (!memory_)
         return;
 
-    int32_t posBarWidth = qMax(5, clientSize.width() / (memory_->size() / 256));
+    int32_t posCount = memory_->size() / 256;
+    int32_t posBarWidth = qMax(5, clientSize.width() / (posCount > 0 ? posCount : 1));
     int32_t posBarPos = posBarWidth * page_;
 
     p.fillRect(posBarPos, 0, posBarWidth, charHeight_, posBarBrush);
@@ -137,6 +138,11 @@ void MemoryPageView::paintEvent(QPaintEvent* event)
         {
             auto byte = y * 0x10 + x;
             auto addr = page_ * 0x100 + byte;
+            if (addr >= memory_->size())
+            {
+                y = 0x10;
+                break;
+            }
 
             int rowPos = y * charHeight_;
 

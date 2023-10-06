@@ -73,9 +73,9 @@ void ACIAView::onChipSelectedChanged()
     ui->chipSelect->setValue(acia_->isSelected() ? 1 : 0);
 }
 
-void ACIAView::onDataEntered(const QByteArray& data)
+void ACIAView::onDataEntered(const QByteArray& inputData)
 {
-    for (const auto& byte : data)
+    for (const auto& byte : inputData)
     {
         QMetaObject::invokeMethod(acia_, "receiveByte", Q_ARG(uint8_t, static_cast<uint8_t>(byte)));
     }
